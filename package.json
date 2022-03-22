@@ -10,6 +10,7 @@
 		"Other"
 	],
 	"activationEvents": [
+		"onView:jekyll-enthusiasm.jekyllExplorer"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
