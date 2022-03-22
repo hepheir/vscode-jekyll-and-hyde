@@ -10,15 +10,10 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onCommand:jekyll-enthusiasm.helloWorld"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
-			{
-				"command": "jekyll-enthusiasm.helloWorld",
-				"title": "Hello World"
-			}
 		]
 	},
 	"scripts": {
