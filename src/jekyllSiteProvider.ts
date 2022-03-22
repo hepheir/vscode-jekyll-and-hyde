@@ -1,14 +1,27 @@
 import { TreeDataProvider, TreeItem, TreeItemCollapsibleState, Uri } from 'vscode';
 import { Site, Page } from 'jekyll';
+import { JekyllSite } from './jekyllSite';
 
 
 export class JekyllSiteProvider implements TreeDataProvider<TreeItem> {
+    private site: Site;
+
+    constructor(readonly source: string) {
+        this.site = new JekyllSite(source);
+    }
+
     getTreeItem(element: TreeItem): TreeItem {
         return element;
     }
 
     async getChildren(element?: TreeItem): Promise<TreeItem[]> {
-        return [];
+        if (element === undefined) {
+            return CategoryItem.getAllCategoryItemsFromSite(this.site);
+        } else if (element instanceof CategoryItem) {
+            return PageItem.getAllPageItemsFromCategory(element.site, element.category);
+        } else {
+            return [new TreeItem('Unexpected type')];
+        }
     }
 }
 
