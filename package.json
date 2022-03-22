@@ -14,12 +14,22 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"views": {
-			"explorer": [
+		"viewsContainers": {
+			"activitybar": [
 				{
 					"id": "jekyll-enthusiasm",
-					"name": "Jekyll Enthusiasm",
+					"title": "Jekyll Explorer",
 					"icon": "images/jekyll.svg"
+				}
+			]
+		},
+		"views": {
+			"jekyll-enthusiasm": [
+				{
+					"id": "jekyll-enthusiasm.jekyllExplorer",
+					"name": "Jekyll Explorer",
+					"icon": "images/jekyll.svg",
+					"contextualTitle": "Jekyll Explorer"
 				}
 			]
 		},
