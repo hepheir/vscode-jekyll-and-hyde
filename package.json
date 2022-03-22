@@ -63,6 +63,7 @@
 	},
 	"dependencies": {
 		"@types/yamljs": "^0.2.31",
+		"vsce": "^2.7.0",
 		"yamljs": "^0.3.0"
 	}
 }
