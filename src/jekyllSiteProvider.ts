@@ -1,5 +1,5 @@
-import { TreeDataProvider, TreeItem, TreeItemCollapsibleState } from 'vscode';
-import { Site } from 'jekyll';
+import { TreeDataProvider, TreeItem, TreeItemCollapsibleState, Uri } from 'vscode';
+import { Site, Page } from 'jekyll';
 
 
 export class JekyllSiteProvider implements TreeDataProvider<TreeItem> {
@@ -9,6 +9,35 @@ export class JekyllSiteProvider implements TreeDataProvider<TreeItem> {
 
     async getChildren(element?: TreeItem): Promise<TreeItem[]> {
         return [];
+    }
+}
+
+
+class PageItem extends TreeItem {
+    public site: Site;
+    public page: Page;
+
+    constructor(site: Site, page: Page) {
+        const uri = Uri.file(page.path);
+
+        super(uri);
+
+        this.site = site;
+        this.page = page;
+
+        this.label = page.title;
+        this.description = page.name;
+        this.collapsibleState = TreeItemCollapsibleState.None;
+        this.command = {
+            command: 'jekyll-enthusiasm.jekyllExplorer.openTextDocument',
+            title: 'Open Text Document',
+            arguments: [uri]
+        };
+        this.contextValue = 'file';
+    }
+
+    static getAllPageItemsFromCategory(site: Site, category: string): PageItem[] {
+        return site.categories[category].map(page => new PageItem(site, page));
     }
 }
 
