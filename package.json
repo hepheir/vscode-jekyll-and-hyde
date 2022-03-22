@@ -1,14 +1,27 @@
 {
 	"name": "jekyll-n-hyde",
-	"displayName": "jekyll-n-hyde",
-	"description": "VSCode extension for managing jekyll posts",
 	"version": "0.0.1",
+	"publisher": "Hepheir",
 	"engines": {
 		"vscode": "^1.65.0"
 	},
+	"displayName": "Jekyll n Hyde",
+	"description": "Jekyll n Hyde :: is a lightweight post manager for Jekyll repository.",
 	"categories": [
+		"SCM Providers",
 		"Other"
 	],
+	"keywords": [
+		"jekyll"
+	],
+	"icon": "images/icon.png",
+	"bugs": {
+	  "email": "hepheir@gmail.com"
+	},
+	"repository": {
+	  "type": "git",
+	  "url": "https://github.com/Hepheir/vscode-jekyll-n-hyde"
+	},
 	"activationEvents": [
 		"onView:jekyll-n-hyde.jekyllExplorer"
 	],
