@@ -1,4 +1,5 @@
-import { ExtensionContext, workspace } from 'vscode';
+import { commands, ExtensionContext, Uri, workspace, window } from 'vscode';
+import { JekyllSiteProvider } from './jekyllSiteProvider';
 
 
 export class JekyllExplorer {
@@ -12,5 +13,16 @@ export class JekyllExplorer {
         if (!source) {
             return;
         }
+
+        const treeDataProvider = new JekyllSiteProvider(source);
+        const view = window.createTreeView('jekyll-enthusiasm.jekyllExplorer', { treeDataProvider });
+
+        context.subscriptions.push(view);
+
+        commands.registerCommand('jekyll-enthusiasm.jekyllExplorer.openTextDocument', async (resource) => this.openResource(resource));
+    }
+
+    private openResource(resource: Uri): void {
+        window.showTextDocument(resource);
     }
 }
