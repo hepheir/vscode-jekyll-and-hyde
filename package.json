@@ -1,23 +1,55 @@
 {
-	"name": "jekyll-enthusiasm",
-	"displayName": "jekyll-enthusiasm",
-	"description": "VSCode extension for managing jekyll posts",
+	"name": "jekyll-n-hyde",
 	"version": "0.0.1",
+	"publisher": "Hepheir",
 	"engines": {
 		"vscode": "^1.65.0"
 	},
+	"displayName": "Jekyll n Hyde",
+	"description": "Jekyll n Hyde :: is a lightweight post manager for Jekyll repository.",
 	"categories": [
+		"SCM Providers",
 		"Other"
 	],
+	"keywords": [
+		"jekyll"
+	],
+	"icon": "images/icon.png",
+	"bugs": {
+	  "email": "hepheir@gmail.com"
+	},
+	"repository": {
+	  "type": "git",
+	  "url": "https://github.com/Hepheir/vscode-jekyll-n-hyde"
+	},
 	"activationEvents": [
-		"onCommand:jekyll-enthusiasm.helloWorld"
+		"onView:jekyll-n-hyde.jekyllExplorer"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "jekyll-n-hyde",
+					"title": "Jekyll & Hyde",
+					"icon": "images/jekyll.svg"
+				}
+			]
+		},
+		"views": {
+			"jekyll-n-hyde": [
+				{
+					"id": "jekyll-n-hyde.jekyllExplorer",
+					"name": "Jekyll Explorer",
+					"icon": "images/jekyll.svg",
+					"contextualTitle": "Jekyll Explorer"
+				}
+			]
+		},
 		"commands": [
 			{
-				"command": "jekyll-enthusiasm.helloWorld",
-				"title": "Hello World"
+				"command": "jekyll-n-hyde.jekyllExplorer.openTextDocument",
+				"title": "Open Text Document"
 			}
 		]
 	},
@@ -30,16 +62,21 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.65.0",
 		"@types/glob": "^7.2.0",
 		"@types/mocha": "^9.1.0",
 		"@types/node": "14.x",
+		"@types/vscode": "^1.65.0",
 		"@typescript-eslint/eslint-plugin": "^5.12.1",
 		"@typescript-eslint/parser": "^5.12.1",
+		"@vscode/test-electron": "^2.1.2",
 		"eslint": "^8.9.0",
 		"glob": "^7.2.0",
 		"mocha": "^9.2.1",
-		"typescript": "^4.5.5",
-		"@vscode/test-electron": "^2.1.2"
+		"typescript": "^4.5.5"
+	},
+	"dependencies": {
+		"@types/yamljs": "^0.2.31",
+		"vsce": "^2.7.0",
+		"yamljs": "^0.3.0"
 	}
 }
