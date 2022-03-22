@@ -2,6 +2,10 @@
 
 Jekyll n Hyde :: is a lightweight post manager for Jekyll repository.
 
+![screenshot](images/screenshot.png)
+
+* Screenshot above is **Jekyll n Hyde** pictured in [Minimal Mistakes](https://github.com/mmistakes/minimal-mistakes) repository.
+
 ## Features
 
 - Provides a tree view of your **posts** and **drafts** sorted by their categories.
