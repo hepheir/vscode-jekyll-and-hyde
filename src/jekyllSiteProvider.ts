@@ -1,8 +1,8 @@
 import { TreeDataProvider, TreeItem } from 'vscode';
 import { Site } from 'jekyll';
 import { JekyllSite } from './jekyllSite';
-import { CategoryItem } from './categoryItem';
-import { PageItem } from './pageItem';
+import { CategoryItem } from './views/nodes/categoryItem';
+import { PageItem } from './views/nodes/pageItem';
 
 
 export class JekyllSiteProvider implements TreeDataProvider<TreeItem> {
