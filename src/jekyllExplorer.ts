@@ -3,7 +3,7 @@ import { JekyllSiteProvider } from './jekyllSiteProvider';
 
 
 export class JekyllExplorer {
-    readonly id = 'jekyll-enthusiasm.jekyllExplorer';
+    readonly id = 'jekyll-n-hyde.jekyllExplorer';
 
     constructor(context: ExtensionContext) {
         const source = workspace.workspaceFolders && workspace.workspaceFolders.length > 0
@@ -15,11 +15,11 @@ export class JekyllExplorer {
         }
 
         const treeDataProvider = new JekyllSiteProvider(source);
-        const view = window.createTreeView('jekyll-enthusiasm.jekyllExplorer', { treeDataProvider });
+        const view = window.createTreeView('jekyll-n-hyde.jekyllExplorer', { treeDataProvider });
 
         context.subscriptions.push(view);
 
-        commands.registerCommand('jekyll-enthusiasm.jekyllExplorer.openTextDocument', async (resource) => this.openResource(resource));
+        commands.registerCommand('jekyll-n-hyde.jekyllExplorer.openTextDocument', async (resource) => this.openResource(resource));
     }
 
     private openResource(resource: Uri): void {

@@ -44,7 +44,7 @@ class PageItem extends TreeItem {
         this.description = page.name;
         this.collapsibleState = TreeItemCollapsibleState.None;
         this.command = {
-            command: 'jekyll-enthusiasm.jekyllExplorer.openTextDocument',
+            command: 'jekyll-n-hyde.jekyllExplorer.openTextDocument',
             title: 'Open Text Document',
             arguments: [uri]
         };

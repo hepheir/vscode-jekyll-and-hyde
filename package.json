@@ -1,6 +1,6 @@
 {
-	"name": "jekyll-enthusiasm",
-	"displayName": "jekyll-enthusiasm",
+	"name": "jekyll-n-hyde",
+	"displayName": "jekyll-n-hyde",
 	"description": "VSCode extension for managing jekyll posts",
 	"version": "0.0.1",
 	"engines": {
@@ -10,23 +10,23 @@
 		"Other"
 	],
 	"activationEvents": [
-		"onView:jekyll-enthusiasm.jekyllExplorer"
+		"onView:jekyll-n-hyde.jekyllExplorer"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"viewsContainers": {
 			"activitybar": [
 				{
-					"id": "jekyll-enthusiasm",
-					"title": "Jekyll Explorer",
+					"id": "jekyll-n-hyde",
+					"title": "Jekyll & Hyde",
 					"icon": "images/jekyll.svg"
 				}
 			]
 		},
 		"views": {
-			"jekyll-enthusiasm": [
+			"jekyll-n-hyde": [
 				{
-					"id": "jekyll-enthusiasm.jekyllExplorer",
+					"id": "jekyll-n-hyde.jekyllExplorer",
 					"name": "Jekyll Explorer",
 					"icon": "images/jekyll.svg",
 					"contextualTitle": "Jekyll Explorer"
@@ -35,7 +35,7 @@
 		},
 		"commands": [
 			{
-				"command": "jekyll-enthusiasm.jekyllExplorer.openTextDocument",
+				"command": "jekyll-n-hyde.jekyllExplorer.openTextDocument",
 				"title": "Open Text Document"
 			}
 		]
