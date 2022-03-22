@@ -34,6 +34,10 @@
 			]
 		},
 		"commands": [
+			{
+				"command": "jekyll-enthusiasm.jekyllExplorer.openTextDocument",
+				"title": "Open Text Document"
+			}
 		]
 	},
 	"scripts": {
@@ -58,6 +62,7 @@
 		"typescript": "^4.5.5"
 	},
 	"dependencies": {
+		"@types/yamljs": "^0.2.31",
 		"yamljs": "^0.3.0"
 	}
 }
