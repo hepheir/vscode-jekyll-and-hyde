@@ -1,3 +1,4 @@
+import * as path from 'path';
 import { TreeDataProvider, TreeItem, TreeItemCollapsibleState, Uri } from 'vscode';
 import { Site, Page } from 'jekyll';
 import { JekyllSite } from './jekyllSite';
@@ -32,6 +33,7 @@ class PageItem extends TreeItem {
 
     constructor(site: Site, page: Page) {
         const uri = Uri.file(page.path);
+        const isDraft = page.dir.startsWith('_drafts');
 
         super(uri);
 
@@ -47,6 +49,18 @@ class PageItem extends TreeItem {
             arguments: [uri]
         };
         this.contextValue = 'file';
+
+        if (isDraft) {
+            this.iconPath = {
+                light: Uri.file(path.join(__filename, '..', '..', 'images', 'draft-light.svg')),
+                dark: Uri.file(path.join(__filename, '..', '..', 'images', 'draft-dark.svg'))
+            };
+        } else {
+            this.iconPath = {
+                light: Uri.file(path.join(__filename, '..', '..', 'images', 'post-light.svg')),
+                dark: Uri.file(path.join(__filename, '..', '..', 'images', 'post-dark.svg'))
+            };
+        }
     }
 
     static getAllPageItemsFromCategory(site: Site, category: string): PageItem[] {
@@ -68,6 +82,10 @@ class CategoryItem extends TreeItem {
         this.label = category;
         this.description = `${site.categories[category].length} posts`;
         this.collapsibleState = TreeItemCollapsibleState.Collapsed;
+        this.iconPath = {
+            light: Uri.file(path.join(__filename, '..', '..', 'images', 'category-light.svg')),
+            dark: Uri.file(path.join(__filename, '..', '..', 'images', 'category-dark.svg'))
+        };
     }
 
     static getAllCategoryItemsFromSite(site: Site): CategoryItem[] {
