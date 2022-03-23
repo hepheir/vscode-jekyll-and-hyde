@@ -13,7 +13,7 @@ export class DraftNode extends TreeItem {
         this.description = page.name;
         this.collapsibleState = TreeItemCollapsibleState.None;
         this.command = {
-            command: 'jekyll-n-hyde.jekyllExplorer.openTextDocument',
+            command: 'showTextDocument',
             title: 'Open Text Document',
             arguments: [uri]
         };
