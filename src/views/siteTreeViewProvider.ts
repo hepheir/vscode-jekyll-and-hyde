@@ -5,7 +5,7 @@ import { CategoryNode } from './nodes/categoryNode';
 import { PageNode } from './nodes/pageNode';
 
 
-export class JekyllSiteProvider implements TreeDataProvider<TreeItem> {
+export class SiteTreeViewProvider implements TreeDataProvider<TreeItem> {
     private site: Site;
 
     constructor(readonly source: string) {
