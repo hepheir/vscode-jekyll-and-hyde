@@ -23,7 +23,6 @@
 	  "url": "https://github.com/Hepheir/vscode-jekyll-n-hyde"
 	},
 	"activationEvents": [
-		"onView:jekyll-n-hyde.jekyllExplorer"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -38,19 +37,9 @@
 		},
 		"views": {
 			"jekyll-n-hyde": [
-				{
-					"id": "jekyll-n-hyde.jekyllExplorer",
-					"name": "Jekyll Explorer",
-					"icon": "images/jekyll.svg",
-					"contextualTitle": "Jekyll Explorer"
-				}
 			]
 		},
 		"commands": [
-			{
-				"command": "jekyll-n-hyde.jekyllExplorer.openTextDocument",
-				"title": "Open Text Document"
-			},
 			{
 				"command": "showTextDocument",
 				"title": "Open Text Document"
