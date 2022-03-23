@@ -1,20 +1,20 @@
-import { ExtensionContext, TreeDataProvider, TreeItem, window } from 'vscode';
+import * as vscode from 'vscode';
 
 
-export class ViewBase implements TreeDataProvider<TreeItem> {
+export class ViewBase implements vscode.TreeDataProvider<vscode.TreeItem> {
     constructor(
-        public readonly context: ExtensionContext,
+        public readonly context: vscode.ExtensionContext,
         private readonly id: string
     ) {
-        const view = window.createTreeView(this.id, { treeDataProvider: this });
+        const view = vscode.window.createTreeView(this.id, { treeDataProvider: this });
         context.subscriptions.push(view);
     }
 
-    getTreeItem(element: TreeItem): TreeItem {
+    public getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
         return element;
     }
 
-    async getChildren(element?: TreeItem): Promise<TreeItem[]> {
+    public async getChildren(element?: vscode.TreeItem): Promise<vscode.TreeItem[]> {
         throw "Not Implemented Error";
     }
 }
