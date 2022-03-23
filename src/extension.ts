@@ -5,6 +5,10 @@ import { CategoryView } from './views/categoryView';
 import { DraftView } from './views/draftView';
 import { PageView } from './views/pageView';
 import { PostView } from './views/postView';
+import { ViewBase } from './views/viewBase';
+
+
+const views: ViewBase[] = [];
 
 
 export function activate(context: vscode.ExtensionContext) {
@@ -16,14 +20,20 @@ export function activate(context: vscode.ExtensionContext) {
 		return;
 	}
 
-	CachedNodes.cache(context, new JekyllSite(source));
+	refresh(context, source);
 
-	new CategoryView(context, 'categoryView');
-	new DraftView(context, 'draftView');
-	new PageView(context, 'pageView');
-	new PostView(context, 'postView');
+	views.push(new CategoryView(context, 'categoryView'));
+	views.push(new DraftView(context, 'draftView'));
+	views.push(new PageView(context, 'pageView'));
+	views.push(new PostView(context, 'postView'));
 
+	vscode.commands.registerCommand('refresh', () => refresh(context, source));
 	vscode.commands.registerCommand('showTextDocument', showTextDocument);
+}
+
+async function refresh(context: vscode.ExtensionContext, source: string) {
+	CachedNodes.cache(context, new JekyllSite(source));
+	views.forEach(v => v.refresh());
 }
 
 async function showTextDocument(resource: vscode.Uri) {
