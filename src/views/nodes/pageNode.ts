@@ -1,17 +1,17 @@
 import * as path from 'path';
-import { TreeItem, TreeItemCollapsibleState, Uri } from 'vscode';
+import * as vscode from 'vscode';
 import { Page } from 'jekyll';
 
 
-export class PageNode extends TreeItem {
-    constructor(page: Page) {
-        const uri = Uri.file(page.path);
+export class PageNode extends vscode.TreeItem {
+    constructor(context: vscode.ExtensionContext, page: Page) {
+        const uri = vscode.Uri.file(page.path);
 
         super(uri);
 
         this.label = page.title;
         this.description = page.name;
-        this.collapsibleState = TreeItemCollapsibleState.None;
+        this.collapsibleState = vscode.TreeItemCollapsibleState.None;
         this.command = {
             command: 'showTextDocument',
             title: 'Open Text Document',
@@ -19,8 +19,8 @@ export class PageNode extends TreeItem {
         };
         this.contextValue = 'file';
         this.iconPath = {
-            light: Uri.file(path.join(__filename, '..', '..', 'images', 'post-light.svg')),
-            dark: Uri.file(path.join(__filename, '..', '..', 'images', 'post-dark.svg'))
+            light: vscode.Uri.file(context.asAbsolutePath(path.join('images', 'post-light.svg'))),
+            dark: vscode.Uri.file(context.asAbsolutePath(path.join('images', 'post-dark.svg')))
         };
     }
 }
