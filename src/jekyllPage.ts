@@ -7,14 +7,13 @@ import { JekyllSite } from './jekyllSite';
 
 
 export class JekyllPage implements Page {
-    private site: JekyllSite;
-    private uri: Uri;
     private raw_content: string;
     private data: FrontMatter;
 
-    constructor(site: JekyllSite, uri: Uri) {
-        this.site = site;
-        this.uri = uri;
+    constructor(
+        private readonly site: JekyllSite,
+        private readonly uri: Uri
+    ) {
         this.raw_content = readFileSync(this.uri.path).toString();
         this.data = yaml.parse(this.raw_content.split('---\n')[1]);
     }
