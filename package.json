@@ -16,7 +16,8 @@
 	],
 	"icon": "images/icon.png",
 	"bugs": {
-	  "email": "hepheir@gmail.com"
+	  "email": "hepheir@gmail.com",
+	  "url": "https://github.com/Hepheir/vscode-jekyll-n-hyde/issues"
 	},
 	"repository": {
 	  "type": "git",
