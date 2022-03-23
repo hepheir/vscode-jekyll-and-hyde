@@ -23,7 +23,10 @@
 	  "url": "https://github.com/Hepheir/vscode-jekyll-n-hyde"
 	},
 	"activationEvents": [
-		"onView:jekyll-n-hyde.jekyllExplorer"
+		"onView:categoryView",
+		"onView:draftView",
+		"onView:pageView",
+		"onView:postView"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -39,16 +42,34 @@
 		"views": {
 			"jekyll-n-hyde": [
 				{
-					"id": "jekyll-n-hyde.jekyllExplorer",
-					"name": "Jekyll Explorer",
+					"id": "categoryView",
+					"name": "Categorized Posts",
 					"icon": "images/jekyll.svg",
-					"contextualTitle": "Jekyll Explorer"
+					"contextualTitle": "Jekyll n Hyde :: Categorized Posts"
+				},
+				{
+					"id": "draftView",
+					"name": "All Drafts",
+					"icon": "images/jekyll.svg",
+					"contextualTitle": "Jekyll n Hyde :: All Drafts"
+				},
+				{
+					"id": "postView",
+					"name": "All Posts",
+					"icon": "images/jekyll.svg",
+					"contextualTitle": "Jekyll n Hyde :: All Posts"
+				},
+				{
+					"id": "pageView",
+					"name": "All Pages",
+					"icon": "images/jekyll.svg",
+					"contextualTitle": "Jekyll n Hyde :: All Pages"
 				}
 			]
 		},
 		"commands": [
 			{
-				"command": "jekyll-n-hyde.jekyllExplorer.openTextDocument",
+				"command": "showTextDocument",
 				"title": "Open Text Document"
 			}
 		]
