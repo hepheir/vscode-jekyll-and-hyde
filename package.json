@@ -50,6 +50,10 @@
 			{
 				"command": "jekyll-n-hyde.jekyllExplorer.openTextDocument",
 				"title": "Open Text Document"
+			},
+			{
+				"command": "showTextDocument",
+				"title": "Open Text Document"
 			}
 		]
 	},
