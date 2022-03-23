@@ -7,13 +7,13 @@ export class CategoryNode extends vscode.TreeItem {
     constructor(
         private readonly context: vscode.ExtensionContext,
         public label: string,
-        public readonly posts: Page[],
-        public readonly drafts: Page[]
+        public readonly numberOfPosts: number,
+        public readonly numberOfDrafts: number
     ) {
         super(label);
 
         this.label = label;
-        this.description = `${posts.length} posts, ${drafts.length} drafts`;
+        this.description = `${numberOfPosts} posts, ${numberOfDrafts} drafts`;
         this.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
         this.iconPath = {
             light: vscode.Uri.file(this.context.asAbsolutePath(path.join('images', 'category-light.svg'))),
