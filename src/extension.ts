@@ -29,6 +29,8 @@ export function activate(context: vscode.ExtensionContext) {
 
 	vscode.commands.registerCommand('refresh', () => refresh(context, source));
 	vscode.commands.registerCommand('showTextDocument', showTextDocument);
+
+	vscode.workspace.onDidChangeTextDocument(e => refresh(context, source));
 }
 
 async function refresh(context: vscode.ExtensionContext, source: string) {
