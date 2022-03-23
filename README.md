@@ -47,7 +47,7 @@ Nope.
 
 - Add a Tree view for your pages/posts/drafts
 
-### 0.0.2
+### 0.1.0
 
 - Remove the tree view added in 0.0.1
 - Add 4 new tree views: `CategoryView`, `PostView`, `PageView`, `DraftView`.
