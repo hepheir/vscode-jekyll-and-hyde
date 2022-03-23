@@ -52,3 +52,5 @@ Nope.
 - Remove the tree view added in 0.0.1
 - Add 4 new tree views: `CategoryView`, `PostView`, `PageView`, `DraftView`.
 - Add `showTextDocument` command.
+- Add `refresh` command.
+- Add auto refresh on change text document.
