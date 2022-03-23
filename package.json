@@ -30,6 +30,24 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"viewsWelcome": [
+			{
+				"view": "categoryView",
+				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
+			},
+			{
+				"view": "postView",
+				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
+			},
+			{
+				"view": "draftView",
+				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
+			},
+			{
+				"view": "pageView",
+				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
+			}
+		],
 		"viewsContainers": {
 			"activitybar": [
 				{
