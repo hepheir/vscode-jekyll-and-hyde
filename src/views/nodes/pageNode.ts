@@ -3,7 +3,7 @@ import { TreeItem, TreeItemCollapsibleState, Uri } from 'vscode';
 import { Site, Page } from 'jekyll';
 
 
-export class PageItem extends TreeItem {
+export class PageNode extends TreeItem {
     public site: Site;
     public page: Page;
 
@@ -39,7 +39,7 @@ export class PageItem extends TreeItem {
         }
     }
 
-    static getAllPageItemsFromCategory(site: Site, category: string): PageItem[] {
-        return site.categories[category].map(page => new PageItem(site, page));
+    static getAllPageItemsFromCategory(site: Site, category: string): PageNode[] {
+        return site.categories[category].map(page => new PageNode(site, page));
     }
 }

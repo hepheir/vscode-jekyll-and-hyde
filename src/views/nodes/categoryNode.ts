@@ -3,7 +3,7 @@ import { TreeItem, TreeItemCollapsibleState, Uri } from 'vscode';
 import { Site } from 'jekyll';
 
 
-export class CategoryItem extends TreeItem {
+export class CategoryNode extends TreeItem {
     public site: Site;
     public category: string;
 
@@ -22,9 +22,9 @@ export class CategoryItem extends TreeItem {
         };
     }
 
-    static getAllCategoryItemsFromSite(site: Site): CategoryItem[] {
+    static getAllCategoryItemsFromSite(site: Site): CategoryNode[] {
         const categories = Object.keys(site.categories);
-        const categoryItems = categories.map(category => new CategoryItem(site, category));
+        const categoryItems = categories.map(category => new CategoryNode(site, category));
         return categoryItems.sort((a, b) => a.category.localeCompare(b.category));
     }
 }

@@ -1,8 +1,8 @@
 import { TreeDataProvider, TreeItem } from 'vscode';
 import { Site } from 'jekyll';
 import { JekyllSite } from './jekyllSite';
-import { CategoryItem } from './views/nodes/categoryItem';
-import { PageItem } from './views/nodes/pageItem';
+import { CategoryNode } from './views/nodes/categoryNode';
+import { PageNode } from './views/nodes/pageNode';
 
 
 export class JekyllSiteProvider implements TreeDataProvider<TreeItem> {
@@ -18,9 +18,9 @@ export class JekyllSiteProvider implements TreeDataProvider<TreeItem> {
 
     async getChildren(element?: TreeItem): Promise<TreeItem[]> {
         if (element === undefined) {
-            return CategoryItem.getAllCategoryItemsFromSite(this.site);
-        } else if (element instanceof CategoryItem) {
-            return PageItem.getAllPageItemsFromCategory(element.site, element.category);
+            return CategoryNode.getAllCategoryItemsFromSite(this.site);
+        } else if (element instanceof CategoryNode) {
+            return PageNode.getAllPageItemsFromCategory(element.site, element.category);
         } else {
             return [new TreeItem('Unexpected type')];
         }
