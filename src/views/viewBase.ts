@@ -2,6 +2,9 @@ import * as vscode from 'vscode';
 
 
 export class ViewBase implements vscode.TreeDataProvider<vscode.TreeItem> {
+	private _onDidChangeTreeData: vscode.EventEmitter<any> = new vscode.EventEmitter<any>();
+	readonly onDidChangeTreeData: vscode.Event<any> = this._onDidChangeTreeData.event;
+
     constructor(
         public readonly context: vscode.ExtensionContext,
         private readonly id: string
@@ -9,6 +12,10 @@ export class ViewBase implements vscode.TreeDataProvider<vscode.TreeItem> {
         const view = vscode.window.createTreeView(this.id, { treeDataProvider: this });
         context.subscriptions.push(view);
     }
+
+	public refresh(): any {
+		this._onDidChangeTreeData.fire(undefined);
+	}
 
     public getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
         return element;
