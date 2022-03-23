@@ -4,7 +4,10 @@ import { Page } from 'jekyll';
 
 
 export class DraftNode extends vscode.TreeItem {
-    constructor(context: vscode.ExtensionContext, page: Page) {
+    constructor(
+        readonly context: vscode.ExtensionContext,
+        readonly page: Page
+    ) {
         const uri = vscode.Uri.file(page.path);
 
         super(uri);
@@ -19,8 +22,8 @@ export class DraftNode extends vscode.TreeItem {
         };
         this.contextValue = 'file';
         this.iconPath = {
-            light: vscode.Uri.file(context.asAbsolutePath(path.join('images', 'draft-light.svg'))),
-            dark: vscode.Uri.file(context.asAbsolutePath(path.join('images', 'draft-dark.svg')))
+            light: vscode.Uri.file(this.context.asAbsolutePath(path.join('images', 'draft-light.svg'))),
+            dark: vscode.Uri.file(this.context.asAbsolutePath(path.join('images', 'draft-dark.svg')))
         };
     }
 }

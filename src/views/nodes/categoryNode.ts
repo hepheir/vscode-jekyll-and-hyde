@@ -4,15 +4,20 @@ import { Page } from 'jekyll';
 
 
 export class CategoryNode extends vscode.TreeItem {
-    constructor(context: vscode.ExtensionContext, label: string, posts: Page[], drafts: Page[]) {
+    constructor(
+        private readonly context: vscode.ExtensionContext,
+        public label: string,
+        public readonly posts: Page[],
+        public readonly drafts: Page[]
+    ) {
         super(label);
 
         this.label = label;
         this.description = `${posts.length} posts, ${drafts.length} drafts`;
         this.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
         this.iconPath = {
-            light: vscode.Uri.file(context.asAbsolutePath(path.join('images', 'category-light.svg'))),
-            dark: vscode.Uri.file(context.asAbsolutePath(path.join('images', 'category-dark.svg')))
+            light: vscode.Uri.file(this.context.asAbsolutePath(path.join('images', 'category-light.svg'))),
+            dark: vscode.Uri.file(this.context.asAbsolutePath(path.join('images', 'category-dark.svg')))
         };
     }
 }
