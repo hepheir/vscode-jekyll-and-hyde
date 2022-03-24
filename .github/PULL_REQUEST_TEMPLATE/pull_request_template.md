@@ -1,0 +1,2 @@
+- [ ] Update `version` in `package.json`
+- [ ] Update `CHANGELOG.md`
