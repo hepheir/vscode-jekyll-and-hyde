@@ -54,3 +54,14 @@ Nope.
 - Add `showTextDocument` command.
 - Add `refresh` command.
 - Add auto refresh on change text document.
+
+### 0.1.1
+
+#### Improve user experience
+
+- Categorized Posts are now sorted in alphabetic order.
+
+#### Improve performance
+
+- Auto refresh is triggered by saving text document.
+  - does not triggered by on change text document.
