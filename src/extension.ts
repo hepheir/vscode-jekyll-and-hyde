@@ -27,6 +27,8 @@ export function activate(context: vscode.ExtensionContext) {
 	views.push(new PageView(context, 'pageView'));
 	views.push(new PostView(context, 'postView'));
 
+	updateActiveViews();
+
 	vscode.commands.registerCommand('refresh', () => refresh(context, source));
 	vscode.commands.registerCommand('showTextDocument', showTextDocument);
 	vscode.workspace.onDidSaveTextDocument(e => refresh(context, source));
@@ -35,8 +37,13 @@ export function activate(context: vscode.ExtensionContext) {
 async function refresh(context: vscode.ExtensionContext, source: string) {
 	CachedNodes.cache(context, new JekyllSite(source));
 	views.forEach(v => v.refresh());
+	updateActiveViews();
 }
 
 async function showTextDocument(resource: vscode.Uri) {
 	vscode.window.showTextDocument(resource);
+}
+
+function updateActiveViews() {
+	vscode.commands.executeCommand('setContext', 'activeViews', views.map(v => v.id));
 }
