@@ -28,14 +28,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Removed
 - [views] **"Jekyll Explorer"** (`jekyll-enthusiasm.jekyllExplorer`)
 
-## [0.1.1]
+## [0.1.1] - 2022-03-24
 ### Added
 - [others] **"Sort Category in order"**: Categorized Posts are now sorted in alphabetic order.
 
 ### Changed
 - [others] **"Auto Refreshing"**: ~~Changing~~ **Saving** a text document will refresh views.
 
-## [0.1.2]
+## [0.1.2] - 2022-03-24
 ### Changed
 - [menus] **"Refresh"** (`refresh`): use when clause to hide refresh button on other views.
 
