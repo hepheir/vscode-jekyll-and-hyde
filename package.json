@@ -101,7 +101,8 @@
 			"view/title": [
 				{
 					"command": "refresh",
-					"group": "navigation"
+					"group": "navigation",
+					"when": "view in activeViews"
 				}
 			]
 		}
