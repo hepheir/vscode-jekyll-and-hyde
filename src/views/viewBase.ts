@@ -7,7 +7,7 @@ export class ViewBase implements vscode.TreeDataProvider<vscode.TreeItem> {
 
     constructor(
         public readonly context: vscode.ExtensionContext,
-        private readonly id: string
+        public readonly id: string
     ) {
         const view = vscode.window.createTreeView(this.id, { treeDataProvider: this });
         context.subscriptions.push(view);
