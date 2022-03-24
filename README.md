@@ -43,25 +43,4 @@ Nope.
 
 ## Release Notes
 
-### 0.0.1
-
-- Add a Tree view for your pages/posts/drafts
-
-### 0.1.0
-
-- Remove the tree view added in 0.0.1
-- Add 4 new tree views: `CategoryView`, `PostView`, `PageView`, `DraftView`.
-- Add `showTextDocument` command.
-- Add `refresh` command.
-- Add auto refresh on change text document.
-
-### 0.1.1
-
-#### Improve user experience
-
-- Categorized Posts are now sorted in alphabetic order.
-
-#### Improve performance
-
-- Auto refresh is triggered by saving text document.
-  - does not triggered by on change text document.
+* [CHANGELOG.md](CHANGELOG.md)
