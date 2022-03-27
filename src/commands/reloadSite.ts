@@ -1,8 +1,10 @@
 import {
+    commands,
     ExtensionContext,
+    Uri,
     workspace
 } from "vscode";
-import { JekyllSite } from "../jekyllSite";
+import { SiteParser } from "../parsers/siteParser";
 import { CachedNodes } from "../views/nodes/cachedNodes";
 import { command, Command } from "./base";
 
@@ -15,13 +17,17 @@ export default class ReloadSiteCommand extends Command {
 
     override execute() {
         const source = workspace.workspaceFolders && workspace.workspaceFolders.length > 0
-            ? workspace.workspaceFolders[0].uri.fsPath
+            ? workspace.workspaceFolders[0].uri
             : undefined;
 
         if (!source) {
             return;
         }
 
-        CachedNodes.cache(this.context, new JekyllSite(source));
+        (async () => {
+            const site = await SiteParser.from(source);
+            CachedNodes.cache(this.context, site);
+	        commands.executeCommand('updateViews');
+        })();
     }
 }
