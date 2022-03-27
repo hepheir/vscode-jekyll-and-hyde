@@ -1,10 +1,26 @@
-import * as vscode from 'vscode';
-import { ViewBase } from './viewBase';
+import {
+    ExtensionContext,
+    TreeItem,
+} from 'vscode';
 import { CachedNodes } from './nodes/cachedNodes';
+import {
+    TreeViewBase,
+    view,
+} from './base';
 
 
-export class DraftView extends ViewBase {
-    async getChildren(element?: vscode.TreeItem): Promise<vscode.TreeItem[]> {
+@view()
+export default class DraftView extends TreeViewBase {
+    constructor(context: ExtensionContext) {
+        super('draftView');
+        context.subscriptions.push(this._view);
+    }
+
+    override getRoot() {
         return CachedNodes.draftNodes;
+    }
+
+    override getChildrenOf(element: TreeItem) {
+        return [];
     }
 }
