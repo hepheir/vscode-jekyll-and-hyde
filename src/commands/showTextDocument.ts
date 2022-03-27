@@ -3,13 +3,14 @@ import {
     Uri,
     window
 } from "vscode";
+import { Commands } from "../constants";
 import { command, Command } from "./base";
 
 
 @command()
 export class ShowTextDocumentCommand extends Command {
     constructor(context: ExtensionContext) {
-        super('showTextDocument');
+        super(Commands.ShowTextDocument);
     }
 
     override execute(resourceUri: Uri) {

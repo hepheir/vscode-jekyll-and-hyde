@@ -4,6 +4,7 @@ import {
     Uri,
     workspace
 } from "vscode";
+import { Commands } from "../constants";
 import { SiteParser } from "../parsers/siteParser";
 import { CachedNodes } from "../views/nodes/cachedNodes";
 import { command, Command } from "./base";
@@ -12,7 +13,7 @@ import { command, Command } from "./base";
 @command()
 export class ReloadSiteCommand extends Command {
     constructor(private readonly context: ExtensionContext) {
-        super('reloadSite');
+        super(Commands.ReloadSite);
     }
 
     override execute() {
@@ -27,7 +28,7 @@ export class ReloadSiteCommand extends Command {
         (async () => {
             const site = await SiteParser.from(source);
             CachedNodes.cache(this.context, site);
-	        commands.executeCommand('updateViews');
+	        commands.executeCommand(Commands.UpdateViews);
         })();
     }
 }
