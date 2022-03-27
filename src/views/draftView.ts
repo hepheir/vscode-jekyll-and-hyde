@@ -10,7 +10,7 @@ import {
 
 
 @view()
-export default class DraftView extends TreeViewBase {
+export class DraftView extends TreeViewBase {
     constructor(context: ExtensionContext) {
         super('draftView');
         context.subscriptions.push(this._view);

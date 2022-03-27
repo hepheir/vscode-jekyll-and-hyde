@@ -1,12 +1,12 @@
 import * as vscode from 'vscode';
-import ReloadSiteCommand from './commands/reloadSite';
-import ShowTextDocumentCommand from './commands/showTextDocument';
-import UpdateViewsCommand from './commands/updateViews';
+import { ReloadSiteCommand } from './commands/reloadSite';
+import { ShowTextDocumentCommand } from './commands/showTextDocument';
+import { UpdateViewsCommand } from './commands/updateViews';
 import { registerCommands } from './commands/base';
-import CategoryView from './views/categoryView';
-import PageView from './views/pageView';
-import PostView from './views/postView';
-import DraftView from './views/draftView';
+import { CategoryView } from './views/categoryView';
+import { PageView } from './views/pageView';
+import { PostView } from './views/postView';
+import { DraftView } from './views/draftView';
 import { createViews } from './views/base';
 
 

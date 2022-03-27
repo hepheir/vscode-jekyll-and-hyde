@@ -10,7 +10,7 @@ import { command, Command } from "./base";
 
 
 @command()
-export default class ReloadSiteCommand extends Command {
+export class ReloadSiteCommand extends Command {
     constructor(private readonly context: ExtensionContext) {
         super('reloadSite');
     }

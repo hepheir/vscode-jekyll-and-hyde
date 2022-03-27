@@ -10,7 +10,7 @@ import {
 
 
 @view()
-export default class PageView extends TreeViewBase {
+export class PageView extends TreeViewBase {
     constructor(context: ExtensionContext) {
         super('pageView');
         context.subscriptions.push(this._view);

@@ -7,7 +7,7 @@ import { command, Command } from "./base";
 
 
 @command()
-export default class ShowTextDocumentCommand extends Command {
+export class ShowTextDocumentCommand extends Command {
     constructor(context: ExtensionContext) {
         super('showTextDocument');
     }

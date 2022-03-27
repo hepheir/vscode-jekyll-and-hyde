@@ -5,7 +5,7 @@ import { registedViews } from "../views/base";
 import { command, Command } from "./base";
 
 @command()
-export default class UpdateViewsCommand extends Command {
+export class UpdateViewsCommand extends Command {
     constructor(private readonly context: ExtensionContext) {
         super('updateViews');
     }

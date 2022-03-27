@@ -11,7 +11,7 @@ import {
 
 
 @view()
-export default class CategoryView extends TreeViewBase {
+export class CategoryView extends TreeViewBase {
     constructor(context: ExtensionContext) {
         super('categoryView');
         context.subscriptions.push(this._view);
