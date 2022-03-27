@@ -1,10 +1,26 @@
-import * as vscode from 'vscode';
-import { ViewBase } from './viewBase';
+import {
+    ExtensionContext,
+    TreeItem,
+} from 'vscode';
 import { CachedNodes } from './nodes/cachedNodes';
+import {
+    TreeViewBase,
+    view,
+} from './base';
 
 
-export class PageView extends ViewBase {
-    async getChildren(element?: vscode.TreeItem): Promise<vscode.TreeItem[]> {
+@view()
+export class PageView extends TreeViewBase {
+    constructor(context: ExtensionContext) {
+        super('pageView');
+        context.subscriptions.push(this._view);
+    }
+
+    override getRoot() {
         return CachedNodes.pageNodes;
+    }
+
+    override getChildrenOf(element: TreeItem) {
+        return [];
     }
 }

@@ -16,12 +16,12 @@
 	],
 	"icon": "images/icon.png",
 	"bugs": {
-	  "email": "hepheir@gmail.com",
-	  "url": "https://github.com/Hepheir/vscode-jekyll-n-hyde/issues"
+		"email": "hepheir@gmail.com",
+		"url": "https://github.com/Hepheir/vscode-jekyll-n-hyde/issues"
 	},
 	"repository": {
-	  "type": "git",
-	  "url": "https://github.com/Hepheir/vscode-jekyll-n-hyde"
+		"type": "git",
+		"url": "https://github.com/Hepheir/vscode-jekyll-n-hyde"
 	},
 	"activationEvents": [
 		"onView:categoryView",
@@ -92,15 +92,19 @@
 				"title": "Open Text Document"
 			},
 			{
-				"command": "refresh",
-				"title": "Update cache and refresh views.",
+				"command": "reloadSite",
+				"title": "Update cache."
+			},
+			{
+				"command": "updateViews",
+				"title": "Refresh views.",
 				"icon": "images/refresh.svg"
 			}
 		],
 		"menus": {
 			"view/title": [
 				{
-					"command": "refresh",
+					"command": "updateViews",
 					"group": "navigation",
 					"when": "view in activeViews"
 				}
@@ -130,6 +134,7 @@
 	},
 	"dependencies": {
 		"@types/yamljs": "^0.2.31",
+		"gray-matter": "^4.0.3",
 		"vsce": "^2.7.0",
 		"yamljs": "^0.3.0"
 	}
