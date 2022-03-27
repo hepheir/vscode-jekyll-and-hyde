@@ -20,15 +20,11 @@ export function activate(context: vscode.ExtensionContext) {
 		PageView,
 		PostView,
 	];
+	const reload = () => vscode.commands.executeCommand('reloadSite');
 
 	registerCommands(context);
 	createViews(context);
 
-	vscode.commands.executeCommand('reloadSite');
-	vscode.commands.executeCommand('updateViews');
-
-	vscode.workspace.onDidSaveTextDocument(e => {
-		vscode.commands.executeCommand('reloadSite');
-		vscode.commands.executeCommand('updateViews');
-	});
+	vscode.workspace.onDidSaveTextDocument(reload);
+	reload();
 }
