@@ -16,12 +16,12 @@
 	],
 	"icon": "images/icon.png",
 	"bugs": {
-	  "email": "hepheir@gmail.com",
-	  "url": "https://github.com/Hepheir/vscode-jekyll-n-hyde/issues"
+		"email": "hepheir@gmail.com",
+		"url": "https://github.com/Hepheir/vscode-jekyll-n-hyde/issues"
 	},
 	"repository": {
-	  "type": "git",
-	  "url": "https://github.com/Hepheir/vscode-jekyll-n-hyde"
+		"type": "git",
+		"url": "https://github.com/Hepheir/vscode-jekyll-n-hyde"
 	},
 	"activationEvents": [
 		"onView:categoryView",
@@ -134,6 +134,7 @@
 	},
 	"dependencies": {
 		"@types/yamljs": "^0.2.31",
+		"gray-matter": "^4.0.3",
 		"vsce": "^2.7.0",
 		"yamljs": "^0.3.0"
 	}
