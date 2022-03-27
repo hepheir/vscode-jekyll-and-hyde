@@ -8,7 +8,7 @@ import { Page } from "jekyll";
 
 
 export class PageParser {
-    public static async from(uri: Uri, source: Uri = Uri.parse('/')): Promise<Page> {
+    public static async from(uri: Uri): Promise<Page> {
         const content = (await workspace.fs.readFile(uri)).toString();
         const file = matter(content, { excerpt: true });
         return {
@@ -19,7 +19,7 @@ export class PageParser {
             categories: file.data.categories ?? [],
             dir: file.data.permalink
                 ? path.dirname(file.data.permalink)
-                : path.relative(source.fsPath, path.dirname(uri.fsPath)),
+                : workspace.asRelativePath(uri),
             name: path.basename(uri.path),
             path: file.data.path ?? uri.path
         };
