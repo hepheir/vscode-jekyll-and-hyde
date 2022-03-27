@@ -92,15 +92,19 @@
 				"title": "Open Text Document"
 			},
 			{
-				"command": "refresh",
-				"title": "Update cache and refresh views.",
+				"command": "reloadSite",
+				"title": "Update cache."
+			},
+			{
+				"command": "updateViews",
+				"title": "Refresh views.",
 				"icon": "images/refresh.svg"
 			}
 		],
 		"menus": {
 			"view/title": [
 				{
-					"command": "refresh",
+					"command": "updateViews",
 					"group": "navigation",
 					"when": "view in activeViews"
 				}
