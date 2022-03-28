@@ -64,6 +64,11 @@
 				"title": "Draft Resource",
 			},
 			{
+				"command": "categorizedPosts.deleteResource",
+				"title": "Delete Resource",
+				"icon": "$(trash)"
+			},
+			{
 				"command": "categorizedPosts.refresh",
 				"title": "Refresh Categorized Posts",
 				"icon": "$(refresh)"
@@ -87,6 +92,10 @@
 					"command": "categorizedPosts.draftResource",
 					"group": "inline",
 					"when": "viewItem == post"
+				},
+				{
+					"command": "categorizedPosts.deleteResource",
+					"when": "viewItem == draft || viewItem == post"
 				}
 			]
 		}

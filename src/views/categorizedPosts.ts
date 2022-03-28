@@ -73,6 +73,7 @@ export class CategorizedPosts {
     constructor(context: vscode.ExtensionContext) {
         context.subscriptions.push(vscode.window.createTreeView('categorizedPosts', { treeDataProvider: this.treeDataProvider }));
         vscode.commands.registerCommand('categorizedPosts.openResource', (resource) => this.openResource(resource));
+        vscode.commands.registerCommand('categorizedPosts.deleteResource', (resource) => this.deleteResource(resource));
         vscode.commands.registerCommand('categorizedPosts.postResource', (resource) => this.postResource(resource));
         vscode.commands.registerCommand('categorizedPosts.draftResource', (resource) => this.draftResource(resource));
         vscode.commands.registerCommand('categorizedPosts.refresh', () => this.refresh());
@@ -81,6 +82,14 @@ export class CategorizedPosts {
 
     private openResource(resource: vscode.Uri) {
         vscode.window.showTextDocument(resource);
+    }
+
+    private deleteResource(resource: Entry) {
+        if (!resource.post) {
+            return;
+        }
+        const resourceUri = vscode.Uri.parse(resource.post.path);
+        vscode.workspace.fs.delete(resourceUri);
     }
 
     private refresh() {
