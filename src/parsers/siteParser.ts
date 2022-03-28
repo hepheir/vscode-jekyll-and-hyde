@@ -1,10 +1,5 @@
-import * as path from "path";
-import {
-    FileType,
-    Uri,
-    workspace
-} from "vscode";
-import { Page, Site } from "jekyll";
+import { workspace } from "vscode";
+import { Site } from "jekyll";
 import { PageParser } from "./pageParser";
 import { CategoriesParser } from "./categoriesParser";
 
@@ -14,7 +9,7 @@ export class SiteParser {
      *
      * @returns {Promise<Site>}
      */
-    public static async from(): Promise<Site> {
+    public static async parse(): Promise<Site> {
         // TODO: make paths configurable
         const draftUris = await workspace.findFiles('_drafts/**/*.{md,markdown}');
         const postUris = await workspace.findFiles('_posts/**/*.{md,markdown}');
