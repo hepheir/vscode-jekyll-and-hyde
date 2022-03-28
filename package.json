@@ -69,6 +69,11 @@
 				"icon": "$(trash)"
 			},
 			{
+				"command": "categorizedPosts.addDraftResource",
+				"title": "Add Draft Resource",
+				"icon": "$(new-file)"
+			},
+			{
 				"command": "categorizedPosts.refresh",
 				"title": "Refresh Categorized Posts",
 				"icon": "$(refresh)"
@@ -96,6 +101,11 @@
 				{
 					"command": "categorizedPosts.deleteResource",
 					"when": "viewItem == draft || viewItem == post"
+				},
+				{
+					"command": "categorizedPosts.addDraftResource",
+					"group": "inline",
+					"when": "viewItem == category"
 				}
 			]
 		}

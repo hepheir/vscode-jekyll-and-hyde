@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as matter from 'gray-matter';
 import { Page, Site } from 'jekyll';
 import { SiteParser } from '../parsers/siteParser';
 
@@ -76,6 +77,7 @@ export class CategorizedPosts {
         vscode.commands.registerCommand('categorizedPosts.deleteResource', (resource) => this.deleteResource(resource));
         vscode.commands.registerCommand('categorizedPosts.postResource', (resource) => this.postResource(resource));
         vscode.commands.registerCommand('categorizedPosts.draftResource', (resource) => this.draftResource(resource));
+        vscode.commands.registerCommand('categorizedPosts.addDraftResource', (resource) => this.addDraftResource(resource));
         vscode.commands.registerCommand('categorizedPosts.refresh', () => this.refresh());
         vscode.workspace.onDidSaveTextDocument((e) => vscode.commands.executeCommand('categorizedPosts.refresh'));
     }
@@ -116,5 +118,45 @@ export class CategorizedPosts {
         await vscode.workspace.fs.rename(resourceUri, targetUri, { overwrite: false });
         vscode.window.showTextDocument(targetUri);
         this.refresh();
+    }
+
+    private async addDraftResource(resource: Entry) {
+        // TODO: 하단의 조건문 지옥을 완화시켜보기
+        if (!resource.category) {
+            return;
+        }
+        const entries = await this.treeDataProvider.getChildren(resource);
+        if (entries.length === 0) {
+            return;
+        }
+        const firstEntry = entries[0];
+        if (!firstEntry.post) {
+            return;
+        }
+        const workspaceFolder = vscode.workspace.getWorkspaceFolder(vscode.Uri.parse(firstEntry.post.path));
+        if (!workspaceFolder) {
+            return;
+        }
+        // TODO: overwrite 피하기
+        const tempFileUri = vscode.Uri.joinPath(workspaceFolder.uri, '.jekyll-n-hyde', 'tmp.md');
+        const content = matter.stringify('', {
+            title: ``,
+            categories: [resource.category],
+        });
+        await vscode.workspace.fs.writeFile(tempFileUri, Buffer.from(content));
+
+        const filename = await vscode.window.showInputBox({
+                placeHolder: 'Enter the name of file',
+                value: 'untitled.md',
+        }) ?? 'untitled.md';
+        const targetUri = vscode.Uri.joinPath(workspaceFolder.uri, '_drafts', filename);
+        try {
+            vscode.workspace.fs.rename(tempFileUri, targetUri, { overwrite: false });
+            this.openResource(targetUri);
+            this.refresh();
+        } catch (error) {
+            vscode.window.showErrorMessage('File already exists.');
+            vscode.workspace.fs.delete(tempFileUri);
+        }
     }
 }
