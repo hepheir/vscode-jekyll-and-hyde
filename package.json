@@ -62,15 +62,19 @@
 			{
 				"command": "categorizedPosts.draftResource",
 				"title": "Draft Resource",
-				"icon": "$(x)"
+			},
+			{
+				"command": "categorizedPosts.refresh",
+				"title": "Refresh Categorized Posts",
+				"icon": "$(refresh)"
 			}
 		],
 		"menus": {
 			"view/title": [
 				{
-					"command": "updateViews",
+					"command": "categorizedPosts.refresh",
 					"group": "navigation",
-					"when": "view == categoryView || view == postView || view == pageView || view == draftView"
+					"when": "view == categorizedPosts"
 				}
 			],
 			"view/item/context": [

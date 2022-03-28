@@ -75,7 +75,8 @@ export class CategorizedPosts {
         vscode.commands.registerCommand('categorizedPosts.openResource', (resource) => this.openResource(resource));
         vscode.commands.registerCommand('categorizedPosts.postResource', (resource) => this.postResource(resource));
         vscode.commands.registerCommand('categorizedPosts.draftResource', (resource) => this.draftResource(resource));
-        vscode.workspace.onDidSaveTextDocument(e => this.refresh());
+        vscode.commands.registerCommand('categorizedPosts.refresh', () => this.refresh());
+        vscode.workspace.onDidSaveTextDocument((e) => vscode.commands.executeCommand('categorizedPosts.refresh'));
     }
 
     private openResource(resource: vscode.Uri) {
