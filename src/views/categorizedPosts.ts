@@ -36,7 +36,7 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
         } else if (element.post && element.post.dir.startsWith('_posts')) {
             const uri = vscode.Uri.parse(element.post.path);
             treeItem.collapsibleState = vscode.TreeItemCollapsibleState.None;
-			treeItem.command = { command: 'categorizedPosts.openFile', title: "Open File", arguments: [uri], };
+			treeItem.command = { command: 'categorizedPosts.openResource', title: "Open File", arguments: [uri], };
 			treeItem.contextValue = 'post';
             treeItem.description = element.post.name;
             treeItem.iconPath = new vscode.ThemeIcon('file-text');
@@ -44,7 +44,7 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
         } else if (element.post && element.post.dir.startsWith('_drafts')) {
             const uri = vscode.Uri.parse(element.post.path);
             treeItem.collapsibleState = vscode.TreeItemCollapsibleState.None;
-			treeItem.command = { command: 'categorizedPosts.openFile', title: "Open File", arguments: [uri], };
+			treeItem.command = { command: 'categorizedPosts.openResource', title: "Open File", arguments: [uri], };
 			treeItem.contextValue = 'draft';
             treeItem.description = element.post.name;
             treeItem.iconPath = new vscode.ThemeIcon('beaker');
@@ -72,7 +72,7 @@ export class CategorizedPosts {
 
     constructor(context: vscode.ExtensionContext) {
         context.subscriptions.push(vscode.window.createTreeView('categorizedPosts', { treeDataProvider: this.treeDataProvider }));
-        vscode.commands.registerCommand('categorizedPosts.openFile', (resource) => this.openResource(resource));
+        vscode.commands.registerCommand('categorizedPosts.openResource', (resource) => this.openResource(resource));
         vscode.commands.registerCommand('categorizedPosts.postResource', (resource) => this.postResource(resource));
         vscode.commands.registerCommand('categorizedPosts.draftResource', (resource) => this.draftResource(resource));
         vscode.workspace.onDidSaveTextDocument(e => this.refresh());
