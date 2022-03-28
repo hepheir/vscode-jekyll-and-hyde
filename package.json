@@ -62,6 +62,7 @@
 			{
 				"command": "categorizedPosts.draftResource",
 				"title": "Draft Resource",
+				"icon": "$(microscope)"
 			},
 			{
 				"command": "categorizedPosts.deleteResource",
