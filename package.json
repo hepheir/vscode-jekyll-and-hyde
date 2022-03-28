@@ -24,92 +24,9 @@
 		"url": "https://github.com/Hepheir/vscode-jekyll-n-hyde"
 	},
 	"activationEvents": [
-		"onView:categoryView",
-		"onView:draftView",
-		"onView:pageView",
-		"onView:postView"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"viewsWelcome": [
-			{
-				"view": "categoryView",
-				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
-			},
-			{
-				"view": "postView",
-				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
-			},
-			{
-				"view": "draftView",
-				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
-			},
-			{
-				"view": "pageView",
-				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
-			}
-		],
-		"viewsContainers": {
-			"activitybar": [
-				{
-					"id": "jekyll-n-hyde",
-					"title": "Jekyll & Hyde",
-					"icon": "images/jekyll.svg"
-				}
-			]
-		},
-		"views": {
-			"jekyll-n-hyde": [
-				{
-					"id": "categoryView",
-					"name": "Categorized Posts",
-					"icon": "images/jekyll.svg",
-					"contextualTitle": "Jekyll n Hyde :: Categorized Posts"
-				},
-				{
-					"id": "draftView",
-					"name": "All Drafts",
-					"icon": "images/jekyll.svg",
-					"contextualTitle": "Jekyll n Hyde :: All Drafts"
-				},
-				{
-					"id": "postView",
-					"name": "All Posts",
-					"icon": "images/jekyll.svg",
-					"contextualTitle": "Jekyll n Hyde :: All Posts"
-				},
-				{
-					"id": "pageView",
-					"name": "All Pages",
-					"icon": "images/jekyll.svg",
-					"contextualTitle": "Jekyll n Hyde :: All Pages"
-				}
-			]
-		},
-		"commands": [
-			{
-				"command": "showTextDocument",
-				"title": "Open Text Document"
-			},
-			{
-				"command": "reloadSite",
-				"title": "Update cache."
-			},
-			{
-				"command": "updateViews",
-				"title": "Refresh views.",
-				"icon": "images/refresh.svg"
-			}
-		],
-		"menus": {
-			"view/title": [
-				{
-					"command": "updateViews",
-					"group": "navigation",
-					"when": "view in activeViews"
-				}
-			]
-		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
