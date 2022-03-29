@@ -1,6 +1,6 @@
 {
 	"name": "jekyll-n-hyde",
-	"version": "0.1.2",
+	"version": "0.2.0",
 	"publisher": "Hepheir",
 	"engines": {
 		"vscode": "^1.65.0"
@@ -16,36 +16,21 @@
 	],
 	"icon": "images/icon.png",
 	"bugs": {
-	  "email": "hepheir@gmail.com",
-	  "url": "https://github.com/Hepheir/vscode-jekyll-n-hyde/issues"
+		"email": "hepheir@gmail.com",
+		"url": "https://github.com/Hepheir/vscode-jekyll-n-hyde/issues"
 	},
 	"repository": {
-	  "type": "git",
-	  "url": "https://github.com/Hepheir/vscode-jekyll-n-hyde"
+		"type": "git",
+		"url": "https://github.com/Hepheir/vscode-jekyll-n-hyde"
 	},
 	"activationEvents": [
-		"onView:categoryView",
-		"onView:draftView",
-		"onView:pageView",
-		"onView:postView"
+		"onView:categorizedPosts"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"viewsWelcome": [
 			{
-				"view": "categoryView",
-				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
-			},
-			{
-				"view": "postView",
-				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
-			},
-			{
-				"view": "draftView",
-				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
-			},
-			{
-				"view": "pageView",
+				"view": "categorizedPosts",
 				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
 			}
 		],
@@ -53,7 +38,7 @@
 			"activitybar": [
 				{
 					"id": "jekyll-n-hyde",
-					"title": "Jekyll & Hyde",
+					"title": "Jekyll N Hyde",
 					"icon": "images/jekyll.svg"
 				}
 			]
@@ -61,48 +46,67 @@
 		"views": {
 			"jekyll-n-hyde": [
 				{
-					"id": "categoryView",
+					"id": "categorizedPosts",
 					"name": "Categorized Posts",
 					"icon": "images/jekyll.svg",
 					"contextualTitle": "Jekyll n Hyde :: Categorized Posts"
-				},
-				{
-					"id": "draftView",
-					"name": "All Drafts",
-					"icon": "images/jekyll.svg",
-					"contextualTitle": "Jekyll n Hyde :: All Drafts"
-				},
-				{
-					"id": "postView",
-					"name": "All Posts",
-					"icon": "images/jekyll.svg",
-					"contextualTitle": "Jekyll n Hyde :: All Posts"
-				},
-				{
-					"id": "pageView",
-					"name": "All Pages",
-					"icon": "images/jekyll.svg",
-					"contextualTitle": "Jekyll n Hyde :: All Pages"
 				}
 			]
 		},
 		"commands": [
 			{
-				"command": "showTextDocument",
-				"title": "Open Text Document"
+				"command": "categorizedPosts.postResource",
+				"title": "Post Resource",
+				"icon": "$(rocket)"
 			},
 			{
-				"command": "refresh",
-				"title": "Update cache and refresh views.",
-				"icon": "images/refresh.svg"
+				"command": "categorizedPosts.draftResource",
+				"title": "Draft Resource",
+				"icon": "$(microscope)"
+			},
+			{
+				"command": "categorizedPosts.deleteResource",
+				"title": "Delete Resource",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "categorizedPosts.addDraftResource",
+				"title": "Add Draft Resource",
+				"icon": "$(new-file)"
+			},
+			{
+				"command": "categorizedPosts.refresh",
+				"title": "Refresh Categorized Posts",
+				"icon": "$(refresh)"
 			}
 		],
 		"menus": {
 			"view/title": [
 				{
-					"command": "refresh",
+					"command": "categorizedPosts.refresh",
 					"group": "navigation",
-					"when": "view in activeViews"
+					"when": "view == categorizedPosts"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "categorizedPosts.postResource",
+					"group": "inline",
+					"when": "viewItem == draft"
+				},
+				{
+					"command": "categorizedPosts.draftResource",
+					"group": "inline",
+					"when": "viewItem == post"
+				},
+				{
+					"command": "categorizedPosts.deleteResource",
+					"when": "viewItem == draft || viewItem == post"
+				},
+				{
+					"command": "categorizedPosts.addDraftResource",
+					"group": "inline",
+					"when": "viewItem == category"
 				}
 			]
 		}
@@ -130,6 +134,7 @@
 	},
 	"dependencies": {
 		"@types/yamljs": "^0.2.31",
+		"gray-matter": "^4.0.3",
 		"vsce": "^2.7.0",
 		"yamljs": "^0.3.0"
 	}

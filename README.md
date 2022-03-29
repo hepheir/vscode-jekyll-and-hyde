@@ -10,36 +10,16 @@ Jekyll n Hyde :: is a lightweight post manager for Jekyll repository.
 
 ### Tree views of posts
 
-#### 4 Types of views
 - Categorized Posts: Posts and drafts sorted by Category.
-- All Draft: All drafts under `_drafts` directory.
-- All Posts: All posts under `_posts` directory.
-- All Pages: All pages under `_pages` directory.
 
 #### Quick Open Page
 
-- You can click a post to open it in your editor immediately.
+- Click posts to open in editor
 
-## Roadmaps
+#### Easy to manage posts
 
-Planning for adding more features in the near future.
-Which are...
-
-- Quick cmd/button to: add front matter
-- Quick cmd/button to: create a new post
-- Quick cmd/button to: swap your post between "published post" <-> "unpublished draft"
-
-## Requirements
-
-* [yamljs](https://www.npmjs.com/package/yamljs)
-
-## Extension Settings
-
-Does not support for extension settings.
-
-## Known Issues
-
-Nope.
+- Click button to create a new draft
+- Click button to post a draft(, or vice versa)
 
 ## Release Notes
 
