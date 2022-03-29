@@ -51,7 +51,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 - [views] **"All Pages"** (`postView`): removed
 - [commands] **"Update cache and refresh views."** (`refresh`): removed
 
-[Unreleased]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.2.0...HEAD
+## [0.2.1] - 2022-03-29
+### Fixed
+- [views] **"Categorized Posts"** (`categoryView`): a few categories were not rendered properly caused by sorting failure
+
+[Unreleased]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.2.1...HEAD
+[0.2.1]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.1.0...v0.1.1
