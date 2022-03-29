@@ -21,11 +21,12 @@ export class SiteParser {
 
         const categories = CategoriesParser.from([...drafts, ...pages, ...posts]);
 
-        return {
+        const site: Site = {
             time: new Date(Date.now()),
             pages: [...pages],
             posts: [...posts, ...drafts],
             categories: categories
         };
+        return site;
     }
 }

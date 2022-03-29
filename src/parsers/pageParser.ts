@@ -12,7 +12,7 @@ export class PageParser {
     public static async from(uri: Uri): Promise<Page> {
         const content = (await workspace.fs.readFile(uri)).toString();
         const file = matter(content, { excerpt: true });
-        return {
+        const page: Page = {
             content: file.content,
             title: file.data.title ?? workspace.asRelativePath(uri),
             excerpt: file.excerpt ?? '',
@@ -27,5 +27,6 @@ export class PageParser {
             name: path.basename(uri.path),
             path: file.data.path ?? uri.path
         };
+        return page;
     }
 }
