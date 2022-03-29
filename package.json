@@ -24,9 +24,92 @@
 		"url": "https://github.com/Hepheir/vscode-jekyll-n-hyde"
 	},
 	"activationEvents": [
+		"onView:categorizedPosts"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"viewsWelcome": [
+			{
+				"view": "categorizedPosts",
+				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
+			}
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "jekyll-n-hyde",
+					"title": "Jekyll N Hyde",
+					"icon": "images/jekyll.svg"
+				}
+			]
+		},
+		"views": {
+			"jekyll-n-hyde": [
+				{
+					"id": "categorizedPosts",
+					"name": "Categorized Posts",
+					"icon": "images/jekyll.svg",
+					"contextualTitle": "Jekyll n Hyde :: Categorized Posts"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "categorizedPosts.postResource",
+				"title": "Post Resource",
+				"icon": "$(rocket)"
+			},
+			{
+				"command": "categorizedPosts.draftResource",
+				"title": "Draft Resource",
+				"icon": "$(microscope)"
+			},
+			{
+				"command": "categorizedPosts.deleteResource",
+				"title": "Delete Resource",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "categorizedPosts.addDraftResource",
+				"title": "Add Draft Resource",
+				"icon": "$(new-file)"
+			},
+			{
+				"command": "categorizedPosts.refresh",
+				"title": "Refresh Categorized Posts",
+				"icon": "$(refresh)"
+			}
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "categorizedPosts.refresh",
+					"group": "navigation",
+					"when": "view == categorizedPosts"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "categorizedPosts.postResource",
+					"group": "inline",
+					"when": "viewItem == draft"
+				},
+				{
+					"command": "categorizedPosts.draftResource",
+					"group": "inline",
+					"when": "viewItem == post"
+				},
+				{
+					"command": "categorizedPosts.deleteResource",
+					"when": "viewItem == draft || viewItem == post"
+				},
+				{
+					"command": "categorizedPosts.addDraftResource",
+					"group": "inline",
+					"when": "viewItem == category"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
