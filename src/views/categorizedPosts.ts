@@ -108,6 +108,7 @@ export class CategorizedPosts {
         }
         const resourceUri = vscode.Uri.parse(resource.post.path);
         await vscode.workspace.fs.delete(resourceUri);
+        await this.refresh();
     }
 
     private async refresh() {
