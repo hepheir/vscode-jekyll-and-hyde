@@ -14,7 +14,7 @@ export class PageParser {
         const file = matter(content, { excerpt: true });
         return {
             content: file.content,
-            title: file.data.title ?? '*Untitled',
+            title: file.data.title ?? workspace.asRelativePath(uri),
             excerpt: file.excerpt ?? '',
             date: file.data.date
                 || PostNameParser.parse(uri).date

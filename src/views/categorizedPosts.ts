@@ -27,7 +27,7 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
 	}
 
     getTreeItem(element: Entry): vscode.TreeItem {
-        const label: string = element.category ?? element.post?.title ?? 'untitled';
+        const label: string = element.category ?? element.post?.title ?? '[Error] Could not resolve name';
         const treeItem = new vscode.TreeItem(label);
         if (element.category) {
             const nItems = this.site.categories[element.category].length;
