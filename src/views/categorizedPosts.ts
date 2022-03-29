@@ -47,7 +47,7 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
         } else if (element.post && element.post.dir.startsWith('_posts')) {
             const uri = vscode.Uri.parse(element.post.path);
             treeItem.collapsibleState = vscode.TreeItemCollapsibleState.None;
-			treeItem.command = { command: 'categorizedPosts.openResource', title: "Open File", arguments: [uri], };
+			treeItem.command = { command: 'vscode.open', title: "Open File", arguments: [uri], };
 			treeItem.contextValue = 'post';
             treeItem.description = element.post.name;
             treeItem.iconPath = new vscode.ThemeIcon('rocket');
@@ -55,7 +55,7 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
         } else if (element.post && element.post.dir.startsWith('_drafts')) {
             const uri = vscode.Uri.parse(element.post.path);
             treeItem.collapsibleState = vscode.TreeItemCollapsibleState.None;
-			treeItem.command = { command: 'categorizedPosts.openResource', title: "Open File", arguments: [uri], };
+			treeItem.command = { command: 'vscode.open', title: "Open File", arguments: [uri], };
 			treeItem.contextValue = 'draft';
             treeItem.description = element.post.name;
             treeItem.iconPath = new vscode.ThemeIcon('microscope');
@@ -63,7 +63,7 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
         } else if (element.post) {
             const uri = vscode.Uri.parse(element.post.path);
             treeItem.collapsibleState = vscode.TreeItemCollapsibleState.None;
-			treeItem.command = { command: 'categorizedPosts.openResource', title: "Open File", arguments: [uri], };
+			treeItem.command = { command: 'vscode.open', title: "Open File", arguments: [uri], };
 			treeItem.contextValue = 'page';
             treeItem.description = element.post.name;
             treeItem.iconPath = new vscode.ThemeIcon('file-text');
@@ -99,17 +99,12 @@ export class CategorizedPosts {
 
     constructor(context: vscode.ExtensionContext) {
         context.subscriptions.push(vscode.window.createTreeView('categorizedPosts', { treeDataProvider: this.treeDataProvider }));
-        vscode.commands.registerCommand('categorizedPosts.openResource', (resource) => this.openResource(resource));
         vscode.commands.registerCommand('categorizedPosts.deleteResource', (resource) => this.deleteResource(resource));
         vscode.commands.registerCommand('categorizedPosts.postResource', (resource) => this.postResource(resource));
         vscode.commands.registerCommand('categorizedPosts.draftResource', (resource) => this.draftResource(resource));
         vscode.commands.registerCommand('categorizedPosts.addDraftResource', (resource) => this.addDraftResource(resource));
         vscode.commands.registerCommand('categorizedPosts.refresh', () => this.refresh());
         vscode.workspace.onDidSaveTextDocument((e) => vscode.commands.executeCommand('categorizedPosts.refresh'));
-    }
-
-    private async openResource(resource: vscode.Uri) {
-        await vscode.window.showTextDocument(resource);
     }
 
     private async deleteResource(resource: Entry) {
@@ -183,7 +178,7 @@ export class CategorizedPosts {
         const targetUri = vscode.Uri.joinPath(workspaceFolder.uri, '_drafts', fileName);
         try {
             await vscode.workspace.fs.rename(tempFileUri, targetUri, { overwrite: false });
-            await this.openResource(targetUri);
+            await vscode.window.showTextDocument(targetUri);
             await this.refresh();
         } catch (error) {
             vscode.window.showErrorMessage('File already exists.');
