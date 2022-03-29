@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import * as matter from 'gray-matter';
 import { Page, Site } from 'jekyll';
 import { SiteParser } from '../parsers/siteParser';
+import { PostNameParser } from '../parsers/postNameParser';
 
 
 export interface Entry {
@@ -58,6 +59,8 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
 		if (element) {
             const category = element.category ?? '';
             return this.site.categories[category]
+                .sort((p1, p2) => p1.title.localeCompare(p2.title))
+                .sort((p1, p2) => p1.date.localeCompare(p2.date))
                 .map(p => ({post: p,}));
 		}
 
@@ -82,19 +85,19 @@ export class CategorizedPosts {
         vscode.workspace.onDidSaveTextDocument((e) => vscode.commands.executeCommand('categorizedPosts.refresh'));
     }
 
-    private openResource(resource: vscode.Uri) {
-        vscode.window.showTextDocument(resource);
+    private async openResource(resource: vscode.Uri) {
+        await vscode.window.showTextDocument(resource);
     }
 
-    private deleteResource(resource: Entry) {
+    private async deleteResource(resource: Entry) {
         if (!resource.post) {
             return;
         }
         const resourceUri = vscode.Uri.parse(resource.post.path);
-        vscode.workspace.fs.delete(resourceUri);
+        await vscode.workspace.fs.delete(resourceUri);
     }
 
-    private refresh() {
+    private async refresh() {
         this.treeDataProvider.refresh();
     }
 
@@ -103,10 +106,10 @@ export class CategorizedPosts {
             return;
         }
         const resourceUri = vscode.Uri.parse(resource.post.path);
-        const targetUri = vscode.Uri.parse(resourceUri.fsPath.replace('_drafts', '_posts'));
+        const targetUri = PostNameParser.draftToPost(resourceUri);
         await vscode.workspace.fs.rename(resourceUri, targetUri, { overwrite: false });
-        vscode.window.showTextDocument(targetUri);
-        this.refresh();
+        await vscode.window.showTextDocument(targetUri);
+        await this.refresh();
     }
 
     private async draftResource(resource: Entry) {
@@ -114,10 +117,10 @@ export class CategorizedPosts {
             return;
         }
         const resourceUri = vscode.Uri.parse(resource.post.path);
-        const targetUri = vscode.Uri.parse(resourceUri.fsPath.replace('_posts', '_drafts'));
+        const targetUri = PostNameParser.postToDraft(resourceUri);
         await vscode.workspace.fs.rename(resourceUri, targetUri, { overwrite: false });
-        vscode.window.showTextDocument(targetUri);
-        this.refresh();
+        await vscode.window.showTextDocument(targetUri);
+        await this.refresh();
     }
 
     private async addDraftResource(resource: Entry) {
@@ -145,15 +148,17 @@ export class CategorizedPosts {
         });
         await vscode.workspace.fs.writeFile(tempFileUri, Buffer.from(content));
 
-        const filename = await vscode.window.showInputBox({
+        const fileNamePlaceHolder = PostNameParser.addDatePrefix('untitled.md');
+        const fileName = await vscode.window.showInputBox({
                 placeHolder: 'Enter the name of file',
-                value: 'untitled.md',
-        }) ?? 'untitled.md';
-        const targetUri = vscode.Uri.joinPath(workspaceFolder.uri, '_drafts', filename);
+                value: fileNamePlaceHolder,
+        }) ?? fileNamePlaceHolder;
+
+        const targetUri = vscode.Uri.joinPath(workspaceFolder.uri, '_drafts', fileName);
         try {
-            vscode.workspace.fs.rename(tempFileUri, targetUri, { overwrite: false });
-            this.openResource(targetUri);
-            this.refresh();
+            await vscode.workspace.fs.rename(tempFileUri, targetUri, { overwrite: false });
+            await this.openResource(targetUri);
+            await this.refresh();
         } catch (error) {
             vscode.window.showErrorMessage('File already exists.');
             vscode.workspace.fs.delete(tempFileUri);
