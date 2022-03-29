@@ -55,6 +55,14 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
             treeItem.description = element.post.name;
             treeItem.iconPath = new vscode.ThemeIcon('microscope');
             treeItem.resourceUri = uri;
+        } else if (element.post) {
+            const uri = vscode.Uri.parse(element.post.path);
+            treeItem.collapsibleState = vscode.TreeItemCollapsibleState.None;
+			treeItem.command = { command: 'categorizedPosts.openResource', title: "Open File", arguments: [uri], };
+			treeItem.contextValue = 'page';
+            treeItem.description = element.post.name;
+            treeItem.iconPath = new vscode.ThemeIcon('file-text');
+            treeItem.resourceUri = uri;
         }
 		return treeItem;
 	}
