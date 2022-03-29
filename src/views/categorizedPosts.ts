@@ -104,7 +104,21 @@ export class CategorizedPosts {
         vscode.commands.registerCommand('categorizedPosts.draftResource', (resource) => this.draftResource(resource));
         vscode.commands.registerCommand('categorizedPosts.addDraftResource', (resource) => this.addDraftResource(resource));
         vscode.commands.registerCommand('categorizedPosts.refresh', () => this.refresh());
+        vscode.commands.registerCommand('categorizedPosts.updateLastModification', (resource) => this.updateLastModification(resource));
         vscode.workspace.onDidSaveTextDocument((e) => vscode.commands.executeCommand('categorizedPosts.refresh'));
+    }
+
+    private async updateLastModification(resource: Entry) {
+        if (!resource.post) {
+            return;
+        }
+        const resourceUri = vscode.Uri.parse(resource.post.path);
+        const buffer = await vscode.workspace.fs.readFile(resourceUri);
+        const file = matter(buffer.toString());
+        file.data.last_modified_at = new Date(Date.now());
+        const content = matter.stringify(file.content, file.data);
+        await vscode.workspace.fs.writeFile(resourceUri, Buffer.from(content));
+        await vscode.window.showTextDocument(resourceUri);
     }
 
     private async deleteResource(resource: Entry) {

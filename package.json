@@ -78,6 +78,11 @@
 				"command": "categorizedPosts.refresh",
 				"title": "Refresh Categorized Posts",
 				"icon": "$(refresh)"
+			},
+			{
+				"command": "categorizedPosts.updateLastModification",
+				"title": "Update last modification",
+				"icon": "$(refresh)"
 			}
 		],
 		"menus": {
@@ -101,6 +106,10 @@
 				},
 				{
 					"command": "categorizedPosts.deleteResource",
+					"when": "viewItem == draft || viewItem == post"
+				},
+				{
+					"command": "categorizedPosts.updateLastModification",
 					"when": "viewItem == draft || viewItem == post"
 				},
 				{
