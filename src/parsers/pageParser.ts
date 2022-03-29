@@ -5,6 +5,7 @@ import {
     workspace
 } from "vscode";
 import { Page } from "jekyll";
+import { PostNameParser } from "./postNameParser";
 
 
 export class PageParser {
@@ -15,7 +16,9 @@ export class PageParser {
             content: file.content,
             title: file.data.title ?? '*Untitled',
             excerpt: file.excerpt ?? '',
-            date: file.data.date ?? '9999-01-01',
+            date: file.data.date
+                || PostNameParser.parse(uri).date
+                || PostNameParser.createDate(),
             categories: file.data.categories ?? [],
             dir: file.data.permalink
                 ? path.dirname(file.data.permalink)
