@@ -39,7 +39,20 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Changed
 - [menus] **"Refresh"** (`refresh`): use when clause to hide refresh button on other views.
 
-[Unreleased]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.1.1...HEAD
+## [0.2.0] - 2022-03-29
+### Added
+- [views] **"Categorized Posts"** (`categorizedPosts`):
+- [commands] **"Categorized Posts"**
+
+### Removed
+- [views] **"Categorized Posts"** (`categoryView`): removed
+- [views] **"All Drafts"** (`draftView`): removed
+- [views] **"All Posts"** (`pageView`): removed
+- [views] **"All Pages"** (`postView`): removed
+- [commands] **"Update cache and refresh views."** (`refresh`): removed
+
+[Unreleased]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.0.1...v0.1.0
