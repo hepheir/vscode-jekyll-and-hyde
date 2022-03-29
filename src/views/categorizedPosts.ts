@@ -77,8 +77,8 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
             const category = element.category ?? '';
             var pages = this.site.categories[category];
             try {
-                pages.sort((p1, p2) => p1.title.localeCompare(p2.title));
-                pages.sort((p1, p2) => p1.date.getTime() - p2.date.getTime());
+                pages = pages.sort((p1, p2) => p1.title.localeCompare(p2.title));
+                pages = pages.sort((p1, p2) => p1.date.getTime() - p2.date.getTime());
             } catch (error) {
                 vscode.window.showErrorMessage(`Unable to sort items of category "${category}"`);
             } finally {
@@ -99,33 +99,33 @@ export class CategorizedPosts {
 
     constructor(context: vscode.ExtensionContext) {
         context.subscriptions.push(vscode.window.createTreeView('categorizedPosts', { treeDataProvider: this.treeDataProvider }));
-        vscode.commands.registerCommand('categorizedPosts.deleteResource', (resource) => this.deleteResource(resource));
-        vscode.commands.registerCommand('categorizedPosts.postResource', (resource) => this.postResource(resource));
-        vscode.commands.registerCommand('categorizedPosts.draftResource', (resource) => this.draftResource(resource));
-        vscode.commands.registerCommand('categorizedPosts.addDraftResource', (resource) => this.addDraftResource(resource));
-        vscode.commands.registerCommand('categorizedPosts.refresh', () => this.refresh());
-        vscode.commands.registerCommand('categorizedPosts.updateLastModification', (resource) => this.updateLastModification(resource));
+        vscode.commands.registerCommand('categorizedPosts.deleteResource', (e) => this.deleteResource(e));
+        vscode.commands.registerCommand('categorizedPosts.postResource', (e) => this.postResource(e));
+        vscode.commands.registerCommand('categorizedPosts.draftResource', (e) => this.draftResource(e));
+        vscode.commands.registerCommand('categorizedPosts.addDraftResource', (e) => this.addDraftResource(e));
+        vscode.commands.registerCommand('categorizedPosts.refresh', (e) => this.refresh());
+        vscode.commands.registerCommand('categorizedPosts.updateLastModification', (e) => this.updateLastModification(e));
         vscode.workspace.onDidSaveTextDocument((e) => vscode.commands.executeCommand('categorizedPosts.refresh'));
     }
 
-    private async updateLastModification(resource: Entry) {
-        if (!resource.post) {
+    private async updateLastModification(entry: Entry) {
+        if (!entry.post) {
             return;
         }
-        const resourceUri = vscode.Uri.parse(resource.post.path);
-        const buffer = await vscode.workspace.fs.readFile(resourceUri);
+        const resource = vscode.Uri.parse(entry.post.path);
+        const buffer = await vscode.workspace.fs.readFile(resource);
         const file = matter(buffer.toString());
         file.data.last_modified_at = new Date(Date.now());
         const content = matter.stringify(file.content, file.data);
-        await vscode.workspace.fs.writeFile(resourceUri, Buffer.from(content));
-        await vscode.window.showTextDocument(resourceUri);
+        await vscode.workspace.fs.writeFile(resource, Buffer.from(content));
+        await vscode.window.showTextDocument(resource);
     }
 
-    private async deleteResource(resource: Entry) {
-        if (!resource.post) {
+    private async deleteResource(entry: Entry) {
+        if (!entry.post) {
             return;
         }
-        const resourceUri = vscode.Uri.parse(resource.post.path);
+        const resourceUri = vscode.Uri.parse(entry.post.path);
         await vscode.workspace.fs.delete(resourceUri);
         await this.refresh();
     }
@@ -134,34 +134,34 @@ export class CategorizedPosts {
         this.treeDataProvider.refresh();
     }
 
-    private async postResource(resource: Entry) {
-        if (!resource.post) {
+    private async postResource(entry: Entry) {
+        if (!entry.post) {
             return;
         }
-        const resourceUri = vscode.Uri.parse(resource.post.path);
+        const resourceUri = vscode.Uri.parse(entry.post.path);
         const targetUri = PostNameParser.draftToPost(resourceUri);
         await vscode.workspace.fs.rename(resourceUri, targetUri, { overwrite: false });
         await vscode.window.showTextDocument(targetUri);
-        await this.refresh();
+        await vscode.commands.executeCommand('categorizedPosts.refresh');
     }
 
-    private async draftResource(resource: Entry) {
-        if (!resource.post) {
+    private async draftResource(entry: Entry) {
+        if (!entry.post) {
             return;
         }
-        const resourceUri = vscode.Uri.parse(resource.post.path);
+        const resourceUri = vscode.Uri.parse(entry.post.path);
         const targetUri = PostNameParser.postToDraft(resourceUri);
         await vscode.workspace.fs.rename(resourceUri, targetUri, { overwrite: false });
         await vscode.window.showTextDocument(targetUri);
-        await this.refresh();
+        await vscode.commands.executeCommand('categorizedPosts.refresh');
     }
 
-    private async addDraftResource(resource: Entry) {
+    private async addDraftResource(entry: Entry) {
         // TODO: 하단의 조건문 지옥을 완화시켜보기
-        if (!resource.category) {
+        if (!entry.category) {
             return;
         }
-        const entries = await this.treeDataProvider.getChildren(resource);
+        const entries = await this.treeDataProvider.getChildren(entry);
         if (entries.length === 0) {
             return;
         }
@@ -177,9 +177,9 @@ export class CategorizedPosts {
         const tempFileUri = vscode.Uri.joinPath(workspaceFolder.uri, '.jekyll-n-hyde', 'tmp.md');
         const content = matter.stringify('', {
             title: ``,
-            category: resource.category == CategoriesParser.UNCATEGORIZED
+            category: entry.category == CategoriesParser.UNCATEGORIZED
                 ? ''
-                : resource.category,
+                : entry.category,
             date: new Date(Date.now())
         });
         await vscode.workspace.fs.writeFile(tempFileUri, Buffer.from(content));
@@ -194,7 +194,7 @@ export class CategorizedPosts {
         try {
             await vscode.workspace.fs.rename(tempFileUri, targetUri, { overwrite: false });
             await vscode.window.showTextDocument(targetUri);
-            await this.refresh();
+            await vscode.commands.executeCommand('categorizedPosts.refresh');
         } catch (error) {
             vscode.window.showErrorMessage('File already exists.');
             vscode.workspace.fs.delete(tempFileUri);
