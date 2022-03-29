@@ -75,10 +75,15 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
 	async getChildren(element?: Entry): Promise<Entry[]> {
 		if (element) {
             const category = element.category ?? '';
-            return this.site.categories[category]
-                .sort((p1, p2) => p1.title.localeCompare(p2.title))
-                .sort((p1, p2) => p1.date.localeCompare(p2.date))
-                .map(p => ({post: p,}));
+            var pages = this.site.categories[category];
+            try {
+                pages.sort((p1, p2) => p1.title.localeCompare(p2.title));
+                pages.sort((p1, p2) => p1.date.localeCompare(p2.date));
+            } catch (error) {
+                vscode.window.showErrorMessage(`Unable to sort items of category "${category}"`);
+            } finally {
+                return pages.map(p => ({post: p,}));
+            }
 		}
 
         this.site = await SiteParser.parse();
