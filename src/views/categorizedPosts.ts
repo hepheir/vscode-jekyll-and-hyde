@@ -30,11 +30,16 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
         const label: string = element.category ?? element.post?.title ?? 'untitled';
         const treeItem = new vscode.TreeItem(label);
         if (element.category) {
-            const nPosts = this.site.categories[element.category].filter(p => p.dir.startsWith('_posts')).length;
+            const nItems = this.site.categories[element.category].length;
             const nDrafts = this.site.categories[element.category].filter(p => p.dir.startsWith('_drafts')).length;
             treeItem.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
 			treeItem.contextValue = 'category';
-            treeItem.description = `${nPosts} posts, ${nDrafts} drafts`;
+            treeItem.description = [
+                `${nItems-nDrafts} items`,
+                nDrafts
+                    ? `(+${nDrafts} drafts)`
+                    : '',
+            ].join(' ');
             treeItem.iconPath = new vscode.ThemeIcon('archive');
             if (element.category == CategoriesParser.UNCATEGORIZED) {
                 treeItem.iconPath = new vscode.ThemeIcon('x');
@@ -45,7 +50,7 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
 			treeItem.command = { command: 'categorizedPosts.openResource', title: "Open File", arguments: [uri], };
 			treeItem.contextValue = 'post';
             treeItem.description = element.post.name;
-            treeItem.iconPath = new vscode.ThemeIcon('file-text');
+            treeItem.iconPath = new vscode.ThemeIcon('rocket');
             treeItem.resourceUri = uri;
         } else if (element.post && element.post.dir.startsWith('_drafts')) {
             const uri = vscode.Uri.parse(element.post.path);
