@@ -3,6 +3,7 @@ import * as matter from 'gray-matter';
 import { Page, Site } from 'jekyll';
 import { SiteParser } from '../parsers/siteParser';
 import { PostNameParser } from '../parsers/postNameParser';
+import { CategoriesParser } from '../parsers/categoriesParser';
 
 
 export interface Entry {
@@ -35,6 +36,9 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
 			treeItem.contextValue = 'category';
             treeItem.description = `${nPosts} posts, ${nDrafts} drafts`;
             treeItem.iconPath = new vscode.ThemeIcon('archive');
+            if (element.category == CategoriesParser.UNCATEGORIZED) {
+                treeItem.iconPath = new vscode.ThemeIcon('x');
+            }
         } else if (element.post && element.post.dir.startsWith('_posts')) {
             const uri = vscode.Uri.parse(element.post.path);
             treeItem.collapsibleState = vscode.TreeItemCollapsibleState.None;
@@ -67,6 +71,7 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
         this.site = await SiteParser.parse();
         return Object.keys(this.site.categories)
             .sort((name1, name2) => name1.localeCompare(name2))
+            .sort((name1, name2) => name2 == CategoriesParser.UNCATEGORIZED ? -1 : 0)
             .map(name => ({category: name}));
 	}
 }
@@ -144,7 +149,9 @@ export class CategorizedPosts {
         const tempFileUri = vscode.Uri.joinPath(workspaceFolder.uri, '.jekyll-n-hyde', 'tmp.md');
         const content = matter.stringify('', {
             title: ``,
-            categories: [resource.category],
+            category: resource.category == CategoriesParser.UNCATEGORIZED
+                ? ''
+                : resource.category,
         });
         await vscode.workspace.fs.writeFile(tempFileUri, Buffer.from(content));
 
