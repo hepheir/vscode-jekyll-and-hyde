@@ -17,8 +17,8 @@ export class PageParser {
             title: file.data.title ?? workspace.asRelativePath(uri),
             excerpt: file.excerpt ?? '',
             date: file.data.date
-                || PostNameParser.parse(uri).date
-                || PostNameParser.createDate(),
+                || new Date(PostNameParser.parse(uri).date)
+                || new Date(Date.now()),
             categories: file.data.categories
                 ?? ( file.data.category ? [file.data.category] : [] ),
             dir: file.data.permalink

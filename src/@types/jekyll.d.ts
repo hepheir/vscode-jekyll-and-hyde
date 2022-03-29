@@ -67,9 +67,9 @@ declare module 'jekyll' {
          * This can be overridden in a Post’s front matter by specifying a new date/time in the format YYYY-MM-DD HH:MM:SS (assuming UTC),
          * or YYYY-MM-DD HH:MM:SS +/-TTTT (to specify a time zone using an offset from UTC. e.g. 2008-12-14 10:30:00 +0900).
          *
-         * @type {string}
+         * @type {Date}
          */
-        readonly date: string;
+        readonly date: Date;
 
         /**
          * The list of categories to which this post belongs.

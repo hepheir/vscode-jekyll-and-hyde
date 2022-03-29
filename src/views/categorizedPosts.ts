@@ -78,7 +78,7 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
             var pages = this.site.categories[category];
             try {
                 pages.sort((p1, p2) => p1.title.localeCompare(p2.title));
-                pages.sort((p1, p2) => p1.date.localeCompare(p2.date));
+                pages.sort((p1, p2) => p1.date.getTime() - p2.date.getTime());
             } catch (error) {
                 vscode.window.showErrorMessage(`Unable to sort items of category "${category}"`);
             } finally {
@@ -166,6 +166,7 @@ export class CategorizedPosts {
             category: resource.category == CategoriesParser.UNCATEGORIZED
                 ? ''
                 : resource.category,
+            date: new Date(Date.now())
         });
         await vscode.workspace.fs.writeFile(tempFileUri, Buffer.from(content));
 
