@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import { Publisher } from '../../../models/Publisher';
+import { Publisher } from '../../../models/publisher';
 import { Entry } from "../../../views/categorizedPosts";
 
 
