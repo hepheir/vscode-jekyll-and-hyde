@@ -6,7 +6,6 @@ export interface ParsedPostName {
     title: string,
 }
 
-
 export class PostNameParser {
     private static readonly DATE_REGEXP = /(?<=^)([0-9]{4}|[0-9]{2})-[0-9]{2}-[0-9]{2}(?=-)/;
     private static readonly TITLE_REGEXP = /(?<=^([0-9]{4}|[0-9]{2})-[0-9]{2}-[0-9]{2}-).+/;
