@@ -29,4 +29,18 @@ export class SiteParser {
         };
         return site;
     }
+
+    /**
+     * Create an empty `Site` object.
+     *
+     * @returns {Site}
+     */
+    public static new(): Site {
+        return {
+            categories: {},
+            pages: [],
+            posts: [],
+            time: new Date(),
+        };
+    }
 }
