@@ -124,6 +124,8 @@ declare module 'jekyll' {
      * These variables will then be available for you to access using Liquid tags both further down in the file and also in any layouts or includes that the page or post in question relies on.
      */
     export interface FrontMatter {
+        readonly title?: string;
+
         // Predefined Global VariablesPermalink
 
         /**
@@ -140,7 +142,7 @@ declare module 'jekyll' {
          *
          * @type {string | null | undefined}
          */
-        readonly layout: string | null | undefined;
+        readonly layout?: string | null;
 
         /**
          * If you need your processed blog post URLs to be something other than the site-wide style (default `/year/month/day/title.html`),
@@ -148,14 +150,14 @@ declare module 'jekyll' {
          *
          * @type {string | undefined}
          */
-        readonly permalink: string | undefined;
+        readonly permalink?: string;
 
         /**
          * Set to false if you don’t want a specific post to show up when the site is generated.
          *
          * @type {boolean | undefined}
          */
-        readonly published: boolean | undefined;
+        readonly published?: boolean;
 
         // Predefined Variables for PostsPermalink
 
@@ -166,7 +168,7 @@ declare module 'jekyll' {
          *
          * @type {string | undefined}
          */
-         readonly date: string | undefined;
+         readonly date?: string;
 
         /**
          * Instead of placing posts inside of folders,
@@ -176,7 +178,7 @@ declare module 'jekyll' {
          *
          * @type {string | undefined}
          */
-        readonly category: string | undefined;
+        readonly category?: string;
 
         /**
          * Instead of placing posts inside of folders,
@@ -186,7 +188,7 @@ declare module 'jekyll' {
          *
          * @type {string[] | undefined}
          */
-        readonly categories: string[] | undefined;
+        readonly categories?: string[];
 
         /**
          * Similar to categories, one or multiple tags can be added to a post.
@@ -194,10 +196,6 @@ declare module 'jekyll' {
          *
          * @type {string[] | undefined}
          */
-        readonly tags: string[] | undefined;
-
-        // Others
-
-        readonly title: string | undefined;
+        readonly tags?: string[];
     }
 }
