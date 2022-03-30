@@ -3,7 +3,7 @@ import { Publisher } from '../../../models/publisher';
 import { Entry } from "../../../views/categorizedPosts";
 
 
-vscode.commands.registerCommand('categorizedPosts.item.publish', async (entry: Entry) => {
+export const disposable = vscode.commands.registerCommand('categorizedPosts.item.publish', async (entry: Entry) => {
     if (!entry.post) return;
     return await Promise.resolve().then(async () => {
         const draft = entry.post!;

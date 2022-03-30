@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import "./commands";
 import { CategorizedPosts } from './views/categorizedPosts';
 
 
