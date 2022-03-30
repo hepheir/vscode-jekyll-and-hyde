@@ -1,28 +1,23 @@
-import { workspace } from "vscode";
-import { Site } from "jekyll";
+import * as vscode from "vscode";
+import { Site, Page } from "jekyll";
 import { PageParser } from "./pageParser";
 import { CategoriesParser } from "./categoriesParser";
+import { getWorkspaceFolder } from "../settings";
 
 export class SiteParser {
     /**
-     * Parses `Site` from current workspace folder.
+     * Parses `Site` from current workspace folders.
      *
      * @returns {Promise<Site>}
      */
     public static async parse(): Promise<Site> {
         // TODO: make paths configurable
-        const draftUris = await workspace.findFiles('_drafts/**/*.{md,markdown}');
-        const postUris = await workspace.findFiles('_posts/**/*.{md,markdown}');
-        const pageUris = await workspace.findFiles('_pages/**/*.{md,markdown}');
-
-        const drafts = await Promise.all(draftUris.map(uri => PageParser.from(uri)));
-        const pages = await Promise.all(pageUris.map(uri => PageParser.from(uri)));
-        const posts = await Promise.all(postUris.map(uri => PageParser.from(uri)));
-
+        const drafts = await this.parsePagesFromWorkspaceFolder('**/_drafts/**/*.{md,markdown}')
+        const posts = await this.parsePagesFromWorkspaceFolder('**/_posts/**/*.{md,markdown}')
+        const pages = await this.parsePagesFromWorkspaceFolder('**/_pages/**/*.{md,markdown}')
         const categories = CategoriesParser.from([...drafts, ...pages, ...posts]);
-
         const site: Site = {
-            time: new Date(Date.now()),
+            time: new Date(),
             pages: [...pages],
             posts: [...posts, ...drafts],
             categories: categories
@@ -42,5 +37,16 @@ export class SiteParser {
             posts: [],
             time: new Date(),
         };
+    }
+
+    private static async parsePagesFromWorkspaceFolder(globPattern: string): Promise<Page[]> {
+        const uris = await this.findFilesFromWorkspaceFolder(globPattern);
+        return await Promise.all(uris.map(uri => PageParser.parse(uri)));
+    }
+
+    private static async findFilesFromWorkspaceFolder(globPattern: string): Promise<vscode.Uri[]> {
+        const workspaceFolder = getWorkspaceFolder();
+        const relativePattern = new vscode.RelativePattern(workspaceFolder, globPattern)
+        return await vscode.workspace.findFiles(relativePattern);
     }
 }
