@@ -27,7 +27,7 @@ export class Publisher {
         }
         const postUri = this.isValidPostFileFormat(draftUri)
             ? this.draftToPost(draftUri)
-            : this.draftToPost(this.fixPostFileFormat(draftUri, draft.date));
+            : this.draftToPost(this.fixPostFileFormat(draftUri, new Date(draft.date)));
         await vscode.workspace.fs.rename(draftUri, postUri, { overwrite: false });
         return postUri;
     }

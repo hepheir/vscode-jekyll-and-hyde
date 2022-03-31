@@ -2,6 +2,7 @@ import * as path from "path";
 import * as matter from "gray-matter";
 import * as vscode from "vscode";
 import { Page } from "jekyll";
+import { Publisher } from "../models/publisher";
 
 
 export interface ParsedFileName {
@@ -40,7 +41,7 @@ export class PageParser {
                 || '',
             date: frontmatter.date
                 || filename.date
-                || new Date(Date.now()),
+                || Publisher.createDateFormat(),
             categories: frontmatter.categories
                 || frontmatter.category && [frontmatter.category]
                 || [],
