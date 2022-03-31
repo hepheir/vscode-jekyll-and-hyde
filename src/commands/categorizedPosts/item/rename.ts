@@ -11,6 +11,7 @@ export const disposable = vscode.commands.registerCommand('categorizedPosts.item
     const newBase = await vscode.window.showInputBox({
         title: 'Rename File',
         placeHolder: base,
+        value: base,
     });
     if (!newBase) return;
 
