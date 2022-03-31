@@ -66,7 +66,7 @@
 			},
 			{
 				"command": "categorizedPosts.item.delete",
-				"title": "Delete file",
+				"title": "Delete",
 				"icon": "$(trash)"
 			},
 			{
@@ -105,9 +105,24 @@
 			],
 			"view/item/context": [
 				{
+					"command": "categorizedPosts.item.createViaCategory",
+					"group": "inline",
+					"when": "viewItem == category"
+				},
+				{
+					"command": "categorizedPosts.item.delete",
+					"group": "inline",
+					"when": "viewItem == draft || viewItem == post || viewItem == page"
+				},
+				{
 					"command": "categorizedPosts.item.publish",
 					"group": "inline",
 					"when": "viewItem == draft"
+				},
+				{
+					"command": "categorizedPosts.item.rename",
+					"group": "inline",
+					"when": "viewItem == draft || viewItem == post || viewItem == page"
 				},
 				{
 					"command": "categorizedPosts.item.unpublish",
@@ -115,23 +130,8 @@
 					"when": "viewItem == post"
 				},
 				{
-					"command": "categorizedPosts.item.refresh",
-					"group": "inline",
-					"when": "viewItem == draft || viewItem == post || viewItem == page"
-				},
-				{
-					"command": "categorizedPosts.item.delete",
-					"group": "inline",
-					"when": "viewItem == draft || viewItem == post"
-				},
-				{
 					"command": "categorizedPosts.item.updateLastMod",
-					"when": "viewItem == draft || viewItem == post"
-				},
-				{
-					"command": "categorizedPosts.item.createViaCategory",
-					"group": "inline",
-					"when": "viewItem == category"
+					"when": "viewItem == draft || viewItem == post || viewItem == page"
 				}
 			]
 		}
