@@ -119,7 +119,6 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
         const pages = this.site.categories[category];
         try {
             pages.sort((p1, p2) => p1.title.localeCompare(p2.title));
-            pages.sort((p1, p2) => p1.date.toString().localeCompare(p2.date.toString()));
         } catch (error) {
             vscode.window.showErrorMessage(`Unable to sort items of category "${category}"`);
         } finally {
