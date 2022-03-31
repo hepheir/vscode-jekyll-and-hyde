@@ -55,7 +55,23 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 ### Fixed
 - [views] **"Categorized Posts"** (`categoryView`): a few categories were not rendered properly caused by sorting failure
 
-[Unreleased]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.2.1...HEAD
+## [0.2.2] - 2022-03-31
+### Added
+- [views] **"Categorized Posts"** (`categoryView`): Add "collapse all" button
+- [commands] **"Categorized Posts"**: add following actions:
+  - create a new post
+  - create a new post of a category
+  - delete a post
+  - publish a draft
+  - unpublish a post
+  - update last-modification date
+
+### Changed
+- [views] **"Categorized Posts"**: posts are no longer sorted by date.
+
+
+[Unreleased]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.2.2...HEAD
+[0.2.2]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.2.1...v0.2.2
 [0.2.1]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.2.0...v0.2.1
 [0.2.0]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/hepheir/vscode-jekyll-n-hyde/compare/v0.1.1...v0.1.2

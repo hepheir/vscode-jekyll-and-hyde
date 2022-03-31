@@ -1,12 +1,12 @@
 {
 	"name": "jekyll-n-hyde",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"publisher": "Hepheir",
 	"engines": {
 		"vscode": "^1.65.0"
 	},
 	"displayName": "Jekyll n Hyde",
-	"description": "Jekyll n Hyde :: is a lightweight post manager for Jekyll repository.",
+	"description": "Categorized Post View for Jekyll",
 	"categories": [
 		"SCM Providers",
 		"Other"
