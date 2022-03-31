@@ -122,7 +122,7 @@
 				{
 					"command": "categorizedPosts.item.rename",
 					"group": "inline",
-					"when": "viewItem == draft || viewItem == post || viewItem == page"
+					"when": "viewItem == draft || viewItem == post || viewItem == page || viewItem == category"
 				},
 				{
 					"command": "categorizedPosts.item.unpublish",
