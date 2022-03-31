@@ -75,6 +75,11 @@
 				"icon": "$(rocket)"
 			},
 			{
+				"command": "categorizedPosts.item.rename",
+				"title": "Rename",
+				"icon": "$(edit)"
+			},
+			{
 				"command": "categorizedPosts.item.unpublish",
 				"title": "Unpublish",
 				"icon": "$(microscope)"
@@ -108,6 +113,11 @@
 					"command": "categorizedPosts.item.unpublish",
 					"group": "inline",
 					"when": "viewItem == post"
+				},
+				{
+					"command": "categorizedPosts.item.refresh",
+					"group": "inline",
+					"when": "viewItem == draft || viewItem == post || viewItem == page"
 				},
 				{
 					"command": "categorizedPosts.item.delete",
