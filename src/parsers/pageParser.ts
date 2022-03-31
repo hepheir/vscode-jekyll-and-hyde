@@ -94,6 +94,8 @@ export class PageParser {
      * @returns `true` or `false`
      */
     public static isDraft(uri: vscode.Uri) {
-        return !this.isPost(uri);
+        const relative = vscode.workspace.asRelativePath(uri);
+        const parents = relative.split(path.sep);
+        return !this.isPost(uri) && parents.includes('_posts') || parents.includes('_drafts');
     }
 }
