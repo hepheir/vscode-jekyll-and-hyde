@@ -130,7 +130,12 @@ export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
 export class CategorizedPosts {
     public static readonly id = 'categorizedPosts';
     public static readonly treeDataProvider = new PostDataProvider();
-    public static readonly view = vscode.window.createTreeView(this.id, { treeDataProvider: this.treeDataProvider });
+    public static readonly treeViewOptions: vscode.TreeViewOptions<Entry> = {
+        canSelectMany: false,
+        showCollapseAll: true,
+        treeDataProvider: this.treeDataProvider,
+    };
+    public static readonly view: vscode.TreeView<Entry> = vscode.window.createTreeView(this.id, this.treeViewOptions);
     public static readonly refresh = () => CategorizedPosts.treeDataProvider.refresh();
 
     constructor(context: vscode.ExtensionContext) {
