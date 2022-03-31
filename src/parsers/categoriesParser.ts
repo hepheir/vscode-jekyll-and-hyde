@@ -7,21 +7,19 @@ export class CategoriesParser {
     public static readonly UNCATEGORIZED = '\u200BUncategorized';
 
     static from(pages: Page[]): Categories {
-        const categories: Categories = {
-            [this.UNCATEGORIZED]: [],
-        };
+        const categories: Categories = { [this.UNCATEGORIZED]: [], };
         pages.forEach(p => {
-            if (p.categories.length === 0) {
-                categories[this.UNCATEGORIZED].push(p);
+            if (p.categories.length > 0) {
+                p.categories.forEach(categoryName => {
+                    if (categoryName in categories) {
+                        categories[categoryName].push(p);
+                    } else {
+                        categories[categoryName] = [p];
+                    }
+                });
                 return;
             }
-            p.categories.forEach(categoryName => {
-                if (categoryName in categories) {
-                    categories[categoryName].push(p);
-                    return;
-                }
-                categories[categoryName] = [p];
-            });
+            categories[this.UNCATEGORIZED].push(p);
         });
         return categories;
     }
