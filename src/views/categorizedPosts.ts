@@ -11,7 +11,7 @@ export interface Entry {
 }
 
 export class PostDataProvider implements vscode.TreeDataProvider<Entry> {
-    private site: Site = SiteParser.new();
+    public site: Site = SiteParser.new();
 	private _onDidChangeTreeData: vscode.EventEmitter<Entry | undefined | void> = new vscode.EventEmitter<Entry | undefined | void>();
 	public readonly onDidChangeTreeData: vscode.Event<Entry | undefined | void> = this._onDidChangeTreeData.event;
 
