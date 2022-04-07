@@ -104,6 +104,11 @@ declare module 'jekyll' {
          * @type {string}
          */
         readonly path: string;
+
+        /**
+         * Pages can have other properties
+         */
+        [key: string]: any;
     }
 
 
@@ -197,5 +202,10 @@ declare module 'jekyll' {
          * @type {string[] | undefined}
          */
         readonly tags?: string[];
+
+        /**
+         * Front matter can have other properties
+         */
+        [key: string]: any;
     }
 }

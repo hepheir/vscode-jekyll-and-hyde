@@ -30,25 +30,27 @@ export class PageParser {
             excerpt: generatedExcerpt,
         } = file;
         const filename = this.parseFileName(uri);
-
         const page: Page = {
-            content: content,
-            title: frontmatter.title
-                || filename.title
-                || vscode.workspace.asRelativePath(uri),
-            excerpt: frontmatter.excerpt
-                || generatedExcerpt
-                || '',
-            date: frontmatter.date
-                || filename.date
-                || Publisher.createDateFormat(),
-            categories: frontmatter.categories
-                || frontmatter.category && [frontmatter.category]
-                || [],
-            dir: frontmatter.permalink && path.dirname(frontmatter.permalink)
-                || path.dirname(vscode.workspace.asRelativePath(uri)),
-            name: path.basename(uri.path),
-            path: frontmatter.path ?? uri.path,
+            ...frontmatter,
+            ...{
+                content: content,
+                title: frontmatter.title
+                    || filename.title
+                    || vscode.workspace.asRelativePath(uri),
+                excerpt: frontmatter.excerpt
+                    || generatedExcerpt
+                    || '',
+                date: frontmatter.date
+                    || filename.date
+                    || Publisher.createDateFormat(),
+                categories: frontmatter.categories
+                    || frontmatter.category && [frontmatter.category]
+                    || [],
+                dir: frontmatter.permalink && path.dirname(frontmatter.permalink)
+                    || path.dirname(vscode.workspace.asRelativePath(uri)),
+                name: path.basename(uri.path),
+                path: frontmatter.path ?? uri.path,
+            }
         };
         return page;
     }
