@@ -44,12 +44,16 @@ export default class ExplorerTreeDataProvider implements vscode.TreeDataProvider
         if (element === undefined) {
             return [
                 ...this.pageRepository.findAllCategories(),
-                ...this.pageRepository.findAllPagesByCategory(null),
+                ...this.pageRepository.findAllPagesByCategory(null).sort(this.pageCompare),
             ];
         }
         if (isCategory(element)) {
-            return this.pageRepository.findAllPagesByCategory(element);
+            return this.pageRepository.findAllPagesByCategory(element).sort(this.pageCompare);
         }
         return [];
+    }
+
+    private pageCompare(prevPage: Page, nextPage: Page): number {
+        return prevPage.title.localeCompare(nextPage.title);
     }
 }
