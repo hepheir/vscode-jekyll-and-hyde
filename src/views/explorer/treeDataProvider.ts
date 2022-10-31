@@ -42,7 +42,10 @@ export default class ExplorerTreeDataProvider implements vscode.TreeDataProvider
 
     getChildren(element?: TreeData | undefined): vscode.ProviderResult<TreeData[]> {
         if (element === undefined) {
-            return this.pageRepository.findAllCategories();
+            return [
+                ...this.pageRepository.findAllCategories(),
+                ...this.pageRepository.findAllPagesByCategory(null),
+            ];
         }
         if (isCategory(element)) {
             return this.pageRepository.findAllPagesByCategory(element);
