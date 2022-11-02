@@ -1,20 +1,13 @@
 import * as vscode from "vscode";
 import Page from "../../models/page";
 import PageRepository from '../../models/pageRepository';
+import { ExplorerTreeData, isCategory } from "./treeData";
 import CategoryTreeItem from './treeItems/CategoryTreeItem';
 import DraftTreeItem from "./treeItems/DraftTreeItem";
-import PageTreeItem from './treeItems/PageTreeItem';
 import PostTreeItem from "./treeItems/PostTreeItem";
 
-function isCategory(value: any): value is Category {
-    return typeof value == "string";
-}
-
-type Category = string;
-type TreeData = Page | Category;
-
-export default class ExplorerTreeDataProvider implements vscode.TreeDataProvider<TreeData> {
-    private readonly _onDidChangeTreeData = new vscode.EventEmitter<void | TreeData | null | undefined>();
+export default class ExplorerTreeDataProvider implements vscode.TreeDataProvider<ExplorerTreeData> {
+    private readonly _onDidChangeTreeData = new vscode.EventEmitter<void | ExplorerTreeData | null | undefined>();
     private readonly pageRepository: PageRepository;
 
     constructor(pageRepository: PageRepository) {
@@ -30,7 +23,7 @@ export default class ExplorerTreeDataProvider implements vscode.TreeDataProvider
 
     onDidChangeTreeData = this._onDidChangeTreeData.event;
 
-    getTreeItem(element: TreeData): vscode.TreeItem | Thenable<vscode.TreeItem> {
+    getTreeItem(element: ExplorerTreeData): vscode.TreeItem | Thenable<vscode.TreeItem> {
         if (isCategory(element)) {
             return new CategoryTreeItem(element);
         }
@@ -40,7 +33,7 @@ export default class ExplorerTreeDataProvider implements vscode.TreeDataProvider
         return new PostTreeItem(element);
     }
 
-    getChildren(element?: TreeData | undefined): vscode.ProviderResult<TreeData[]> {
+    getChildren(element?: ExplorerTreeData | undefined): vscode.ProviderResult<ExplorerTreeData[]> {
         if (element === undefined) {
             return [
                 ...this.pageRepository.findAllCategories(),
