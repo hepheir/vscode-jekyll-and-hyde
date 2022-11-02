@@ -12,7 +12,7 @@ export default class FileSystemPage implements Page {
     private readonly _excerpt?: string;
 
     constructor(uri: vscode.Uri) {
-        const { content, data, excerpt } = matter(fs.readFileSync(uri.fsPath));
+        const { content, data, excerpt } = matter.read(uri.fsPath);
         this._uri = uri;
         this._content = content;
         this._data = data;
