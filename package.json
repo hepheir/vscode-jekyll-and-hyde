@@ -55,41 +55,6 @@
 		},
 		"commands": [
 			{
-				"command": "categorizedPosts.item.create",
-				"title": "Create new file",
-				"icon": "$(new-file)"
-			},
-			{
-				"command": "categorizedPosts.item.createViaCategory",
-				"title": "Create new file",
-				"icon": "$(new-file)"
-			},
-			{
-				"command": "categorizedPosts.item.delete",
-				"title": "Delete",
-				"icon": "$(trash)"
-			},
-			{
-				"command": "categorizedPosts.item.publish",
-				"title": "Publish",
-				"icon": "$(rocket)"
-			},
-			{
-				"command": "categorizedPosts.item.rename",
-				"title": "Rename",
-				"icon": "$(edit)"
-			},
-			{
-				"command": "categorizedPosts.item.unpublish",
-				"title": "Unpublish",
-				"icon": "$(microscope)"
-			},
-			{
-				"command": "categorizedPosts.item.updateLastMod",
-				"title": "Re-new last modification date",
-				"icon": "$(refresh)"
-			},
-			{
 				"command": "categorizedPosts.refresh",
 				"title": "Refresh",
 				"icon": "$(refresh)"
@@ -103,37 +68,7 @@
 					"when": "view == categorizedPosts"
 				}
 			],
-			"view/item/context": [
-				{
-					"command": "categorizedPosts.item.createViaCategory",
-					"group": "inline",
-					"when": "viewItem == category"
-				},
-				{
-					"command": "categorizedPosts.item.delete",
-					"group": "inline",
-					"when": "viewItem == draft || viewItem == post || viewItem == page"
-				},
-				{
-					"command": "categorizedPosts.item.publish",
-					"group": "inline",
-					"when": "viewItem == draft"
-				},
-				{
-					"command": "categorizedPosts.item.rename",
-					"group": "inline",
-					"when": "viewItem == draft || viewItem == post || viewItem == page || viewItem == category"
-				},
-				{
-					"command": "categorizedPosts.item.unpublish",
-					"group": "inline",
-					"when": "viewItem == post"
-				},
-				{
-					"command": "categorizedPosts.item.updateLastMod",
-					"when": "viewItem == draft || viewItem == post || viewItem == page"
-				}
-			]
+			"view/item/context": []
 		}
 	},
 	"scripts": {
