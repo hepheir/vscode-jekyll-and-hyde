@@ -24,13 +24,13 @@
 		"url": "https://github.com/Hepheir/vscode-jekyll-n-hyde"
 	},
 	"activationEvents": [
-		"onView:categorizedPosts"
+		"onView:explorer"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"viewsWelcome": [
 			{
-				"view": "categorizedPosts",
+				"view": "explorer",
 				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
 			}
 		],
@@ -46,16 +46,16 @@
 		"views": {
 			"jekyll-n-hyde": [
 				{
-					"id": "categorizedPosts",
-					"name": "Categorized Posts",
+					"id": "explorer",
+					"name": "Jekyll Explorer",
 					"icon": "images/jekyll.svg",
-					"contextualTitle": "Jekyll n Hyde :: Categorized Posts"
+					"contextualTitle": "Jekyll n Hyde :: Jekyll Explorer"
 				}
 			]
 		},
 		"commands": [
 			{
-				"command": "categorizedPosts.refresh",
+				"command": "explorer.refresh",
 				"title": "Refresh",
 				"icon": "$(refresh)"
 			}
@@ -63,9 +63,9 @@
 		"menus": {
 			"view/title": [
 				{
-					"command": "categorizedPosts.refresh",
+					"command": "explorer.refresh",
 					"group": "navigation",
-					"when": "view == categorizedPosts"
+					"when": "view == explorer"
 				}
 			],
 			"view/item/context": []

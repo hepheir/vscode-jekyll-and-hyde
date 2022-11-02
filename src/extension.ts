@@ -11,19 +11,15 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 
 	const pageRepository: PageRepository = new FileSystemPageRepository();
-
-	const treeViewId = 'categorizedPosts';
 	const treeDataProvider = new ExplorerTreeDataProvider(pageRepository);
     const treeViewOptions: vscode.TreeViewOptions<unknown> = {
         canSelectMany: false,
         showCollapseAll: true,
         treeDataProvider,
     };
-	vscode.window.createTreeView(treeViewId, treeViewOptions);
-
-	const refreshCommandId = 'categorizedPosts.refresh';
-	vscode.commands.registerCommand(refreshCommandId, pageRepository.load);
 
 	pageRepository.load();
 
+	vscode.window.createTreeView('explorer', treeViewOptions);
+	vscode.commands.registerCommand('explorer.refresh', pageRepository.load);
 }
