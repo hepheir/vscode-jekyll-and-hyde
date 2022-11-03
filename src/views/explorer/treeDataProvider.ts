@@ -7,7 +7,7 @@ import DraftTreeItem from "./treeItems/DraftTreeItem";
 import PostTreeItem from "./treeItems/PostTreeItem";
 
 export default class ExplorerTreeDataProvider implements vscode.TreeDataProvider<ExplorerTreeData> {
-    private readonly _onDidChangeTreeData = new vscode.EventEmitter<void | ExplorerTreeData | null | undefined>();
+    private readonly _onDidChangeTreeData = new vscode.EventEmitter<ExplorerTreeData | null | undefined>();
     private readonly pageRepository: PageRepository;
 
     constructor(pageRepository: PageRepository) {
