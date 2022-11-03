@@ -68,6 +68,11 @@
 		"menus": {
 			"view/title": [
 				{
+					"command": "explorer.item.create",
+					"group": "navigation",
+					"when": "view == explorer"
+				},
+				{
 					"command": "explorer.refresh",
 					"group": "navigation",
 					"when": "view == explorer"
