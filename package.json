@@ -55,6 +55,11 @@
 		},
 		"commands": [
 			{
+				"command": "explorer.item.create",
+				"title": "Create new file",
+				"icon": "$(new-file)"
+			},
+			{
 				"command": "explorer.refresh",
 				"title": "Refresh",
 				"icon": "$(refresh)"
@@ -68,7 +73,12 @@
 					"when": "view == explorer"
 				}
 			],
-			"view/item/context": []
+			"view/item/context": [
+				{
+					"command": "explorer.item.create",
+					"group": "inline"
+				}
+			]
 		}
 	},
 	"scripts": {
