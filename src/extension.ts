@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
-import FileSystemPageRepository from './models/fileSystemPageRepository';
-import PageRepository from './models/pageRepository';
+import FileSystemPageLoader from './models/fileSystemPageLoader';
+import PageLoader from './models/pageLoader';
 import create from './views/explorer/commands/create';
-import ExplorerTreeDataProvider from './views/explorer/treeDataProvider';
-
+import ExplorerTreeDataProvider from './views/explorer/ExplorerTreeDataProvider';
+import ExplorerTreeData from './views/explorer/ExplorerTreeData';
 
 export function activate(context: vscode.ExtensionContext) {
 	if (!vscode.workspace.workspaceFolders) {
@@ -11,17 +11,19 @@ export function activate(context: vscode.ExtensionContext) {
 		return;
 	}
 
-	const pageRepository: PageRepository = new FileSystemPageRepository();
-	const treeDataProvider = new ExplorerTreeDataProvider(pageRepository);
-    const treeViewOptions: vscode.TreeViewOptions<unknown> = {
+	const pageLoader: PageLoader = new FileSystemPageLoader();
+
+	const treeDataProvider = new ExplorerTreeDataProvider(pageLoader);
+    const treeViewOptions: vscode.TreeViewOptions<ExplorerTreeData> = {
         canSelectMany: false,
         showCollapseAll: true,
-        treeDataProvider,
+        treeDataProvider: treeDataProvider,
+		dragAndDropController: treeDataProvider,
     };
 
-	pageRepository.load();
-
 	vscode.window.createTreeView('explorer', treeViewOptions);
-	vscode.commands.registerCommand('explorer.refresh', pageRepository.load);
+	vscode.commands.registerCommand('explorer.refresh', pageLoader.load);
 	vscode.commands.registerCommand('explorer.item.create', create);
+
+	pageLoader.load();
 }
