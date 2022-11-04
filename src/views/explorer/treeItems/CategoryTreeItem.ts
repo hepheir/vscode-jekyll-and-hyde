@@ -8,6 +8,6 @@ export default class CategoryTreeItem extends vscode.TreeItem {
         this.contextValue = 'category';
         this.iconPath = vscode.ThemeIcon.Folder;
         this.label = category.label;
-        this.description = '';
+        this.description = `(${category.size})`;
     }
 }
