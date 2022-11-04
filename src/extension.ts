@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import FileSystemPageLoader from './models/fileSystemPageLoader';
 import PageLoader from './models/pageLoader';
 import create from './views/explorer/commands/create';
 import ExplorerTreeDataProvider from './views/explorer/treeDataProvider';
@@ -9,7 +10,7 @@ export function activate(context: vscode.ExtensionContext) {
 		return;
 	}
 
-	const pageLoader: PageLoader = null; // TODO
+	const pageLoader: PageLoader = new FileSystemPageLoader();
 
 	const treeDataProvider = new ExplorerTreeDataProvider(pageLoader);
     const treeViewOptions: vscode.TreeViewOptions<unknown> = {
