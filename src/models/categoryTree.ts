@@ -13,11 +13,15 @@ export default class CategoryTree {
     }
 
     addPost(post: Page) {
+        this.findCategoryByPost(post).addPost(post);
+    }
+
+    findCategoryByPost(post: Page): Category {
         let category: Category = this.root;
         for (const label of post.categories) {
             category = category.findCategoryByLabel(label) ?? category.createSubcategory(label);
         }
-        category.addPost(post)
+        return category;
     }
 
     getRoot(): Category {
