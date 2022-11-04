@@ -111,7 +111,6 @@
 		"@types/yamljs": "^0.2.31",
 		"gray-matter": "^4.0.3",
 		"vsce": "^2.7.0",
-		"vscode": "^1.1.37",
 		"yamljs": "^0.3.0"
 	}
 }
