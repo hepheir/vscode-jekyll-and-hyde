@@ -6,8 +6,8 @@ import FileSystemPage from "./fileSystemPage";
 export default class FileSystemPageLoader implements PageLoader {
     private readonly _onDidLoad = new vscode.EventEmitter<Page[]>();
     private readonly globPatterns = {
-        posts: '_posts/**/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.{md,markdown,html}',
-        drafts: '_drafts/**/*.{md,markdown,html}',
+        posts: '**/_posts/**/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.{md,markdown,html}',
+        drafts: '**/_drafts/**/*.{md,markdown,html}',
     };
 
     constructor() {
