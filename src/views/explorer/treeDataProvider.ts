@@ -1,30 +1,38 @@
 import * as vscode from "vscode";
+import Category from "../../models/category";
+import CategoryTree from "../../models/categoryTree";
 import Page from "../../models/page";
-import PageRepository from '../../models/pageRepository';
-import { ExplorerTreeData, isCategory } from "./treeData";
+import PageLoader from "../../models/pageLoader";
+import { ExplorerTreeData } from "./treeData";
 import CategoryTreeItem from './treeItems/CategoryTreeItem';
 import DraftTreeItem from "./treeItems/DraftTreeItem";
 import PostTreeItem from "./treeItems/PostTreeItem";
 
 export default class ExplorerTreeDataProvider implements vscode.TreeDataProvider<ExplorerTreeData> {
     private readonly _onDidChangeTreeData = new vscode.EventEmitter<ExplorerTreeData | null | undefined>();
-    private readonly pageRepository: PageRepository;
+    private readonly pageLoader: PageLoader;
+    private categoryTree: CategoryTree = new CategoryTree();
 
-    constructor(pageRepository: PageRepository) {
-        this.refresh = this.refresh.bind(this);
+    constructor(pageLoader: PageLoader) {
+        this.onLoad = this.onLoad.bind(this);
 
-        this.pageRepository = pageRepository;
-        this.pageRepository.onDidLoad(this.refresh);
+        this.pageLoader = pageLoader;
+        this.pageLoader.onDidLoad(this.onLoad);
     }
 
-    private refresh(...args: any[]) {
+    private onLoad(posts: Page[]) {
+        this.categoryTree = new CategoryTree(posts);
         this._onDidChangeTreeData.fire();
     }
 
     onDidChangeTreeData = this._onDidChangeTreeData.event;
 
     getTreeItem(element: ExplorerTreeData): vscode.TreeItem | Thenable<vscode.TreeItem> {
-        if (isCategory(element)) {
+        return this._getTreeItem(element);
+    }
+
+    private _getTreeItem(element: ExplorerTreeData): PostTreeItem | DraftTreeItem | CategoryTreeItem {
+        if (element instanceof Category) {
             return new CategoryTreeItem(element);
         }
         if (!element.published) {
@@ -34,19 +42,16 @@ export default class ExplorerTreeDataProvider implements vscode.TreeDataProvider
     }
 
     getChildren(element?: ExplorerTreeData | undefined): vscode.ProviderResult<ExplorerTreeData[]> {
-        if (element === undefined) {
-            return [
-                ...this.pageRepository.findAllCategories(),
-                ...this.pageRepository.findAllPagesByCategory(null).sort(this.pageCompare),
-            ];
-        }
-        if (isCategory(element)) {
-            return this.pageRepository.findAllPagesByCategory(element).sort(this.pageCompare);
-        }
-        return [];
+        return this._getChildren(element);
     }
 
-    private pageCompare(prevPage: Page, nextPage: Page): number {
-        return prevPage.title.localeCompare(nextPage.title);
+    private _getChildren(element?: ExplorerTreeData): ExplorerTreeData[] {
+        if (element === undefined) {
+            element = this.categoryTree.getRoot();
+        }
+        if (element instanceof Category) {
+            return element.children;
+        }
+        return [];
     }
 }

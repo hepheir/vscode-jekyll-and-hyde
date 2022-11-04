@@ -1,9 +1,7 @@
 import * as vscode from 'vscode';
-import FileSystemPageRepository from './models/fileSystemPageRepository';
-import PageRepository from './models/pageRepository';
+import PageLoader from './models/pageLoader';
 import create from './views/explorer/commands/create';
 import ExplorerTreeDataProvider from './views/explorer/treeDataProvider';
-
 
 export function activate(context: vscode.ExtensionContext) {
 	if (!vscode.workspace.workspaceFolders) {
@@ -11,17 +9,18 @@ export function activate(context: vscode.ExtensionContext) {
 		return;
 	}
 
-	const pageRepository: PageRepository = new FileSystemPageRepository();
-	const treeDataProvider = new ExplorerTreeDataProvider(pageRepository);
+	const pageLoader: PageLoader = null; // TODO
+
+	const treeDataProvider = new ExplorerTreeDataProvider(pageLoader);
     const treeViewOptions: vscode.TreeViewOptions<unknown> = {
         canSelectMany: false,
         showCollapseAll: true,
         treeDataProvider,
     };
 
-	pageRepository.load();
-
 	vscode.window.createTreeView('explorer', treeViewOptions);
-	vscode.commands.registerCommand('explorer.refresh', pageRepository.load);
+	vscode.commands.registerCommand('explorer.refresh', pageLoader.load);
 	vscode.commands.registerCommand('explorer.item.create', create);
+
+	pageLoader.load();
 }
