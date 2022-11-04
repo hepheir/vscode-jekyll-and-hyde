@@ -6,7 +6,7 @@ export default class CategoryTreeItem extends vscode.TreeItem {
         super(category.label);
         this.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
         this.contextValue = 'category';
-        this.iconPath = new vscode.ThemeIcon('archive');
+        this.iconPath = vscode.ThemeIcon.Folder;
         this.label = category.label;
         this.description = '';
     }

@@ -8,7 +8,7 @@ export default class PageTreeItem extends vscode.TreeItem {
         this.collapsibleState = vscode.TreeItemCollapsibleState.None;
         this.command = { command: 'vscode.open', title: "Open File", arguments: [uri], };
         this.contextValue = 'page';
-        this.iconPath = new vscode.ThemeIcon('file-text');
+        this.iconPath = vscode.ThemeIcon.File;
         this.label = page.title;
         this.resourceUri = uri;
     }
