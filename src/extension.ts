@@ -24,6 +24,7 @@ export function activate(context: vscode.ExtensionContext) {
 	const treeView = vscode.window.createTreeView('explorer', treeViewOptions);
 
 	function focusOnPost(uri: vscode.Uri) {
+		uri = schemeConvertGit2File(uri);
 		const post = CategoryTree.instance.getRoot().findPostByUri(uri);
 		if (post) {
 			treeView.reveal(post);
@@ -37,4 +38,11 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.workspace.onDidChangeTextDocument(e => focusOnPost(e.document.uri));
 
 	pageLoader.load();
+}
+
+function schemeConvertGit2File(gitUri: vscode.Uri): vscode.Uri {
+	if (gitUri.scheme != 'git') {
+		return gitUri;
+	}
+	return vscode.Uri.file(gitUri.path.replace(/\.git$/, ''));
 }
