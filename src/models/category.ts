@@ -15,6 +15,18 @@ export default class Category {
         return [...this.subcategories, ...this.posts];
     }
 
+    get size(): number {
+        return this._size();
+    }
+
+    private _size(): number {
+        let nItems = this.posts.length;
+        for (const category of this.subcategories) {
+            nItems += category.size;
+        }
+        return nItems;
+    }
+
     findCategoryByLabel(label: string): Category | undefined {
         return this.subcategories.find(category => category.label == label);
     }

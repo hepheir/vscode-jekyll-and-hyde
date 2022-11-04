@@ -6,6 +6,6 @@ export default class DraftTreeItem extends PageTreeItem {
     constructor(readonly page: Page) {
         super(page);
         this.contextValue = 'draft';
-        this.iconPath = new vscode.ThemeIcon('microscope');
+        this.iconPath = new vscode.ThemeIcon("edit");
     }
 }
