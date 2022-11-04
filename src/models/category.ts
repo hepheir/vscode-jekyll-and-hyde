@@ -2,11 +2,13 @@ import Page from "./page";
 
 export default class Category {
     public readonly label: string;
+    public readonly parent?: Category;
     private readonly subcategories: Category[] = [];
     private readonly posts: Page[] = [];
 
-    constructor(label: string) {
+    constructor(label: string, parent?: Category) {
         this.label = label;
+        this.parent = parent;
     }
 
     get children(): (Category | Page)[] {
@@ -17,7 +19,13 @@ export default class Category {
         return this.subcategories.find(category => category.label == label);
     }
 
-    addCategory(category: Category) {
+    createSubcategory(label: string): Category {
+        const subcategory = new Category(label, this);
+        this.addSubcategory(subcategory);
+        return subcategory;
+    }
+
+    private addSubcategory(category: Category) {
         this.subcategories.push(category);
         this.subcategories.sort(compareCategories);
     }

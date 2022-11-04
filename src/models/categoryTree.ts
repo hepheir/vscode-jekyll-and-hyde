@@ -15,10 +15,7 @@ export default class CategoryTree {
     addPost(post: Page) {
         let category: Category = this.root;
         for (const label of post.categories) {
-            if (category.findCategoryByLabel(label) === undefined) {
-                category.addCategory(new Category(label));
-            }
-            category = category.findCategoryByLabel(label)!;
+            category = category.findCategoryByLabel(label) ?? category.createSubcategory(label);
         }
         category.addPost(post)
     }
