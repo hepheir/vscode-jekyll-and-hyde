@@ -1,4 +1,6 @@
 import Category from "../../models/category";
 import Page from "../../models/page";
 
-export type ExplorerTreeData = Page | Category;
+type ExplorerTreeData = Page | Category;
+
+export default ExplorerTreeData;

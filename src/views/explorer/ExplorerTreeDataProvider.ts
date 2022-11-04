@@ -3,7 +3,7 @@ import Category from "../../models/category";
 import CategoryTree from "../../models/categoryTree";
 import Page from "../../models/page";
 import PageLoader from "../../models/pageLoader";
-import { ExplorerTreeData } from "./treeData";
+import ExplorerTreeData from "./ExplorerTreeData";
 import CategoryTreeItem from './treeItems/CategoryTreeItem';
 import DraftTreeItem from "./treeItems/DraftTreeItem";
 import PostTreeItem from "./treeItems/PostTreeItem";
@@ -22,7 +22,7 @@ export default class ExplorerTreeDataProvider implements vscode.TreeDataProvider
 
     private onLoad(posts: Page[]) {
         this.categoryTree = new CategoryTree(posts);
-        this._onDidChangeTreeData.fire();
+        this._onDidChangeTreeData.fire(undefined);
     }
 
     onDidChangeTreeData = this._onDidChangeTreeData.event;
