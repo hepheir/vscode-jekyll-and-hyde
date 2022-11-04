@@ -17,7 +17,8 @@ export function activate(context: vscode.ExtensionContext) {
     const treeViewOptions: vscode.TreeViewOptions<ExplorerTreeData> = {
         canSelectMany: false,
         showCollapseAll: true,
-        treeDataProvider,
+        treeDataProvider: treeDataProvider,
+		dragAndDropController: treeDataProvider,
     };
 
 	vscode.window.createTreeView('explorer', treeViewOptions);

@@ -34,6 +34,16 @@ export default class Category {
         this.posts.push(post);
         this.posts.sort(comparePosts);
     }
+
+    toStringArray(): string[] {
+        const arr: string[] = [];
+        let current: Category | undefined = this;
+        while (current.parent) {
+            arr.push(current.label);
+            current = current.parent;
+        }
+        return arr.reverse();
+    }
 }
 
 function compareCategories(prevCategory: Category, nextCategory: Category): number {
