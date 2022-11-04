@@ -2,13 +2,18 @@ import Category from "./category";
 import Page from "./page";
 
 export default class CategoryTree {
+    public static readonly instance: CategoryTree = new CategoryTree();
+
     private root: Category = new Category('.');
 
-    constructor(posts?: Page[]) {
+    private constructor() {
         this.addPost = this.addPost.bind(this);
+    }
 
-        if (posts) {
-            posts.forEach(this.addPost);
+    makeTree(posts: Page[]) {
+        this.root = new Category('.');
+        for (const post of posts) {
+            this.addPost(post);
         }
     }
 

@@ -11,17 +11,15 @@ import PostTreeItem from "./treeItems/PostTreeItem";
 export default class ExplorerTreeDataProvider implements vscode.TreeDataProvider<ExplorerTreeData> {
     private readonly _onDidChangeTreeData = new vscode.EventEmitter<ExplorerTreeData | null | undefined>();
     private readonly pageLoader: PageLoader;
-    private categoryTree: CategoryTree = new CategoryTree();
 
     constructor(pageLoader: PageLoader) {
         this.onLoad = this.onLoad.bind(this);
-
         this.pageLoader = pageLoader;
         this.pageLoader.onDidLoad(this.onLoad);
     }
 
     private onLoad(posts: Page[]) {
-        this.categoryTree = new CategoryTree(posts);
+        CategoryTree.instance.makeTree(posts);
         this._onDidChangeTreeData.fire(undefined);
     }
 
@@ -47,7 +45,7 @@ export default class ExplorerTreeDataProvider implements vscode.TreeDataProvider
 
     private _getChildren(element?: ExplorerTreeData): ExplorerTreeData[] {
         if (element === undefined) {
-            element = this.categoryTree.getRoot();
+            element = CategoryTree.instance.getRoot();
         }
         if (element instanceof Category) {
             return element.children;
