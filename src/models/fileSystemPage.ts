@@ -50,7 +50,9 @@ export default class FileSystemPage implements Page {
 
     private getCategories(): string[] {
         const categories: string[] = [];
-        for (const category of this._uri.path.split(path.sep)) {
+        const workspaceFolder = vscode.workspace.workspaceFolders![0];
+        const relPath = path.relative(workspaceFolder.uri.path, this._uri.path);
+        for (const category of relPath.split(path.sep)) {
             if (category == '_posts')
                 break;
             if (category == '_drafts')
