@@ -56,6 +56,17 @@ export default class ExplorerTreeDataProvider implements vscode.TreeDataProvider
         return [];
     }
 
+    getParent(element: ExplorerTreeData): vscode.ProviderResult<ExplorerTreeData> {
+        return this._getParent(element);
+    }
+
+    private _getParent(element: ExplorerTreeData) {
+        if (element instanceof Category) {
+            return element.parent;
+        }
+        return CategoryTree.instance.findCategoryByPost(element);
+    }
+
     handleDrag?(source: readonly ExplorerTreeData[], dataTransfer: vscode.DataTransfer, token: vscode.CancellationToken): void | Thenable<void> {
         dataTransfer.set(this.dropMimeTypes[0], new vscode.DataTransferItem(source));
     }

@@ -1,3 +1,4 @@
+import * as vscode from "vscode";
 import Page from "./page";
 
 export default class Category {
@@ -45,6 +46,25 @@ export default class Category {
     addPost(post: Page) {
         this.posts.push(post);
         this.posts.sort(comparePosts);
+    }
+
+    findPostByUri(uri: vscode.Uri): Page | undefined {
+        return this._findPostByUri(uri);
+    }
+
+    private _findPostByUri(uri: vscode.Uri): Page | undefined {
+        for (const post of this.posts) {
+            if (vscode.Uri.file(post.path).fsPath == uri.fsPath) {
+                return post;
+            }
+        }
+        for (const subcategory of this.subcategories) {
+            const post = subcategory.findPostByUri(uri);
+            if (post) {
+                return post;
+            }
+        }
+        return undefined;
     }
 
     toStringArray(): string[] {
