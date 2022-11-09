@@ -83,5 +83,5 @@ function compareCategories(prevCategory: Category, nextCategory: Category): numb
 }
 
 function comparePosts(prevPost: Page, nextPost: Page): number {
-    return prevPost.title.localeCompare(nextPost.title);
+    return new Date(prevPost.date).getTime() - new Date(nextPost.date).getTime();
 }
