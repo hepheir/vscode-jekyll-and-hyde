@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import PageLoader from "./pageLoader";
+import PageLoader, { PageLoaderSubscriber } from "./pageLoader";
 import Page from "./page";
 import FileSystemPage from "./fileSystemPage";
 
@@ -60,5 +60,9 @@ export default class FileSystemPageLoader implements PageLoader {
             }
         }
         return pages;
+    }
+
+    addSubscriber(subscriber: PageLoaderSubscriber): void {
+        subscriber.usePageLoader(this);
     }
 }
