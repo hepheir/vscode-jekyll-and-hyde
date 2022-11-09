@@ -65,6 +65,11 @@
 				"icon": "$(file-directory-create)"
 			},
 			{
+				"command": "explorer.createDraft",
+				"title": "Create a new draft",
+				"icon": "$(edit)"
+			},
+			{
 				"command": "explorer.deletePage",
 				"title": "Delete",
 				"icon": "$(trash)"
@@ -81,6 +86,11 @@
 			"view/item/context": [
 				{
 					"command": "explorer.createCategory",
+					"group": "inline",
+					"when": "viewItem == category"
+				},
+				{
+					"command": "explorer.createDraft",
 					"group": "inline",
 					"when": "viewItem == category"
 				},

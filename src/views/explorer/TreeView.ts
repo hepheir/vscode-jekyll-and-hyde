@@ -2,6 +2,7 @@ import * as vscode from "vscode";
 import Page from "../../models/page";
 import PageLoader, { PageLoaderSubscriber } from "../../models/pageLoader";
 import createCategory from "./commands/createCategory";
+import createDraft from "./commands/createDraft";
 import deletePage from "./commands/deletePage";
 import TreeData from "./TreeData";
 import TreeDataProvider from "./TreeDataProvider";
@@ -22,6 +23,7 @@ export default class TreeView implements PageLoaderSubscriber {
         };
         this.view = vscode.window.createTreeView('explorer', this.options);
         vscode.commands.registerCommand('explorer.createCategory', createCategory);
+        vscode.commands.registerCommand('explorer.createDraft', createDraft);
         vscode.commands.registerCommand('explorer.deletePage', deletePage);
         vscode.workspace.onDidOpenTextDocument(e => this.revealPostByUri(e.uri));
         vscode.workspace.onDidChangeTextDocument(e => this.revealPostByUri(e.document.uri));
