@@ -19,6 +19,10 @@ export default class FileSystemPage implements Page {
         this._excerpt = excerpt;
     }
 
+    get uri(): vscode.Uri {
+        return this._uri;
+    }
+
     get title(): string {
         return this._data.title
             ?? this.getTitleFromFilename();

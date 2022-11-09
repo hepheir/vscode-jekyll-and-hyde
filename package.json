@@ -63,6 +63,11 @@
 				"command": "explorer.createCategory",
 				"title": "Create category",
 				"icon": "$(file-directory-create)"
+			},
+			{
+				"command": "explorer.deletePage",
+				"title": "Delete",
+				"icon": "$(trash)"
 			}
 		],
 		"menus": {
@@ -78,6 +83,11 @@
 					"command": "explorer.createCategory",
 					"group": "inline",
 					"when": "viewItem == category"
+				},
+				{
+					"command": "explorer.deletePage",
+					"group": "inline",
+					"when": "viewItem == post || viewItem == draft"
 				}
 			]
 		}
