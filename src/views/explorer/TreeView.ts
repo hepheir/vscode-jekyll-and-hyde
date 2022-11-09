@@ -1,7 +1,6 @@
 import * as vscode from "vscode";
 import Page from "../../models/page";
 import PageLoader, { PageLoaderSubscriber } from "../../models/pageLoader";
-import create from "./commands/create";
 import createCategory from "./commands/createCategory";
 import TreeData from "./TreeData";
 import TreeDataProvider from "./TreeDataProvider";
@@ -21,7 +20,6 @@ export default class TreeView implements PageLoaderSubscriber {
             dragAndDropController: this.treeDataProvider,
         };
         this.view = vscode.window.createTreeView('explorer', this.options);
-        vscode.commands.registerCommand('explorer.item.create', create);
         vscode.commands.registerCommand('explorer.createCategory', createCategory);
         vscode.workspace.onDidOpenTextDocument(e => this.revealPostByUri(e.uri));
         vscode.workspace.onDidChangeTextDocument(e => this.revealPostByUri(e.document.uri));

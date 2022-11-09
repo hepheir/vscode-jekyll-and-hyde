@@ -55,11 +55,6 @@
 		},
 		"commands": [
 			{
-				"command": "explorer.item.create",
-				"title": "Create new file",
-				"icon": "$(new-file)"
-			},
-			{
 				"command": "explorer.refresh",
 				"title": "Refresh",
 				"icon": "$(refresh)"
@@ -73,11 +68,6 @@
 		"menus": {
 			"view/title": [
 				{
-					"command": "explorer.item.create",
-					"group": "navigation",
-					"when": "view == explorer"
-				},
-				{
 					"command": "explorer.refresh",
 					"group": "navigation",
 					"when": "view == explorer"
@@ -88,10 +78,6 @@
 					"command": "explorer.createCategory",
 					"group": "inline",
 					"when": "viewItem == category"
-				},
-				{
-					"command": "explorer.item.create",
-					"group": "inline"
 				}
 			]
 		}
