@@ -6,6 +6,7 @@ import moveCategory from "./commands/moveCategory";
 import CategoryTreeItem from './treeItems/CategoryTreeItem';
 import DraftTreeItem from "./treeItems/DraftTreeItem";
 import PostTreeItem from "./treeItems/PostTreeItem";
+import SiteTreeItem from "./treeItems/SiteTreeItem";
 
 export default class TreeDataProvider implements vscode.TreeDataProvider<Page | Category>, vscode.TreeDragAndDropController<Page | Category>, PageLoaderSubscriber {
     public static readonly instance = new TreeDataProvider();
@@ -13,7 +14,7 @@ export default class TreeDataProvider implements vscode.TreeDataProvider<Page | 
     public readonly dropMimeTypes = ['application/vnd.code.jekyll-n-hyde.dragAndDrop'];
     public readonly dragMimeTypes = [];
     private readonly _onDidChangeTreeData = new vscode.EventEmitter<Page | Category | null | undefined>();
-    private root: Category = new Category('.');
+    private root: Category = this.createRootCategory();
 
     private constructor() {
         this.onLoad = this.onLoad.bind(this);
@@ -25,8 +26,12 @@ export default class TreeDataProvider implements vscode.TreeDataProvider<Page | 
     }
 
     private makeCategoryTree(posts: Page[]) {
-        this.root = new Category('.');
+        this.root = this.createRootCategory();
         posts.forEach(post => this.findCategoryByPost(post).addPost(post));
+    }
+
+    private createRootCategory(): Category {
+        return new Category('Site');
     }
 
     private findCategoryByPost(post: Page): Category {
@@ -52,6 +57,9 @@ export default class TreeDataProvider implements vscode.TreeDataProvider<Page | 
     }
 
     private _getTreeItem(element: Page | Category): PostTreeItem | DraftTreeItem | CategoryTreeItem {
+        if (element instanceof Category && element.parent === undefined) {
+            return new SiteTreeItem(element);
+        }
         if (element instanceof Category) {
             return new CategoryTreeItem(element);
         }
@@ -67,7 +75,7 @@ export default class TreeDataProvider implements vscode.TreeDataProvider<Page | 
 
     private _getChildren(element?: Page | Category): (Page | Category)[] {
         if (element === undefined) {
-            element = this.root;
+            return [this.root];
         }
         if (element instanceof Category) {
             return element.children;
