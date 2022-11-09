@@ -9,7 +9,7 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 
 	const pageLoader = new FileSystemPageLoader();
-	pageLoader.addSubscriber(new TreeView());
+	pageLoader.addSubscriber(TreeView.instance);
 	pageLoader.load();
 	vscode.commands.registerCommand('explorer.refresh', pageLoader.load);
 }

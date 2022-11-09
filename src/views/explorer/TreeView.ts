@@ -6,15 +6,18 @@ import TreeData from "./TreeData";
 import TreeDataProvider from "./TreeDataProvider";
 
 export default class TreeView implements PageLoaderSubscriber {
+    public static readonly instance = new TreeView();
+
     public readonly view: vscode.TreeView<TreeData>;
     public readonly options: vscode.TreeViewOptions<TreeData>;
+    public readonly treeDataProvider = TreeDataProvider.instance;
 
-    constructor() {
+    private constructor() {
         this.options = {
             canSelectMany: false,
             showCollapseAll: true,
-            treeDataProvider: TreeDataProvider.instance,
-            dragAndDropController: TreeDataProvider.instance,
+            treeDataProvider: this.treeDataProvider,
+            dragAndDropController: this.treeDataProvider,
         };
         this.view = vscode.window.createTreeView('explorer', this.options);
         vscode.commands.registerCommand('explorer.item.create', create);
