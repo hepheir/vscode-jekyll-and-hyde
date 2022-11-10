@@ -1,8 +1,9 @@
 import * as vscode from "vscode";
 import Page from "../../models/page";
 import PageLoader, { PageLoaderSubscriber } from "../../models/pageLoader";
-import create from "./commands/create";
 import createCategory from "./commands/createCategory";
+import createDraft from "./commands/createDraft";
+import deletePage from "./commands/deletePage";
 import TreeData from "./TreeData";
 import TreeDataProvider from "./TreeDataProvider";
 
@@ -21,11 +22,11 @@ export default class TreeView implements PageLoaderSubscriber {
             dragAndDropController: this.treeDataProvider,
         };
         this.view = vscode.window.createTreeView('explorer', this.options);
-        vscode.commands.registerCommand('explorer.item.create', create);
         vscode.commands.registerCommand('explorer.createCategory', createCategory);
+        vscode.commands.registerCommand('explorer.createDraft', createDraft);
+        vscode.commands.registerCommand('explorer.deletePage', deletePage);
         vscode.workspace.onDidOpenTextDocument(e => this.revealPostByUri(e.uri));
         vscode.workspace.onDidChangeTextDocument(e => this.revealPostByUri(e.document.uri));
-
     }
 
     private revealPostByUri(uri: vscode.Uri) {

@@ -55,11 +55,6 @@
 		},
 		"commands": [
 			{
-				"command": "explorer.item.create",
-				"title": "Create new file",
-				"icon": "$(new-file)"
-			},
-			{
 				"command": "explorer.refresh",
 				"title": "Refresh",
 				"icon": "$(refresh)"
@@ -68,15 +63,20 @@
 				"command": "explorer.createCategory",
 				"title": "Create category",
 				"icon": "$(file-directory-create)"
+			},
+			{
+				"command": "explorer.createDraft",
+				"title": "Create a new draft",
+				"icon": "$(edit)"
+			},
+			{
+				"command": "explorer.deletePage",
+				"title": "Delete",
+				"icon": "$(trash)"
 			}
 		],
 		"menus": {
 			"view/title": [
-				{
-					"command": "explorer.item.create",
-					"group": "navigation",
-					"when": "view == explorer"
-				},
 				{
 					"command": "explorer.refresh",
 					"group": "navigation",
@@ -90,8 +90,14 @@
 					"when": "viewItem == category"
 				},
 				{
-					"command": "explorer.item.create",
-					"group": "inline"
+					"command": "explorer.createDraft",
+					"group": "inline",
+					"when": "viewItem == category"
+				},
+				{
+					"command": "explorer.deletePage",
+					"group": "inline",
+					"when": "viewItem == post || viewItem == draft"
 				}
 			]
 		}
