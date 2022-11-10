@@ -63,6 +63,11 @@
 				"command": "explorer.refresh",
 				"title": "Refresh",
 				"icon": "$(refresh)"
+			},
+			{
+				"command": "explorer.createCategory",
+				"title": "Create category",
+				"icon": "$(file-directory-create)"
 			}
 		],
 		"menus": {
@@ -79,6 +84,11 @@
 				}
 			],
 			"view/item/context": [
+				{
+					"command": "explorer.createCategory",
+					"group": "inline",
+					"when": "viewItem == category"
+				},
 				{
 					"command": "explorer.item.create",
 					"group": "inline"
