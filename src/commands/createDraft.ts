@@ -3,8 +3,8 @@ import * as path from "path";
 import * as util from "util";
 import * as vscode from "vscode";
 import * as matter from "gray-matter"
-import Category from "../../../models/category";
-import { raiseException } from "../../../exceptions";
+import Category from "../models/category";
+import { raiseException } from "../exceptions";
 
 export default async function createDraft(category: Category) {
     try {

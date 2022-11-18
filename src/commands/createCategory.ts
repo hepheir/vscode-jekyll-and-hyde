@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
-import Category from "../../../models/category";
-import TreeView from "../TreeView";
-import { raiseException } from "../../../exceptions";
+import Category from "../models/category";
+import TreeView from "../views/explorer/TreeView";
+import { raiseException } from "../exceptions";
 
 export default async function createCategory(parent: Category) {
     try {

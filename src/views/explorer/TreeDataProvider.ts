@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import Category from "../../models/category";
 import Page from "../../models/page";
 import PageLoader, { PageLoaderSubscriber } from "../../models/pageLoader";
-import moveCategory from "./commands/moveCategory";
+import moveCategory from "../../commands/moveCategory";
 import CategoryTreeItem from './treeItems/CategoryTreeItem';
 import DraftTreeItem from "./treeItems/DraftTreeItem";
 import PostTreeItem from "./treeItems/PostTreeItem";

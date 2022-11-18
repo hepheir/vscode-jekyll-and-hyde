@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import * as matter from "gray-matter"
-import Page from "../../../models/page";
-import Category from "../../../models/category";
+import Page from "../models/page";
+import Category from "../models/category";
 import { TextEncoder } from "util";
 
 export default async function moveCategory(post: Page, category: Category) {

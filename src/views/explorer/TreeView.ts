@@ -1,9 +1,9 @@
 import * as vscode from "vscode";
 import Page from "../../models/page";
 import PageLoader, { PageLoaderSubscriber } from "../../models/pageLoader";
-import createCategory from "./commands/createCategory";
-import createDraft from "./commands/createDraft";
-import deletePage from "./commands/deletePage";
+import createCategory from "../../commands/createCategory";
+import createDraft from "../../commands/createDraft";
+import deletePage from "../../commands/deletePage";
 import TreeData from "./TreeData";
 import TreeDataProvider from "./TreeDataProvider";
 
