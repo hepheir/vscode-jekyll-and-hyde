@@ -1,6 +1,6 @@
 {
 	"name": "jekyll-n-hyde",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"publisher": "Hepheir",
 	"engines": {
 		"vscode": "^1.65.0"
@@ -24,13 +24,13 @@
 		"url": "https://github.com/Hepheir/vscode-jekyll-n-hyde"
 	},
 	"activationEvents": [
-		"onView:categorizedPosts"
+		"onView:explorer"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"viewsWelcome": [
 			{
-				"view": "categorizedPosts",
+				"view": "explorer",
 				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
 			}
 		],
@@ -46,92 +46,58 @@
 		"views": {
 			"jekyll-n-hyde": [
 				{
-					"id": "categorizedPosts",
-					"name": "Categorized Posts",
+					"id": "jekyll-n-hyde.view.repository",
+					"name": "Repository",
 					"icon": "images/jekyll.svg",
-					"contextualTitle": "Jekyll n Hyde :: Categorized Posts"
+					"contextualTitle": "Jekyll n Hyde :: Site View"
 				}
 			]
 		},
 		"commands": [
 			{
-				"command": "categorizedPosts.item.create",
-				"title": "Create new file",
-				"icon": "$(new-file)"
+				"command": "explorer.refresh",
+				"title": "Refresh",
+				"icon": "$(refresh)"
 			},
 			{
-				"command": "categorizedPosts.item.createViaCategory",
-				"title": "Create new file",
-				"icon": "$(new-file)"
+				"command": "explorer.createCategory",
+				"title": "Create category",
+				"icon": "$(file-directory-create)"
 			},
 			{
-				"command": "categorizedPosts.item.delete",
-				"title": "Delete",
-				"icon": "$(trash)"
-			},
-			{
-				"command": "categorizedPosts.item.publish",
-				"title": "Publish",
-				"icon": "$(rocket)"
-			},
-			{
-				"command": "categorizedPosts.item.rename",
-				"title": "Rename",
+				"command": "explorer.createDraft",
+				"title": "Create a new draft",
 				"icon": "$(edit)"
 			},
 			{
-				"command": "categorizedPosts.item.unpublish",
-				"title": "Unpublish",
-				"icon": "$(microscope)"
-			},
-			{
-				"command": "categorizedPosts.item.updateLastMod",
-				"title": "Re-new last modification date",
-				"icon": "$(refresh)"
-			},
-			{
-				"command": "categorizedPosts.refresh",
-				"title": "Refresh",
-				"icon": "$(refresh)"
+				"command": "explorer.deletePage",
+				"title": "Delete",
+				"icon": "$(trash)"
 			}
 		],
 		"menus": {
 			"view/title": [
 				{
-					"command": "categorizedPosts.refresh",
+					"command": "explorer.refresh",
 					"group": "navigation",
-					"when": "view == categorizedPosts"
+					"when": "view == explorer"
 				}
 			],
 			"view/item/context": [
 				{
-					"command": "categorizedPosts.item.createViaCategory",
+					"command": "explorer.createCategory",
 					"group": "inline",
 					"when": "viewItem == category"
 				},
 				{
-					"command": "categorizedPosts.item.delete",
+					"command": "explorer.createDraft",
 					"group": "inline",
-					"when": "viewItem == draft || viewItem == post || viewItem == page"
+					"when": "viewItem == category"
 				},
 				{
-					"command": "categorizedPosts.item.publish",
+					"command": "explorer.deletePage",
 					"group": "inline",
-					"when": "viewItem == draft"
-				},
-				{
-					"command": "categorizedPosts.item.rename",
-					"group": "inline",
-					"when": "viewItem == draft || viewItem == post || viewItem == page || viewItem == category"
-				},
-				{
-					"command": "categorizedPosts.item.unpublish",
-					"group": "inline",
-					"when": "viewItem == post"
-				},
-				{
-					"command": "categorizedPosts.item.updateLastMod",
-					"when": "viewItem == draft || viewItem == post || viewItem == page"
+					"when": "viewItem == post || viewItem == draft"
 				}
 			]
 		}
@@ -148,7 +114,7 @@
 		"@types/glob": "^7.2.0",
 		"@types/mocha": "^9.1.0",
 		"@types/node": "14.x",
-		"@types/vscode": "^1.65.0",
+		"@types/vscode": "^1.73.0",
 		"@typescript-eslint/eslint-plugin": "^5.12.1",
 		"@typescript-eslint/parser": "^5.12.1",
 		"@vscode/test-electron": "^2.1.2",

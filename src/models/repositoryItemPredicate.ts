@@ -1,0 +1,1 @@
+export type RepositoryItemPredicate<E> = (item: E) => boolean;
