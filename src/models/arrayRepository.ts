@@ -10,6 +10,7 @@ export class ArrayRepository<E extends RepositoryItem<E>> implements Repository<
             throw new RepositoryError.ItemExists();
         }
         this.elements.push(element.copy());
+        this.elements.sort((e1, e2) => e1.getId().localeCompare(e2.getId()));
     }
 
     list(): readonly E[] {
