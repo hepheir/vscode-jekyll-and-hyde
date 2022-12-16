@@ -46,10 +46,10 @@
 		"views": {
 			"jekyll-n-hyde": [
 				{
-					"id": "explorer",
-					"name": "Jekyll Explorer",
+					"id": "jekyll-n-hyde.view.repository",
+					"name": "Repository",
 					"icon": "images/jekyll.svg",
-					"contextualTitle": "Jekyll n Hyde :: Jekyll Explorer"
+					"contextualTitle": "Jekyll n Hyde :: Site View"
 				}
 			]
 		},
