@@ -1,5 +1,5 @@
-import type { Builder } from "../../common/builder";
-import { BuilderError } from "../../common/builderError";
+import type { Builder } from "../builder";
+import { BuilderError } from "../builderError";
 import type { PostDTO } from "../post/postDTO";
 import type { CategoryDTO } from "./categoryDTO";
 

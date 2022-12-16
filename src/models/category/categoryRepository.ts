@@ -1,4 +1,4 @@
-import type { Repository } from "../../common/repository";
+import type { Repository } from "../repository";
 import type { CategoryDTO } from "./categoryDTO";
 
 export interface CategoryRepository extends Repository<CategoryDTO> {

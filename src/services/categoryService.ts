@@ -1,9 +1,9 @@
-import type { PostDTO } from "../post/postDTO";
-import type { CategoryDTO } from "./categoryDTO";
-import type { CategoryRepository } from "./categoryRepository";
-import type { PostService } from "../post/postService";
-import { CategoryDTOBuilder } from "./categoryDTOBuilder";
-import { ArrayCategoryRepository } from "./arrayCategoryRepository";
+import type { PostDTO } from "../models/post/postDTO";
+import type { CategoryDTO } from "../models/category/categoryDTO";
+import type { CategoryRepository } from "../models/category/categoryRepository";
+import type { PostService } from "./postService";
+import { CategoryDTOBuilder } from "../models/category/categoryDTOBuilder";
+import { ArrayCategoryRepository } from "../models/category/arrayCategoryRepository";
 
 export class CategoryService {
     private readonly categoryRepository: CategoryRepository;

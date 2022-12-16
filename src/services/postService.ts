@@ -1,9 +1,9 @@
 import * as vscode from "vscode";
-import type { PostRepository } from "./postRepository";
-import { ArrayPostRepository } from "./arrayPostRepository";
-import { PostFileWriter } from "./postFileWriter";
-import { RepositoryError } from "../../common/repositoryError";
-import { PostFileReader } from "./postFileReader";
+import type { PostRepository } from "../models/post/postRepository";
+import { ArrayPostRepository } from "../models/post/arrayPostRepository";
+import { PostFileWriter } from "../models/post/postFileWriter";
+import { RepositoryError } from "../models/repositoryError";
+import { PostFileReader } from "../models/post/postFileReader";
 
 /**
  * - *Note*: this service will affect neither `CategoryService` nor `CategoryRepository`.

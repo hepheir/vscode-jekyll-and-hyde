@@ -1,5 +1,5 @@
 import type { Uri } from "vscode";
-import { ArrayRepository } from "../../common/arrayRepository";
+import { ArrayRepository } from "../arrayRepository";
 import type { PostDTO } from "./postDTO";
 import type { PostRepository } from "./postRepository";
 

@@ -2,10 +2,10 @@ import * as fs from "fs";
 import * as path from "path";
 import * as vscode from "vscode";
 import * as matter from "gray-matter";
-import type { Frontmatter } from "../frontmatter";
+import type { Frontmatter } from "./frontmatter";
 import { TextEncoder } from "util";
 import type { PostDTO } from "./postDTO";
-import type { Writer } from "../../common/writer";
+import type { Writer } from "../writer";
 
 export class PostFileWriter implements Writer<PostDTO> {
     constructor(

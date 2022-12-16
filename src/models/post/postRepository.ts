@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import type { Repository } from "../../common/repository";
+import type { Repository } from "../repository";
 import type { PostDTO } from "./postDTO";
 
 export interface PostRepository extends Repository<PostDTO> {

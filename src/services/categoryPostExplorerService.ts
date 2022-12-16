@@ -1,20 +1,24 @@
 import * as vscode from "vscode";
-import { CategoryDTO } from "./category/categoryDTO";
-import { CategoryService } from "./category/categoryService";
-import { PostService } from "./post/postService";
+import type { CategoryDTO } from "../models/category/categoryDTO";
+import type { PostDTO } from "../models/post/postDTO";
+import { CategoryService } from "./categoryService";
+import { PostService } from "./postService";
 
-export class TreeDataService {
-    private readonly postService: PostService = new PostService();
-    private readonly categoryService: CategoryService = new CategoryService(this.postService);
+export class CategoryPostExplorerService {
     private readonly globPatterns = {
         posts: '**/_posts/**/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.{md,markdown,html}',
         drafts: '**/_drafts/**/*.{md,markdown,html}',
     };
     private readonly _onDidLoad = new vscode.EventEmitter<vscode.Uri[]>();
-
+    private postService: PostService = new PostService();
+    private categoryService: CategoryService = new CategoryService(this.postService);
     private isLoaded = false;
 
     onDidLoad: vscode.Event<vscode.Uri[]> = this._onDidLoad.event;
+
+    getRoot(): (CategoryDTO | PostDTO)[] {
+        return this.categoryService.list().slice();
+    }
 
     async ensureLoaded() {
         if (this.isLoaded) {
@@ -66,9 +70,5 @@ export class TreeDataService {
         watcher.onDidCreate(this.load);
         watcher.onDidChange(this.load);
         watcher.onDidDelete(this.load);
-    }
-
-    getRoot(): CategoryDTO[] {
-        return this.categoryService.list().slice();
     }
 }

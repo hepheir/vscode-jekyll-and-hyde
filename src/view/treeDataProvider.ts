@@ -1,18 +1,28 @@
 import * as vscode from "vscode";
-import type { CategoryDTO } from "./category/categoryDTO";
-import type { PostDTO } from "./post/postDTO";
-import { CategoryTreeItem } from "./category/categoryTreeItem";
-import { PostTreeItem } from "./post/postTreeItem";
-import { TreeDataService } from "./treeDataService";
+import type { CategoryDTO } from "../models/category/categoryDTO";
+import type { PostDTO } from "../models/post/postDTO";
+import { CategoryTreeItem } from "../models/category/categoryTreeItem";
+import { PostTreeItem } from "../models/post/postTreeItem";
+import { CategoryPostExplorerService } from "../services/categoryPostExplorerService";
+import { TreeViewBase } from "./viewBase";
 
 type DTO = PostDTO | CategoryDTO;
 
-export class TreeDataProvider implements vscode.TreeDataProvider<DTO> {
-    private readonly treeDataService = new TreeDataService();
+export class JekyllRepositoryView extends TreeViewBase<DTO> {
+    constructor() {
+        super(
+            'jekyll-n-hyde.view.repository',
+            new JekyllRepositoryTreeDataProvider()
+        );
+    }
+}
+
+class JekyllRepositoryTreeDataProvider implements vscode.TreeDataProvider<DTO> {
+    private readonly explorerService = new CategoryPostExplorerService();
     private readonly _onDidChangeTreeData: vscode.EventEmitter<void | DTO | DTO[] | null | undefined> = new vscode.EventEmitter();
 
     constructor() {
-        this.treeDataService.onDidLoad(uris => this._onDidChangeTreeData.fire(undefined));
+        this.explorerService.onDidLoad(uris => this._onDidChangeTreeData.fire(undefined));
     }
 
     onDidChangeTreeData: vscode.Event<void | DTO | DTO[] | null | undefined> = this._onDidChangeTreeData.event;
@@ -28,9 +38,9 @@ export class TreeDataProvider implements vscode.TreeDataProvider<DTO> {
     }
 
     async getChildren(element?: DTO | undefined): Promise<DTO[]> {
-        await this.treeDataService.ensureLoaded();
+        await this.explorerService.ensureLoaded();
         if (element === undefined) {
-            const root = this.treeDataService.getRoot()
+            const root = this.explorerService.getRoot()
             return root;
         }
         if (this.isCategoryDTO(element)) {

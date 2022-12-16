@@ -1,4 +1,4 @@
-import { ArrayRepository } from "../../common/arrayRepository";
+import { ArrayRepository } from "../arrayRepository";
 import type { CategoryDTO } from "./categoryDTO";
 import type { CategoryRepository } from "./categoryRepository";
 
