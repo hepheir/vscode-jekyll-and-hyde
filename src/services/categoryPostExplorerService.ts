@@ -32,8 +32,10 @@ export class CategoryPostExplorerService {
         this.isLoaded = true;
     }
 
-    async load() {
+    load = async () => {
         const uris = await this.loadAllPostUris();
+        this.postService = new PostService();
+        this.categoryService = new CategoryService(this.postService);
         for (const uri of uris) {
             try {
                 const post = this.postService.add(uri);
