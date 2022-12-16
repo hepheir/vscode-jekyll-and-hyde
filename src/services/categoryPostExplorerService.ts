@@ -17,7 +17,10 @@ export class CategoryPostExplorerService {
     onDidLoad: vscode.Event<vscode.Uri[]> = this._onDidLoad.event;
 
     getRoot(): (CategoryDTO | PostDTO)[] {
-        return this.categoryService.list().slice();
+        return [
+            ...this.categoryService.list().slice(),
+            ...this.postService.list().filter(post => post.categories.length === 0),
+        ];
     }
 
     async ensureLoaded() {
