@@ -1,6 +1,5 @@
 import * as vscode from 'vscode';
-import FileSystemPageLoader from './models/fileSystemPageLoader';
-import TreeView from './views/explorer/TreeView';
+import { JekyllRepositoryView } from './view/treeDataProvider';
 
 export function activate(context: vscode.ExtensionContext) {
 	if (!vscode.workspace.workspaceFolders) {
@@ -8,8 +7,5 @@ export function activate(context: vscode.ExtensionContext) {
 		return;
 	}
 
-	const pageLoader = new FileSystemPageLoader();
-	pageLoader.addSubscriber(TreeView.instance);
-	pageLoader.load();
-	vscode.commands.registerCommand('explorer.refresh', pageLoader.load);
+	new JekyllRepositoryView();
 }
