@@ -1,7 +1,6 @@
 import type { Repository } from "./repository";
-import type { RepositoryItem } from "./repositoryItem";
 
-export interface CrudRepository<E extends RepositoryItem<E>> extends Repository<E> {
+export interface CrudRepository<E> extends Repository<E> {
     count: () => number;
     delete: (entity: E) => void;
     deleteAll: (entities: readonly E[] | undefined) => void;

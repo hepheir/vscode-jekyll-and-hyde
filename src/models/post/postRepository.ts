@@ -1,7 +1,23 @@
-import * as vscode from "vscode";
-import type { Repository } from "../repository";
+import type { CrudRepository } from "../repository/crudRepository";
+import { ArrayCrudRepository } from "../repository/implements/arrayCrudRepository";
 import type { PostDTO } from "./postDTO";
 
-export interface PostRepository extends Repository<PostDTO> {
-    findByUri(uri: vscode.Uri): PostDTO | undefined;
+export class PostRepository extends ArrayCrudRepository<PostDTO> implements CrudRepository<PostDTO> {
+    override getId = (entity: PostDTO) => {
+        return entity.uri.fsPath;
+    };
+
+    override copy = (entity: PostDTO) => {
+        const newCategories = entity.categories.slice();
+        const newPost: PostDTO = {
+            uri: entity.uri,
+            title: entity.title,
+            categories: newCategories,
+            frontmatter: {
+                ...entity.frontmatter,
+                categories: newCategories,
+            },
+        };
+        return newPost;
+    };
 }

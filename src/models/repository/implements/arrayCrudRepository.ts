@@ -1,9 +1,11 @@
 import type { CrudRepository } from "../crudRepository";
-import type { RepositoryItem } from "../repositoryItem";
 import { RepositoryError } from "../repositoryError";
 
-export class ArrayCrudRepository<E extends RepositoryItem<E>> implements CrudRepository<E> {
+export abstract class ArrayCrudRepository<E> implements CrudRepository<E> {
     protected cachedEntities: E[] = [];
+
+    abstract getId: (entity: E) => string;
+    abstract copy: (entity: E) => E;
 
     count = () => {
         return this.cachedEntities.length;
@@ -12,7 +14,7 @@ export class ArrayCrudRepository<E extends RepositoryItem<E>> implements CrudRep
     delete = (entity: E) => {
         this.checkExists(entity);
         this.cachedEntities = this.cachedEntities.filter(cachedEntity => {
-            return cachedEntity.getId() === entity.getId();
+            return this.getId(cachedEntity) === this.getId(entity);
         });
     };
 
@@ -38,9 +40,7 @@ export class ArrayCrudRepository<E extends RepositoryItem<E>> implements CrudRep
     };
 
     findAll = () => {
-        return this.cachedEntities.map(entity => {
-            return entity.copy();
-        });
+        return this.cachedEntities.map(this.copy);
     };
 
     findAllById = (ids: readonly string[]) => {
@@ -48,19 +48,23 @@ export class ArrayCrudRepository<E extends RepositoryItem<E>> implements CrudRep
     };
 
     findById = (id: string) => {
-        return this.cachedEntities.find(entity => {
-            return entity.getId() === id;
-        })?.copy();
+        const foundEntity = this.cachedEntities.find(entity => {
+            return this.getId(entity) === id;
+        });
+        if (foundEntity === undefined) {
+            return undefined;
+        }
+        return this.copy(foundEntity);
     };
 
     save = (entity: E) => {
         const foundIndex = this.cachedEntities.findIndex(cachedEntity => {
-            return cachedEntity.getId() === entity.getId();
+            return this.getId(cachedEntity) === this.getId(entity);
         });
         if (foundIndex === -1) {
             throw new RepositoryError.ItemNotFound();
         }
-        this.cachedEntities[foundIndex] = entity.copy();
+        this.cachedEntities[foundIndex] = this.copy(entity);
     };
 
     saveAll = (entities: readonly E[]) => {
@@ -72,7 +76,7 @@ export class ArrayCrudRepository<E extends RepositoryItem<E>> implements CrudRep
     }
 
     private checkExists = (entity: E) => {
-        this.checkExistsById(entity.getId());
+        this.checkExistsById(this.getId(entity));
     };
 
     private checkExistsById = (id: string) => {

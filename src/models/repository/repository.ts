@@ -1,4 +1,4 @@
-import type { RepositoryItem } from "./repositoryItem";
-
-export interface Repository<E extends RepositoryItem<E>> {
+export interface Repository<E> {
+    getId: (entity: E) => string;
+    copy: (entity: E) => E;
 }

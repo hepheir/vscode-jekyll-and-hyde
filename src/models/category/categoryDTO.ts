@@ -1,7 +1,6 @@
 import type { PostDTO } from "../post/postDTO";
-import type { RepositoryItem } from "../repositoryItem";
 
-export interface CategoryDTO extends RepositoryItem<CategoryDTO> {
+export interface CategoryDTO {
     name: string;
     posts: PostDTO[];
 }

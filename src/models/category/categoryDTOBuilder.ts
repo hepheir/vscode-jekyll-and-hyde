@@ -24,36 +24,14 @@ export class CategoryDTOBuilder implements Builder<CategoryDTO> {
         if (!this.isBuildable()) {
             throw new BuilderError.NotBuildable();
         }
-        return new _CategoryDTO(this.name!, this.posts);
+        const newCategory: CategoryDTO = {
+            name: this.name!,
+            posts: this.posts,
+        }
+        return newCategory;
     }
 
     isBuildable(): boolean {
         return this.name !== undefined;
     }
-}
-
-class _CategoryDTO implements CategoryDTO {
-    public name: string;
-    public posts: PostDTO[];
-
-    constructor(
-        name: string,
-        posts: readonly PostDTO[],
-    ) {
-        this.name = name;
-        this.posts = posts.slice();
-    }
-
-    getId(): string {
-        return this.name;
-    }
-
-    copy(): CategoryDTO {
-        return new _CategoryDTO(this.name, this.posts);
-    }
-
-    equals(e: CategoryDTO): boolean {
-        return this.name === e.name;
-    }
-
 }
