@@ -1,6 +1,7 @@
 import type { PostDTO } from "../post/postDTO";
 
 export interface CategoryDTO {
-    name: string;
+    names: string[];
     posts: PostDTO[];
+    categories: CategoryDTO[];
 }

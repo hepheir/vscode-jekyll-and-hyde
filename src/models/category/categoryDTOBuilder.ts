@@ -4,11 +4,12 @@ import type { PostDTO } from "../post/postDTO";
 import type { CategoryDTO } from "./categoryDTO";
 
 export class CategoryDTOBuilder implements Builder<CategoryDTO> {
-    private name: string | undefined;
+    private names: string[] | undefined;
     private posts: PostDTO[] | undefined;
+    private categories: CategoryDTO[] | undefined;
 
-    setName(name: string): this {
-        this.name = name;
+    setNames(names: readonly string[]): this {
+        this.names = names.slice();
         return this;
     }
 
@@ -17,21 +18,30 @@ export class CategoryDTOBuilder implements Builder<CategoryDTO> {
         return this;
     }
 
+    setCategories(categories: readonly CategoryDTO[]): this {
+        this.categories = categories.slice();
+        return this;
+    }
+
     build(): CategoryDTO {
         if (this.posts === undefined) {
             this.posts = [];
+        }
+        if (this.categories === undefined) {
+            this.categories = [];
         }
         if (!this.isBuildable()) {
             throw new BuilderError.NotBuildable();
         }
         const newCategory: CategoryDTO = {
-            name: this.name!,
+            names: this.names!,
             posts: this.posts,
+            categories: this.categories,
         }
         return newCategory;
     }
 
     isBuildable(): boolean {
-        return this.name !== undefined;
+        return this.names !== undefined;
     }
 }
