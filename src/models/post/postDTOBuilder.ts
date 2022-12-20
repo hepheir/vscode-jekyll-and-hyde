@@ -43,7 +43,23 @@ export class PostDTOBuilder implements Builder<PostDTO> {
         if (!this.isBuildable()) {
             throw new BuilderError.NotBuildable();
         }
-        return new _PostDTO(this.uri!, this.title!, this.categories, this.frontmatter);
+        const newPost: PostDTO = {
+            uri: this.uri!,
+            title: this.title!,
+            categories: this.categories,
+            frontmatter: {
+                ...this.frontmatter,
+                categories: this.categories,
+            },
+        };
+        return newPost;
+    }
+
+    isBuildable(): boolean {
+        return this.uri !== undefined
+            && this.title !== undefined
+            && this.categories !== undefined
+            && Array.isArray(this.categories);
     }
 
     private parseBasename(): { date: string; title: string; ext: string; } {
@@ -55,46 +71,4 @@ export class PostDTOBuilder implements Builder<PostDTO> {
         const { date, title, ext } = basenameMatcher.exec(basename)?.groups!;
         return { date, title, ext };
     }
-
-    isBuildable(): boolean {
-        return this.uri !== undefined
-            && this.title !== undefined
-            && this.categories !== undefined
-            && Array.isArray(this.categories);
-    }
-}
-
-class _PostDTO implements PostDTO {
-    public uri: vscode.Uri;
-    public title: string;
-    public categories: string[];
-    public frontmatter: Frontmatter;
-
-    constructor(
-        uri: vscode.Uri,
-        title: string,
-        categories: string[],
-        frontmatter: Frontmatter,
-    ) {
-        this.uri = uri;
-        this.title = title;
-        this.categories = categories;
-        this.frontmatter = {
-            ...frontmatter,
-            categories: categories,
-        };
-    }
-
-    getId(): string {
-        return this.title;
-    }
-
-    copy(): PostDTO {
-        return new _PostDTO(this.uri, this.title, this.categories, this.frontmatter);
-    }
-
-    equals(e: PostDTO): boolean {
-        return this.uri.fsPath === e.uri.fsPath;
-    }
-
 }
