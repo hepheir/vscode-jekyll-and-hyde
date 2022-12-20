@@ -62,9 +62,10 @@ export abstract class ArrayCrudRepository<E> implements CrudRepository<E> {
             return this.getId(cachedEntity) === this.getId(entity);
         });
         if (foundIndex === -1) {
-            throw new RepositoryError.ItemNotFound();
+            this.cachedEntities.push(this.copy(entity));
+        } else {
+            this.cachedEntities[foundIndex] = this.copy(entity);
         }
-        this.cachedEntities[foundIndex] = this.copy(entity);
     };
 
     saveAll = (entities: readonly E[]) => {
