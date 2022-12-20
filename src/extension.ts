@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { JekyllRepositoryView } from './view/treeDataProvider';
+import { RepositoryView } from './view/repositoryView';
 
 export function activate(context: vscode.ExtensionContext) {
 	if (!vscode.workspace.workspaceFolders) {
@@ -7,5 +7,5 @@ export function activate(context: vscode.ExtensionContext) {
 		return;
 	}
 
-	new JekyllRepositoryView();
+	new RepositoryView();
 }

@@ -30,7 +30,7 @@
 	"contributes": {
 		"viewsWelcome": [
 			{
-				"view": "explorer",
+				"view": "jekyll-n-hyde.view.repository",
 				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
 			}
 		],
