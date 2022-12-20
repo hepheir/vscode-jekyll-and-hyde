@@ -4,7 +4,7 @@ import type { CategoryRepository } from "../../models/category/categoryRepositor
 import type { RepositorySyncService } from "../repositorySyncService";
 import { PostFileReader } from "../../models/post/postFileReader";
 import { CategoryDTOBuilder } from "../../models/category/categoryDTOBuilder";
-import { PostDTO } from "../../models/post/postDTO";
+import type { PostDTO } from "../../models/post/postDTO";
 import { ReaderError } from "../../models/readerError";
 
 export class CategoryRepositorySyncService implements RepositorySyncService<CategoryDTO, CategoryRepository> {
