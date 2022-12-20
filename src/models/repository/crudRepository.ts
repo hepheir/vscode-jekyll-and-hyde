@@ -3,7 +3,7 @@ import type { Repository } from "./repository";
 export interface CrudRepository<E> extends Repository<E> {
     count: () => number;
     delete: (entity: E) => void;
-    deleteAll: (entities: readonly E[] | undefined) => void;
+    deleteAll: (entities?: readonly E[] | undefined) => void;
     deleteAllById: (ids: readonly string[]) => void;
     deleteById: (id: string) => void;
     existsById: (id: string) => boolean;

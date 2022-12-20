@@ -18,7 +18,7 @@ export abstract class ArrayCrudRepository<E> implements CrudRepository<E> {
         });
     };
 
-    deleteAll = (entities: readonly E[] | undefined) => {
+    deleteAll = (entities?: readonly E[] | undefined) => {
         if (entities === undefined) {
             this.cachedEntities = [];
             return;
