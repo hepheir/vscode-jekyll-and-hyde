@@ -2,8 +2,8 @@ import * as vscode from "vscode";
 import * as path from "path";
 import type { Frontmatter } from "./frontmatter";
 import type { PostDTO } from "./postDTO";
-import type { Builder } from "../builder";
-import { BuilderError } from "../builderError";
+import type { Builder } from "../common/builder";
+import { BuilderError } from "../common/builderError";
 
 export class PostDTOBuilder implements Builder<PostDTO> {
     private uri: vscode.Uri | undefined;

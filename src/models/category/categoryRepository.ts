@@ -1,7 +1,7 @@
-import { CompositeRepository } from "../repository/compositeRepository";
-import type { CrudRepository } from "../repository/crudRepository";
-import { ArrayCrudRepository } from "../repository/implements/arrayCrudRepository";
-import { RepositoryError } from "../repository/repositoryError";
+import { CompositeRepository } from "../common/repository/compositeRepository";
+import type { CrudRepository } from "../common/repository/crudRepository";
+import { ArrayCrudRepository } from "../common/repository/implements/arrayCrudRepository";
+import { RepositoryError } from "../common/repository/repositoryError";
 import type { CategoryDTO } from "./categoryDTO";
 import { CategoryDTOBuilder } from "./categoryDTOBuilder";
 

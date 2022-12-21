@@ -3,8 +3,8 @@ import * as vscode from "vscode";
 import * as matter from "gray-matter";
 import type { PostDTO } from "./postDTO";
 import { PostDTOBuilder } from "./postDTOBuilder";
-import type { Reader } from "../reader";
-import { ReaderError } from "../readerError";
+import type { Reader } from "../common/reader";
+import { ReaderError } from "../common/readerError";
 
 export class PostFileReader implements Reader<PostDTO> {
     constructor(

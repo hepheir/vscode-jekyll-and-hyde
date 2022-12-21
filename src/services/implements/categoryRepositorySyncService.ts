@@ -5,7 +5,7 @@ import type { RepositorySyncService } from "../repositorySyncService";
 import { PostFileReader } from "../../models/post/postFileReader";
 import { CategoryDTOBuilder } from "../../models/category/categoryDTOBuilder";
 import type { PostDTO } from "../../models/post/postDTO";
-import { ReaderError } from "../../models/readerError";
+import { ReaderError } from "../../models/common/readerError";
 
 export class CategoryRepositorySyncService implements RepositorySyncService<CategoryDTO, CategoryRepository> {
     private readonly _onDidLoad: vscode.EventEmitter<CategoryRepository> = new vscode.EventEmitter();

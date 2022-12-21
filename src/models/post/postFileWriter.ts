@@ -5,7 +5,7 @@ import * as matter from "gray-matter";
 import type { Frontmatter } from "./frontmatter";
 import { TextEncoder } from "util";
 import type { PostDTO } from "./postDTO";
-import type { Writer } from "../writer";
+import type { Writer } from "../common/writer";
 
 export class PostFileWriter implements Writer<PostDTO> {
     constructor(
