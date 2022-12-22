@@ -11,9 +11,7 @@ export class CategoryRepository
 {
     constructor() {
         super();
-        const root: CategoryDTO = new CategoryDTOBuilder()
-            .setNames([])
-            .build();
+        const root: CategoryDTO = new CategoryDTOBuilder().build();
         this.save(root);
     }
 
@@ -35,12 +33,11 @@ export class CategoryRepository
     }
 
     copy = (entity: CategoryDTO) => {
-        const newCategory: CategoryDTO = {
-            names: entity.names.slice(),
-            posts: entity.posts.slice(),
-            categories: entity.categories.slice(),
-        };
-        return newCategory;
+        return new CategoryDTOBuilder()
+            .setNames(entity.names)
+            .setPosts(entity.posts)
+            .setCategories(entity.categories)
+            .build();
     }
 
     save = (entity: CategoryDTO) => {

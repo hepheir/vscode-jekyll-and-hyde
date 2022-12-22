@@ -1,12 +1,14 @@
 import type { Builder } from "../common/builder";
 import { BuilderError } from "../common/builderError";
+import { Heap } from "../common/iterable/heap";
 import type { PostDTO } from "../post/postDTO";
 import type { CategoryDTO } from "./categoryDTO";
+import { CategoryDTOHeap } from "./categoryDTOHeap";
 
 export class CategoryDTOBuilder implements Builder<CategoryDTO> {
-    private names: string[] | undefined;
-    private posts: PostDTO[] | undefined;
-    private categories: CategoryDTO[] | undefined;
+    private names: string[] = [];
+    private posts: PostDTO[] = [];
+    private categories: CategoryDTO[] = new CategoryDTOHeap();
 
     setNames(names: readonly string[]): this {
         this.names = names.slice();
@@ -19,17 +21,12 @@ export class CategoryDTOBuilder implements Builder<CategoryDTO> {
     }
 
     setCategories(categories: readonly CategoryDTO[]): this {
-        this.categories = categories.slice();
+        this.categories = new CategoryDTOHeap();
+        this.categories.push(...categories);
         return this;
     }
 
     build(): CategoryDTO {
-        if (this.posts === undefined) {
-            this.posts = [];
-        }
-        if (this.categories === undefined) {
-            this.categories = [];
-        }
         if (!this.isBuildable()) {
             throw new BuilderError.NotBuildable();
         }
@@ -42,6 +39,6 @@ export class CategoryDTOBuilder implements Builder<CategoryDTO> {
     }
 
     isBuildable(): boolean {
-        return this.names !== undefined;
+        return true;
     }
 }
