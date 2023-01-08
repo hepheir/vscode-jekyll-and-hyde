@@ -1,5 +1,5 @@
-import type { CrudRepository } from "../common/repository/crudRepository";
-import { ArrayCrudRepository } from "../common/repository/implements/arrayCrudRepository";
+import type { CrudRepository } from "../../util/repository/crudRepository";
+import { ArrayCrudRepository } from "../../util/repository/implements/arrayCrudRepository";
 import type { PostDTO } from "./postDTO";
 
 export class PostRepository extends ArrayCrudRepository<PostDTO> implements CrudRepository<PostDTO> {

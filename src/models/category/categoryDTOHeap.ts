@@ -1,4 +1,4 @@
-import { Heap } from "../common/iterable/heap";
+import { Heap } from "../../util/heap/heap";
 import { CategoryDTO } from "./categoryDTO";
 
 export class CategoryDTOHeap extends Heap<CategoryDTO> {
