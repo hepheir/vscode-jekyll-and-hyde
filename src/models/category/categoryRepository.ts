@@ -9,7 +9,9 @@ export class CategoryRepository
     extends ArrayCrudRepository<CategoryDTO>
     implements CrudRepository<CategoryDTO>, CompositeRepository<CategoryDTO>
 {
-    constructor() {
+    public static readonly instance: CategoryRepository = new CategoryRepository();
+
+    private constructor() {
         super();
         const root: CategoryDTO = new CategoryDTOBuilder().build();
         this.save(root);
