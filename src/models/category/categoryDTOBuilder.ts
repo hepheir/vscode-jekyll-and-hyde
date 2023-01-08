@@ -1,13 +1,13 @@
 import type { Builder } from "../common/builder";
 import { BuilderError } from "../common/builderError";
-import { Heap } from "../common/iterable/heap";
 import type { PostDTO } from "../post/postDTO";
+import { PostDTOHeap } from "../post/postDTOHeap";
 import type { CategoryDTO } from "./categoryDTO";
 import { CategoryDTOHeap } from "./categoryDTOHeap";
 
 export class CategoryDTOBuilder implements Builder<CategoryDTO> {
     private names: string[] = [];
-    private posts: PostDTO[] = [];
+    private posts: PostDTO[] = new PostDTOHeap();
     private categories: CategoryDTO[] = new CategoryDTOHeap();
 
     setNames(names: readonly string[]): this {
@@ -16,7 +16,8 @@ export class CategoryDTOBuilder implements Builder<CategoryDTO> {
     }
 
     setPosts(posts: readonly PostDTO[]): this {
-        this.posts = posts.slice();
+        this.posts = new PostDTOHeap();
+        this.posts.push(...posts);
         return this;
     }
 
