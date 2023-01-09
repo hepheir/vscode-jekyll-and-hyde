@@ -51,6 +51,7 @@ export class PostDTOBuilder implements Builder<PostDTO> {
                 ...this.frontmatter,
                 categories: this.categories,
             },
+            compareTo: (post) => this.title!.localeCompare(post.title),
         };
         return newPost;
     }
