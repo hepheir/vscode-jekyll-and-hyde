@@ -16,5 +16,6 @@ export class PostTreeItem extends vscode.TreeItem {
             title: "Open File",
             arguments: [post.uri],
         };
+        this.contextValue = 'jekyll-n-hyde.tree-item.post';
     }
 }
