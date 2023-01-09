@@ -4,7 +4,7 @@ import * as vscode from "vscode";
 import * as matter from "gray-matter";
 import { TextEncoder } from "util";
 import type { PostDTO } from "./postDTO";
-import type { Writer } from "../../util/writer";
+import type { Writer } from "../util/writer";
 
 export class PostFileWriter implements Writer<PostDTO> {
     write(postDTO: PostDTO, overwrite: boolean = false): void {

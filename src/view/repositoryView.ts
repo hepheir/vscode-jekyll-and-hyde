@@ -1,12 +1,11 @@
 import * as vscode from "vscode";
-import type { CategoryDTO } from "../models/category/categoryDTO";
-import type { PostDTO } from "../models/post/postDTO";
-import { CategoryTreeItem } from "../models/category/categoryTreeItem";
-import { PostTreeItem } from "../models/post/postTreeItem";
+import type { CategoryDTO } from "../models/categoryDTO";
+import type { PostDTO } from "../models/postDTO";
+import { CategoryTreeItem } from "../models/categoryTreeItem";
+import { PostTreeItem } from "../models/postTreeItem";
 import { TreeViewBase } from "./viewBase";
-import { CategoryRepository } from "../models/category/categoryRepository";
-import type { RepositorySyncService } from "../services/repositorySyncService";
-import { CategoryRepositorySyncService } from "../services/implements/categoryRepositorySyncService";
+import { CategoryRepository } from "../models/categoryRepository";
+import { CategoryRepositorySyncService } from "../services/categoryRepositorySyncService";
 
 type DTO = PostDTO | CategoryDTO;
 
@@ -20,11 +19,18 @@ export class RepositoryView extends TreeViewBase<DTO> {
 }
 
 class RepositoryTreeDataProvider implements vscode.TreeDataProvider<DTO> {
-    private readonly repositorySyncService: RepositorySyncService<CategoryDTO, CategoryRepository>;
+    private readonly repositorySyncService: CategoryRepositorySyncService;
     private readonly onDidChangeTreeDataEventEmiiter: vscode.EventEmitter<void | DTO | DTO[] | null | undefined> = new vscode.EventEmitter();
 
     constructor() {
-        this.repositorySyncService = new CategoryRepositorySyncService();
+        while (true) {
+            try {
+                this.repositorySyncService = new CategoryRepositorySyncService();
+                break;
+            } catch (error) {
+                vscode.window.showErrorMessage('Error while initializing RepositorySyncService');
+            }
+        }
         this.repositorySyncService.onDidLoad(categoryRepository => {
             this.onDidChangeTreeDataEventEmiiter.fire(undefined);
         });

@@ -1,10 +1,9 @@
 import * as vscode from "vscode";
-import type { CategoryDTO } from "../models/category/categoryDTO";
-import type { PostService } from "../services/postService";
-import { PostFileService } from "../services/implements/postFileService";
+import type { CategoryDTO } from "../models/categoryDTO";
+import { PostFileService } from "../services/postFileService";
 
 export class PostCommand {
-    private readonly postService: PostService = PostFileService.instance;
+    private readonly postService = PostFileService.instance;
 
     constructor() {
         const id = 'jekyll-n-hyde.command.post'

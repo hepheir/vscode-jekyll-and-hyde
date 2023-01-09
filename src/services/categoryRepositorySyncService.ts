@@ -1,13 +1,11 @@
 import * as vscode from "vscode";
-import type { CategoryDTO } from "../../models/category/categoryDTO";
-import { CategoryRepository } from "../../models/category/categoryRepository";
-import type { RepositorySyncService } from "../repositorySyncService";
-import { PostFileReader } from "../../models/post/postFileReader";
-import { CategoryDTOBuilder } from "../../models/category/categoryDTOBuilder";
-import type { PostDTO } from "../../models/post/postDTO";
-import { ReaderError } from "../../util/readerError";
+import { CategoryRepository } from "../models/categoryRepository";
+import { PostFileReader } from "../models/postFileReader";
+import { CategoryDTOBuilder } from "../models/categoryDTOBuilder";
+import type { PostDTO } from "../models/postDTO";
+import { ReaderError } from "../util/readerError";
 
-export class CategoryRepositorySyncService implements RepositorySyncService<CategoryDTO, CategoryRepository> {
+export class CategoryRepositorySyncService {
     private readonly _onDidLoad: vscode.EventEmitter<CategoryRepository> = new vscode.EventEmitter();
     private readonly globPatterns = {
         posts: '**/_posts/**/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-*.{md,markdown,html}',
@@ -57,7 +55,7 @@ export class CategoryRepositorySyncService implements RepositorySyncService<Cate
             }
         } catch (error) {
             if (error instanceof ReaderError.NotReadableException) {
-                console.warn("Not readable data.", error, uri);
+                console.warn("Not readable data: "+uri.fsPath, error, uri);
             } else {
                 throw error;
             }

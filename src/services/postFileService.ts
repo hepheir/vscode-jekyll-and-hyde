@@ -1,13 +1,12 @@
 import * as fs from "fs";
 import * as path from "path";
 import * as vscode from "vscode";
-import type { PostDTO } from "../../models/post/postDTO";
-import type { PostService } from "../postService";
-import { PostDTOBuilder } from "../../models/post/postDTOBuilder";
-import { PostFileWriter } from "../../models/post/postFileWriter";
-import type { Writer } from "../../util/writer";
+import type { PostDTO } from "../models/postDTO";
+import { PostDTOBuilder } from "../models/postDTOBuilder";
+import { PostFileWriter } from "../models/postFileWriter";
+import type { Writer } from "../util/writer";
 
-export class PostFileService implements PostService {
+export class PostFileService {
     public static readonly instance = new PostFileService();
 
     private constructor() { }
