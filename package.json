@@ -65,9 +65,9 @@
 				"icon": "$(file-directory-create)"
 			},
 			{
-				"command": "explorer.createDraft",
-				"title": "Create a new draft",
-				"icon": "$(edit)"
+				"command": "jekyll-n-hyde.command.post.create",
+				"title": "Create a new post",
+				"icon": "$(file-add)"
 			},
 			{
 				"command": "explorer.deletePage",
@@ -90,9 +90,9 @@
 					"when": "viewItem == category"
 				},
 				{
-					"command": "explorer.createDraft",
+					"command": "jekyll-n-hyde.command.post.create",
 					"group": "inline",
-					"when": "viewItem == category"
+					"when": "viewItem == jekyll-n-hyde.tree-item.category"
 				},
 				{
 					"command": "explorer.deletePage",

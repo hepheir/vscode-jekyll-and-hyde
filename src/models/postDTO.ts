@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import type { Frontmatter } from "./frontmatter";
-import type { Comparable } from "../../util/comparable";
+import type { Comparable } from "../util/comparable";
 
 export interface PostDTO extends Comparable<PostDTO> {
     uri: vscode.Uri;

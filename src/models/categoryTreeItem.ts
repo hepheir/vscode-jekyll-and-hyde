@@ -12,6 +12,7 @@ export class CategoryTreeItem extends vscode.TreeItem {
         this.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
         this.iconPath = vscode.ThemeIcon.Folder;
         this.description = `(${this.getPostCountRecursive(category)})`;
+        this.contextValue = 'jekyll-n-hyde.tree-item.category';
     }
 
     private getPostCountRecursive = (category: CategoryDTO) => {

@@ -1,7 +1,7 @@
-import type { Builder } from "../../util/builder";
-import { BuilderError } from "../../util/builderError";
-import { Heap } from "../../util/heap/heap";
-import type { PostDTO } from "../post/postDTO";
+import type { Builder } from "../util/builder";
+import { BuilderError } from "../util/builderError";
+import { Heap } from "../util/heap";
+import type { PostDTO } from "./postDTO";
 import type { CategoryDTO } from "./categoryDTO";
 
 export class CategoryDTOBuilder implements Builder<CategoryDTO> {
