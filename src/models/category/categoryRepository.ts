@@ -1,7 +1,7 @@
-import { CompositeRepository } from "../repository/compositeRepository";
-import type { CrudRepository } from "../repository/crudRepository";
-import { ArrayCrudRepository } from "../repository/implements/arrayCrudRepository";
-import { RepositoryError } from "../repository/repositoryError";
+import { CompositeRepository } from "../../util/repository/compositeRepository";
+import type { CrudRepository } from "../../util/repository/crudRepository";
+import { ArrayCrudRepository } from "../../util/repository/implements/arrayCrudRepository";
+import { RepositoryError } from "../../util/repository/repositoryError";
 import type { CategoryDTO } from "./categoryDTO";
 import { CategoryDTOBuilder } from "./categoryDTOBuilder";
 
@@ -9,11 +9,11 @@ export class CategoryRepository
     extends ArrayCrudRepository<CategoryDTO>
     implements CrudRepository<CategoryDTO>, CompositeRepository<CategoryDTO>
 {
-    constructor() {
+    public static readonly instance: CategoryRepository = new CategoryRepository();
+
+    private constructor() {
         super();
-        const root: CategoryDTO = new CategoryDTOBuilder()
-            .setNames([])
-            .build();
+        const root: CategoryDTO = new CategoryDTOBuilder().build();
         this.save(root);
     }
 
@@ -35,12 +35,11 @@ export class CategoryRepository
     }
 
     copy = (entity: CategoryDTO) => {
-        const newCategory: CategoryDTO = {
-            names: entity.names.slice(),
-            posts: entity.posts.slice(),
-            categories: entity.categories.slice(),
-        };
-        return newCategory;
+        return new CategoryDTOBuilder()
+            .setNames(entity.names)
+            .setPosts(entity.posts)
+            .setCategories(entity.categories)
+            .build();
     }
 
     save = (entity: CategoryDTO) => {

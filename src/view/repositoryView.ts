@@ -24,8 +24,7 @@ class RepositoryTreeDataProvider implements vscode.TreeDataProvider<DTO> {
     private readonly onDidChangeTreeDataEventEmiiter: vscode.EventEmitter<void | DTO | DTO[] | null | undefined> = new vscode.EventEmitter();
 
     constructor() {
-        const categoryRepository = new CategoryRepository();
-        this.repositorySyncService = new CategoryRepositorySyncService(categoryRepository);
+        this.repositorySyncService = new CategoryRepositorySyncService();
         this.repositorySyncService.onDidLoad(categoryRepository => {
             this.onDidChangeTreeDataEventEmiiter.fire(undefined);
         });

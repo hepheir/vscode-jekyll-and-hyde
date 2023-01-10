@@ -5,7 +5,7 @@ import type { PostDTO } from "../models/post/postDTO";
  * - *Note*: this service will affect neither `CategoryService` nor `CategoryRepository`.
  */
 export interface PostService {
-    create: (uri: vscode.Uri, title: string, categories: readonly string[]) => PostDTO;
+    create: (title: string, categories: readonly string[], uri?: vscode.Uri | undefined) => PostDTO;
     add: (uri: vscode.Uri) => void;
     findAll: () => PostDTO[];
     findByUri: (uri: vscode.Uri) => PostDTO | undefined;

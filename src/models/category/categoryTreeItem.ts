@@ -5,7 +5,9 @@ export class CategoryTreeItem extends vscode.TreeItem {
     constructor(
         public readonly category: CategoryDTO
     ) {
-        const lastName = category.names[category.names.length-1];
+        const lastName = (category.names.length === 0)
+            ? ''
+            : category.names[category.names.length-1];
         super(lastName);
         this.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
         this.iconPath = vscode.ThemeIcon.Folder;

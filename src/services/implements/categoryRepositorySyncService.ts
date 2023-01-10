@@ -1,11 +1,11 @@
 import * as vscode from "vscode";
 import type { CategoryDTO } from "../../models/category/categoryDTO";
-import type { CategoryRepository } from "../../models/category/categoryRepository";
+import { CategoryRepository } from "../../models/category/categoryRepository";
 import type { RepositorySyncService } from "../repositorySyncService";
 import { PostFileReader } from "../../models/post/postFileReader";
 import { CategoryDTOBuilder } from "../../models/category/categoryDTOBuilder";
 import type { PostDTO } from "../../models/post/postDTO";
-import { ReaderError } from "../../models/readerError";
+import { ReaderError } from "../../util/readerError";
 
 export class CategoryRepositorySyncService implements RepositorySyncService<CategoryDTO, CategoryRepository> {
     private readonly _onDidLoad: vscode.EventEmitter<CategoryRepository> = new vscode.EventEmitter();
@@ -14,10 +14,7 @@ export class CategoryRepositorySyncService implements RepositorySyncService<Cate
         drafts: '**/_drafts/**/*.{md,markdown,html}',
     };
     private _isLoaded: boolean = false;
-
-    constructor(
-        private readonly categoryRepository: CategoryRepository,
-    ) { }
+    private readonly categoryRepository: CategoryRepository = CategoryRepository.instance;
 
     onDidLoad: vscode.Event<CategoryRepository> = this._onDidLoad.event;
 

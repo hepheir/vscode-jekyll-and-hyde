@@ -2,8 +2,8 @@ import * as vscode from "vscode";
 import * as path from "path";
 import type { Frontmatter } from "./frontmatter";
 import type { PostDTO } from "./postDTO";
-import type { Builder } from "../builder";
-import { BuilderError } from "../builderError";
+import type { Builder } from "../../util/builder";
+import { BuilderError } from "../../util/builderError";
 
 export class PostDTOBuilder implements Builder<PostDTO> {
     private uri: vscode.Uri | undefined;
@@ -51,6 +51,7 @@ export class PostDTOBuilder implements Builder<PostDTO> {
                 ...this.frontmatter,
                 categories: this.categories,
             },
+            compareTo: (post) => this.title!.localeCompare(post.title),
         };
         return newPost;
     }
