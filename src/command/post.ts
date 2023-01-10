@@ -10,10 +10,10 @@ export class PostCommand {
         vscode.commands.registerCommand(id+'.create', this.createPost, this);
     }
 
-    createPost = async (category: CategoryDTO) => {
+    createPost = async (category: CategoryDTO | undefined) => {
         try {
             const title = await this.promptPostTitle();
-            this.postService.create(title, category.names);
+            this.postService.create(title, category?.names ?? []);
         } catch (error) {
             console.warn(error);
         }

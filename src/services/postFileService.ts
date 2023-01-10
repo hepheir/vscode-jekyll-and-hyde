@@ -9,6 +9,8 @@ import type { Writer } from "../util/writer";
 export class PostFileService {
     public static readonly instance = new PostFileService();
 
+    private readonly writer: Writer<PostDTO> = new PostFileWriter();
+
     private constructor() { }
 
     create = (title: string, categories: readonly string[], uri?: vscode.Uri | undefined) => {
@@ -18,8 +20,8 @@ export class PostFileService {
             .setTitle(title)
             .setCategories(categories)
             .build();
-        const writer: Writer<PostDTO> = new PostFileWriter();
-        writer.write(postDTO);
+        this.writer.write(postDTO);
+        vscode.window.showTextDocument(uri);
         return postDTO;
     }
 
@@ -37,7 +39,7 @@ export class PostFileService {
             throw new Error();
         }
         const basename = this.generateBasename(title);
-        return vscode.Uri.file(path.join(workspaceFolder!, '_drafts', basename));
+        return vscode.Uri.file(path.join(workspaceFolder!, '_posts', basename));
     }
 
     private generateBasename = (title: string) => {

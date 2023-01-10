@@ -78,9 +78,9 @@
 		"menus": {
 			"view/title": [
 				{
-					"command": "explorer.refresh",
+					"command": "jekyll-n-hyde.command.post.create",
 					"group": "navigation",
-					"when": "view == explorer"
+					"when": "view == jekyll-n-hyde.view.repository"
 				}
 			],
 			"view/item/context": [
