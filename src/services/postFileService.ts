@@ -39,7 +39,7 @@ export class PostFileService {
             throw new Error();
         }
         const basename = this.generateBasename(title);
-        return vscode.Uri.file(path.join(workspaceFolder!, '_drafts', basename));
+        return vscode.Uri.file(path.join(workspaceFolder!, '_posts', basename));
     }
 
     private generateBasename = (title: string) => {
