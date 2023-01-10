@@ -77,11 +77,6 @@
 		],
 		"menus": {
 			"view/title": [
-				{
-					"command": "explorer.refresh",
-					"group": "navigation",
-					"when": "view == explorer"
-				}
 			],
 			"view/item/context": [
 				{
