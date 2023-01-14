@@ -27,7 +27,10 @@ class CreatePostCommand extends Command {
         const title: string = await this.prompt();
         category = category ?? this.categoryRepository.findRoot();
         const uri = this.generateUniqueUri(title);
-        const page = new Page(uri);
+        const page = new Page(uri, {
+            title,
+            categories: category.names,
+        });
         page.write();
         this.categoriesView.refresh();
         this.categoriesView.reveal(page);
