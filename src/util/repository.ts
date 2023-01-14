@@ -1,4 +1,4 @@
-import { Heap } from "./array";
+import { SortedArray } from "./array";
 import type { Comparable, Copyable } from "./util";
 
 class ItemExists extends Error {}
@@ -123,12 +123,12 @@ class ArrayCrudRepository<E extends RepositoryItem<E>> implements CrudRepository
     }
 }
 
-class HeapCrudRepository<E extends RepositoryItem<E> & Comparable<E>> extends ArrayCrudRepository<E> {
-    protected cachedEntities: E[] = new Heap();
+class SortedArrayCrudRepository<E extends RepositoryItem<E> & Comparable<E>> extends ArrayCrudRepository<E> {
+    protected cachedEntities: E[] = new SortedArray();
 
     deleteAll = (entities?: readonly E[] | undefined) => {
         if (entities === undefined) {
-            this.cachedEntities = new Heap();
+            this.cachedEntities = new SortedArray();
             return;
         }
         entities.forEach(this.delete);
@@ -142,5 +142,5 @@ export {
     CompositeRepository,
     CrudRepository,
     ArrayCrudRepository,
-    HeapCrudRepository,
+    SortedArrayCrudRepository,
 }

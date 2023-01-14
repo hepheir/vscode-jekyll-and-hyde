@@ -2,9 +2,9 @@ import type { Comparable } from "../util/util";
 import {
     CompositeRepository,
     CrudRepository,
-    HeapCrudRepository,
     RepositoryError,
     RepositoryItem,
+    SortedArrayCrudRepository,
 } from "../util/repository";
 import { Page, PageRepository } from "./page";
 
@@ -66,7 +66,7 @@ class Category implements RepositoryItem<Category>, Comparable<Category> {
     }
 }
 
-class CategoryRepository extends HeapCrudRepository<Category> implements CrudRepository<Category>, CompositeRepository<Category> {
+class CategoryRepository extends SortedArrayCrudRepository<Category> implements CrudRepository<Category>, CompositeRepository<Category> {
     public static readonly instance = new CategoryRepository();
 
     private pageRepository = PageRepository.instance;

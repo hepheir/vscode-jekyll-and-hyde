@@ -6,8 +6,8 @@ import * as matter from "gray-matter";
 import type { Comparable } from "../util/util";
 import {
     CrudRepository,
-    HeapCrudRepository,
     RepositoryItem,
+    SortedArrayCrudRepository,
 } from "../util/repository";
 
 class PageReader {
@@ -144,7 +144,7 @@ class Page implements RepositoryItem<Page>, Comparable<Page> {
     }
 }
 
-class PageRepository extends HeapCrudRepository<Page> implements CrudRepository<Page> {
+class PageRepository extends SortedArrayCrudRepository<Page> implements CrudRepository<Page> {
     public static readonly instance = new PageRepository();
 
     private constructor() {

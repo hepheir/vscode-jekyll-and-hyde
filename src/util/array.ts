@@ -1,6 +1,6 @@
 import type { Comparable } from "./util";
 
-export class Heap<E extends Comparable<E>> extends Array<E> {
+class SortedArray<E extends Comparable<E>> extends Array<E> {
     override push(...items: E[]): number {
         super.push(...items);
         this.sort();
@@ -17,3 +17,7 @@ export class Heap<E extends Comparable<E>> extends Array<E> {
         return this;
     }
 }
+
+export {
+    SortedArray,
+};
