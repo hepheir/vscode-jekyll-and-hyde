@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
-import { RepositoryView } from './view/repositoryView';
-import { PostCommand } from './command/post';
+import CategoriesView from './view/categories';
+import CategoryCommands from './command/category';
+import PostCommands from './command/post';
 
 export function activate(context: vscode.ExtensionContext) {
 	if (!vscode.workspace.workspaceFolders) {
@@ -8,6 +9,12 @@ export function activate(context: vscode.ExtensionContext) {
 		return;
 	}
 
-	new RepositoryView();
-	new PostCommand();
+	// views
+	console.log("initializing views");
+	CategoriesView.use();
+
+	// commands
+	console.log("initializing commands");
+	PostCommands.use();
+	CategoryCommands.use();
 }

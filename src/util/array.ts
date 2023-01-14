@@ -1,4 +1,4 @@
-import type { Comparable } from "./comparable";
+import type { Comparable } from "./util";
 
 export class Heap<E extends Comparable<E>> extends Array<E> {
     override push(...items: E[]): number {

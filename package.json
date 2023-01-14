@@ -46,8 +46,8 @@
 		"views": {
 			"jekyll-n-hyde": [
 				{
-					"id": "jekyll-n-hyde.view.repository",
-					"name": "Repository",
+					"id": "jekyll-n-hyde.view.categories",
+					"name": "Categories",
 					"icon": "images/jekyll.svg",
 					"contextualTitle": "Jekyll n Hyde :: Site View"
 				}
@@ -70,6 +70,11 @@
 				"icon": "$(file-add)"
 			},
 			{
+				"command": "jekyll-n-hyde.command.category.create",
+				"title": "Create a new category",
+				"icon": "$(file-directory-create)"
+			},
+			{
 				"command": "explorer.deletePage",
 				"title": "Delete",
 				"icon": "$(trash)"
@@ -80,24 +85,24 @@
 				{
 					"command": "jekyll-n-hyde.command.post.create",
 					"group": "navigation",
-					"when": "view == jekyll-n-hyde.view.repository"
+					"when": "view == jekyll-n-hyde.view.categories"
+				},
+				{
+					"command": "jekyll-n-hyde.command.category.create",
+					"group": "inline",
+					"when": "view == jekyll-n-hyde.view.categories"
 				}
 			],
 			"view/item/context": [
 				{
-					"command": "explorer.createCategory",
-					"group": "inline",
-					"when": "viewItem == category"
-				},
-				{
 					"command": "jekyll-n-hyde.command.post.create",
 					"group": "inline",
-					"when": "viewItem == jekyll-n-hyde.tree-item.category"
+					"when": "viewItem == jekyll-n-hyde.view.item.category"
 				},
 				{
-					"command": "explorer.deletePage",
+					"command": "jekyll-n-hyde.command.category.create",
 					"group": "inline",
-					"when": "viewItem == post || viewItem == draft"
+					"when": "viewItem == jekyll-n-hyde.view.item.category"
 				}
 			]
 		}
