@@ -89,7 +89,7 @@
 				},
 				{
 					"command": "jekyll-n-hyde.command.category.create",
-					"group": "inline",
+					"group": "navigation",
 					"when": "view == jekyll-n-hyde.view.categories"
 				}
 			],
