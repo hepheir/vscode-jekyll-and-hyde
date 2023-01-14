@@ -2,8 +2,8 @@ import * as fs from "fs";
 import * as path from "path";
 import * as vscode from "vscode";
 import { Command, CommandGroup } from "./base";
-import { Category, CategoryRepository } from "../models/category";
-import { Page } from "../models/page";
+import { Category, CategoryRepository } from "../model/category";
+import { Page } from "../model/page";
 import CategoriesView from "../view/categories";
 
 class PostCommands extends CommandGroup {

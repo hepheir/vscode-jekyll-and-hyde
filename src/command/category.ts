@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { Command, CommandGroup } from "./base";
 import CategoriesView from "../view/categories";
-import { Category, CategoryRepository } from "../models/category";
+import { Category, CategoryRepository } from "../model/category";
 
 class CategoryCommands extends CommandGroup {
     public static use() {

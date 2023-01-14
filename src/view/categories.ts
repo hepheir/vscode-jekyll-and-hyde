@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 import { TreeViewBase } from "./base";
-import { Category, CategoryRepository } from "../models/category";
-import { Page, PageRepository } from "../models/page";
+import { Category, CategoryRepository } from "../model/category";
+import { Page, PageRepository } from "../model/page";
 
 class CategoryTreeItem extends vscode.TreeItem {
     constructor(category: Category) {
