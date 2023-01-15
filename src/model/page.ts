@@ -78,12 +78,31 @@ class Page implements RepositoryItem<Page>, Comparable<Page> {
         this.frontmatter.title = x;
     }
 
+    get date(): string {
+        return this.frontmatter.date
+            ?? this.basenameParser.exec(this.name)!.groups!.date;
+    }
+
+    set date(x: string) {
+        this.frontmatter.date = x;
+    }
+
+    get id(): string {
+        const ext = path.extname(this.uri.path);
+        return this.uri.path.substring(0, -ext.length);
+    }
+
     get categories(): string[] {
         return this.frontmatter.categories ?? [];
     }
 
     set categories(x: string[]) {
         this.frontmatter.categories = x;
+    }
+
+    get collection(): string {
+        return this.frontmatter.collection
+            ?? '';
     }
 
     get dir(): string {
@@ -105,15 +124,6 @@ class Page implements RepositoryItem<Page>, Comparable<Page> {
 
     set path(x: string) {
         this.frontmatter.path = x;
-    }
-
-    get date(): string {
-        return this.frontmatter.date
-            ?? this.basenameParser.exec(this.name)!.groups!.date;
-    }
-
-    set date(x: string) {
-        this.frontmatter.date = x;
     }
 
     constructor(uri: vscode.Uri, frontmatter: object = {}) {
