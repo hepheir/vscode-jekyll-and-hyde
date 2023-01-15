@@ -59,6 +59,9 @@ class Page implements RepositoryItem<Page>, Comparable<Page> {
     public uri: vscode.Uri;
     public frontmatter: { [key: string]: any };
 
+    /**
+     * The content of the Page, rendered or un-rendered depending upon what Liquid is being processed and what `Page` is.
+     */
     get content(): string {
         if (this.reader.readable(this)) {
             return this.reader.read(this).content;
@@ -78,6 +81,10 @@ class Page implements RepositoryItem<Page>, Comparable<Page> {
         this.frontmatter.title = x;
     }
 
+    /**
+     * The Date assigned to the Post.
+     * This can be overridden in a Post’s front matter by specifying a new date/time in the format `YYYY-MM-DD HH:MM:SS` (assuming UTC), or `YYYY-MM-DD HH:MM:SS +/-TTTT` (to specify a time zone using an offset from UTC. e.g. `2008-12-14 10:30:00 +0900`).
+     */
     get date(): string {
         return this.frontmatter.date
             ?? this.basenameParser.exec(this.name)!.groups!.date;
@@ -87,12 +94,23 @@ class Page implements RepositoryItem<Page>, Comparable<Page> {
         this.frontmatter.date = x;
     }
 
+    /**
+     * An identifier unique to a document in a Collection or a Post (useful in RSS feeds).
+     * e.g. `/2008/12/14/my-post/my-collection/my-document`
+     */
     get id(): string {
         const ext = path.extname(this.uri.path);
         return this.uri.path.substring(0, -ext.length);
     }
 
+    /**
+     * The list of categories to which this post belongs.
+     * Categories are derived from the directory structure above the `_posts` directory.
+     * For example, a post at `/work/code/_posts/2008-12-24-closures.md` would have this field set to `['work', 'code']`.
+     * These can also be specified in the front matter.
+     */
     get categories(): string[] {
+        // TODO: derive categories from the directory structure above the `_posts` directory.
         return this.frontmatter.categories ?? [];
     }
 
@@ -100,11 +118,21 @@ class Page implements RepositoryItem<Page>, Comparable<Page> {
         this.frontmatter.categories = x;
     }
 
+    /**
+     * The label of the collection to which this document belongs.
+     * e.g. `posts` for a post, or `puppies` for a document at path `_puppies/rover.md`.
+     * If not part of a collection, an empty string is returned.
+     */
     get collection(): string {
+        // TODO: parse collection from directory structure.
         return this.frontmatter.collection
             ?? '';
     }
 
+    /**
+     * The path between the source directory and the file of the post or page, e.g. `/pages/`.
+     * This can be overridden by `permalink` in the front matter.
+     */
     get dir(): string {
         return this.frontmatter.permalink
             ?? path.dirname(this.uri.path);
@@ -117,6 +145,11 @@ class Page implements RepositoryItem<Page>, Comparable<Page> {
         return path.basename(this.uri.path);
     }
 
+    /**
+     * The path to the raw post or page.
+     * Example usage: Linking back to the page or post’s source on GitHub.
+     * This can be overridden in the front matter.
+     */
     get path(): string {
         return this.frontmatter.path
             ?? this.uri.path;
