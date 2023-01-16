@@ -159,6 +159,18 @@ class Page implements RepositoryItem<Page>, Comparable<Page> {
         this.frontmatter.path = x;
     }
 
+    /**
+     * Set to false if you don’t want a specific post to show up when the site is generated.
+     */
+    get published(): boolean {
+        return this.frontmatter.pushlished
+            ?? true;
+    }
+
+    set published(x: boolean) {
+        this.frontmatter.published = x;
+    }
+
     constructor(uri: vscode.Uri, frontmatter: object = {}) {
         this.uri = uri;
         this.frontmatter = frontmatter;
