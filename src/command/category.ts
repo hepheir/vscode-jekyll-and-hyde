@@ -22,13 +22,10 @@ class CreateCategoryCommand extends Command {
 
     dispose = async (category: Category | undefined) => {
         const name: string = await this.prompt();
-        category = category ?? this.categoryRepository.findRoot();
-        const subcategory = category.createSubcategory(name);
-        if (!this.categoryRepository.existsById(subcategory.getId())) {
-            this.categoryRepository.save(subcategory);
-        }
-        this.categoriesView.refresh();
-        this.categoriesView.reveal(subcategory);
+        const parentCategory = category ?? this.categoryRepository.findRoot();
+        const childCategory = parentCategory.createSubcategory(name);
+        this.saveIfNotExist(childCategory);
+        this.refreshAndReveal(childCategory);
     }
 
     prompt = async () => {
@@ -41,6 +38,18 @@ class CreateCategoryCommand extends Command {
             throw new Error("Aborted.");
         }
         return userInput!;
+    }
+
+    saveIfNotExist(category: Category) {
+        if (this.categoryRepository.existsById(category.getId())) {
+            return;
+        }
+        this.categoryRepository.save(category);
+    }
+
+    refreshAndReveal(category: Category) {
+        this.categoriesView.refresh();
+        this.categoriesView.reveal(category);
     }
 }
 
