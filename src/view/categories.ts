@@ -1,31 +1,23 @@
 import * as vscode from "vscode";
-import { TreeViewBase } from "./base";
+import { TreeFileItem, TreeFolderItem, TreeViewBase } from "./base";
 import { Category, CategoryRepository } from "../model/category";
 import { Page, PageRepository } from "../model/page";
 
-class CategoryTreeItem extends vscode.TreeItem {
+class CategoryTreeItem extends TreeFolderItem {
     constructor(category: Category) {
         super(category.getDisplayName());
-        this.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
-        this.iconPath = vscode.ThemeIcon.Folder;
         this.description = `(${category.count()})`;
-        this.contextValue = 'jekyll-n-hyde.view.item.category';
+        this.contextValue = 'jekyll-n-hyde.view.categories.category';
     }
 }
 
-class PostTreeItem extends vscode.TreeItem {
+class PostTreeItem extends TreeFileItem {
     constructor(post: Page) {
-        super(post.title);
-        this.resourceUri = post.uri;
-        this.collapsibleState = vscode.TreeItemCollapsibleState.None;
-        this.iconPath = vscode.ThemeIcon.File;
+        super(post.title, post.uri);
         this.description = post.name;
-        this.contextValue = 'jekyll-n-hyde.view.item.post';
-        this.command = {
-            command: 'vscode.open',
-            title: "Open File",
-            arguments: [post.uri],
-        };
+        this.contextValue = post.published
+            ? "jekyll.view.categories.post.published"
+            : "jekyll.view.categories.post.unpublished";
     }
 }
 
