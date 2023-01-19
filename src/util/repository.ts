@@ -1,3 +1,4 @@
+import * as vscode from 'vscode';
 import { SortedArray } from "./array";
 import type { Comparable, Copyable } from "./util";
 
@@ -23,6 +24,7 @@ interface CompositeRepository<E extends RepositoryItem<E>> extends Repository<E>
 }
 
 interface CrudRepository<E extends RepositoryItem<E>> extends Repository<E> {
+    onDidSaveElement: vscode.Event<E>;
     count: () => number;
     delete: (entity: E) => void;
     deleteAll: (entities?: readonly E[] | undefined) => void;
@@ -40,6 +42,10 @@ interface CrudRepository<E extends RepositoryItem<E>> extends Repository<E> {
 
 class ArrayCrudRepository<E extends RepositoryItem<E>> implements CrudRepository<E> {
     protected cachedEntities: E[] = [];
+
+    protected onDidSaveElementEventEmitter = new vscode.EventEmitter<E>();
+
+    onDidSaveElement = this.onDidSaveElementEventEmitter.event;
 
     count = () => {
         return this.cachedEntities.length;
@@ -98,6 +104,7 @@ class ArrayCrudRepository<E extends RepositoryItem<E>> implements CrudRepository
             this.cachedEntities[foundIndex] = entity.copy();
         }
         this.postSave(entity);
+        this.onDidSaveElementEventEmitter.fire(entity);
     }
 
     saveAll = (entities: readonly E[]) => {
