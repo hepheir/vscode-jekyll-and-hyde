@@ -1,72 +1,57 @@
-import * as fs from "fs";
 import * as path from "path";
-import { TextEncoder } from "util";
 import * as vscode from "vscode";
 import * as matter from "gray-matter";
-import type { Comparable } from "../util/util";
-import {
-    CrudRepository,
-    RepositoryItem,
-    SortedArrayCrudRepository,
-} from "../util/repository";
+import type { Comparable } from "../util/object";
+import type { RepositoryItem } from "../util/repository";
+import { FileSystem } from "./fs";
 
-class PageReader {
-    public static readonly instance = new PageReader();
-
-    read(page: Page) {
-        const file = this.readFile(page.uri);
-        page.frontmatter = file.data;
-        console.log(`successfully read post <${page.uri.path}>.`);
-        return file;
+class Page implements RepositoryItem<Page>, Comparable<Page>, vscode.TreeItem {
+    public static predictId(uri: vscode.Uri): string {
+        return uri.fsPath;
     }
 
-    readable(page: Page) {
-        if (!fs.existsSync(page.uri.fsPath)) {
-            return false;
-        }
-        const content = fs.readFileSync(page.uri.fsPath).toString();
-        return matter.test(content);
+    public static createBasename(title: string, date: Date): string {
+        return [
+            date.getFullYear().toString().padStart(4, '0'),
+            (date.getMonth()+1).toString().padStart(2, '0'),
+            date.getDate().toString().padStart(2, '0'),
+            title.replace(/[/\\?%*:|"<>.,;= ]/g, '-').trim()+'.md',
+        ].join('-');
     }
 
-    private readFile(uri: vscode.Uri) {
-        if (!fs.existsSync(uri.fsPath)) {
-            console.error(`could not read post <${uri.path}> : file not found.`);
-            throw vscode.FileSystemError.FileNotFound(uri);
-        }
-        const content = fs.readFileSync(uri.fsPath).toString();
-        if (!matter.test(content)) {
-            console.error(`could not read post <${uri.path}> : frontmatter not found.`);
-            throw new Error();
-        }
-        return matter(content);
-    }
-}
-
-class PageWriter {
-    public static readonly instance = new PageWriter();
-
-    write(page: Page) {
-        const content = matter.stringify(page.content, page.frontmatter);
-        fs.writeFileSync(page.uri.fsPath, new TextEncoder().encode(content));
-    }
-}
-
-class Page implements RepositoryItem<Page>, Comparable<Page> {
+    public readonly collapsibleState = vscode.TreeItemCollapsibleState.None;
+    public readonly contextValue = 'jekyll-n-hyde.model.post';
+    public readonly command: vscode.Command;
+    public readonly resourceUri: vscode.Uri;
     private readonly basenameParser = /((?<date>[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])-)?(?<title>.+)\.(md)|(markdown)|(html)/;
-    private readonly reader = PageReader.instance;
-    private readonly writer = PageWriter.instance;
+    private readonly frontmatter: { [key: string]: any };
+    private readonly fileSystem = FileSystem.instance;
 
-    public uri: vscode.Uri;
-    public frontmatter: { [key: string]: any };
+    constructor(
+        uri: vscode.Uri,
+        frontmatter: object = {},
+    ) {
+        this.command = {
+            command: 'vscode.open',
+            title: "Open File",
+            arguments: [uri],
+        };
+        this.resourceUri = uri;
+        this.frontmatter = frontmatter;
+    }
 
-    /**
-     * The content of the Page, rendered or un-rendered depending upon what Liquid is being processed and what `Page` is.
-     */
-    get content(): string {
-        if (this.reader.readable(this)) {
-            return this.reader.read(this).content;
-        }
-        return '';
+    get description() {
+        return this.name;
+    }
+
+    get label() {
+        return this.title;
+    }
+
+    get iconPath() {
+        return this.published
+            ? vscode.ThemeIcon.File
+            : new vscode.ThemeIcon('lock');
     }
 
     /**
@@ -99,8 +84,8 @@ class Page implements RepositoryItem<Page>, Comparable<Page> {
      * e.g. `/2008/12/14/my-post/my-collection/my-document`
      */
     get id(): string {
-        const ext = path.extname(this.uri.path);
-        return this.uri.path.substring(0, -ext.length);
+        const ext = path.extname(this.resourceUri.path);
+        return this.resourceUri.path.substring(0, -ext.length);
     }
 
     /**
@@ -111,7 +96,7 @@ class Page implements RepositoryItem<Page>, Comparable<Page> {
      */
     get categories(): string[] {
         // TODO: derive categories from the directory structure above the `_posts` directory.
-        return this.frontmatter.categories ?? [];
+        return this.frontmatter.categories?.slice() ?? [];
     }
 
     set categories(x: string[]) {
@@ -135,14 +120,14 @@ class Page implements RepositoryItem<Page>, Comparable<Page> {
      */
     get dir(): string {
         return this.frontmatter.permalink
-            ?? path.dirname(this.uri.path);
+            ?? path.dirname(this.resourceUri.path);
     }
 
     /**
      * The filename of the post or page, e.g. `about.md`
      */
     get name(): string {
-        return path.basename(this.uri.path);
+        return path.basename(this.resourceUri.path);
     }
 
     /**
@@ -152,7 +137,7 @@ class Page implements RepositoryItem<Page>, Comparable<Page> {
      */
     get path(): string {
         return this.frontmatter.path
-            ?? this.uri.path;
+            ?? this.resourceUri.path;
     }
 
     set path(x: string) {
@@ -163,7 +148,7 @@ class Page implements RepositoryItem<Page>, Comparable<Page> {
      * Set to false if you don’t want a specific post to show up when the site is generated.
      */
     get published(): boolean {
-        return this.frontmatter.pushlished
+        return this.frontmatter.published
             ?? true;
     }
 
@@ -171,44 +156,32 @@ class Page implements RepositoryItem<Page>, Comparable<Page> {
         this.frontmatter.published = x;
     }
 
-    constructor(uri: vscode.Uri, frontmatter: object = {}) {
-        this.uri = uri;
-        this.frontmatter = frontmatter;
+    setTimezoneDate = (date: Date) => {
+        const timezoneOffset = new Date().getTimezoneOffset();
+        const timezoneDate = new Date(date.getTime() - timezoneOffset * 60000);
+        this.date = timezoneDate.toISOString();
     }
 
-    getId = () => {
-        return this.uri.fsPath;
+    getItemId = () => {
+        return Page.predictId(this.resourceUri);
     }
 
-    copy = () => {
-        const copied = new Page(this.uri);
-        copied.frontmatter = this.frontmatter;
-        return copied;
-    }
-
-    compareTo(x: Page): number {
+    compareTo = (x: Page) => {
         return this.title.localeCompare(x.title);
     }
 
-    read = () => {
-        this.reader.read(this);
+    render = (withoutContent: boolean = false) => {
+        const content = withoutContent
+            ? ''
+            : matter(this.fileSystem.read(this.resourceUri)).content;
+        return matter.stringify(content, this.frontmatter);
     }
 
-    write = () => {
-        this.writer.write(this);
-    }
-}
-
-class PageRepository extends SortedArrayCrudRepository<Page> implements CrudRepository<Page> {
-    public static readonly instance = new PageRepository();
-
-    private constructor() {
-        console.log(`initializing page repository.`);
-        super();
+    toString = () => {
+        return `<Page "${this.title}"> (at category "${this.categories.join('/')}")`;
     }
 }
 
 export {
     Page,
-    PageRepository,
 };

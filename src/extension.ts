@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
-import CategoriesView from './view/categories';
-import CategoryCommands from './command/category';
-import PostCommands from './command/post';
+import * as command from './command';
+import { CategoriesView } from './view/categories';
 
 export function activate(context: vscode.ExtensionContext) {
 	if (!vscode.workspace.workspaceFolders) {
@@ -10,11 +9,8 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 
 	// views
-	console.log("initializing views");
 	CategoriesView.use();
 
 	// commands
-	console.log("initializing commands");
-	PostCommands.use();
-	CategoryCommands.use();
+	command.use();
 }

@@ -1,162 +1,116 @@
-import type { Comparable } from "../util/util";
-import {
-    CompositeRepository,
-    CrudRepository,
-    RepositoryError,
-    RepositoryItem,
-    SortedArrayCrudRepository,
-} from "../util/repository";
-import { Page, PageRepository } from "./page";
+import * as vscode from "vscode";
+import type { Comparable } from "../util/object";
+import type { Page } from "./page";
+import { PageRepository } from "./page.repository";
+import { Logable, Logger } from "../util/logger";
+import { AbstractComposite } from "../util/composite.implement";
+import { Optional } from "../util/optional";
+import { SortedArray } from "../util/array";
 
-class Category implements RepositoryItem<Category>, Comparable<Category> {
+export class Category extends AbstractComposite<Category> implements Comparable<Category>, Logable, vscode.TreeItem {
+    public static readonly ROOT_NAME = '#ROOT';
+    private static changes: Category[] = [];
+    private static readonly root = new Category([]);
+
+    public static popRecentlyChanged(): Category[] {
+        const retval = Category.changes;
+        Category.changes = [];
+        return retval;
+    }
+
+    public static getRoot(): Category {
+        return Category.root;
+    }
+
+    public static predictId(names: readonly string[]): string {
+        if (names.length === 0) {
+            return Category.ROOT_NAME;
+        }
+        return names.join('/');
+    }
+
+    public readonly contextValue = 'jekyll-n-hyde.model.category';
+    public readonly collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
+    public readonly iconPath = vscode.ThemeIcon.Folder;
+    public logger = new Logger('model.category');
     public names: string[] = [];
+    private readonly postRepository = PageRepository.instance;
 
-    private categoryRepository = CategoryRepository.instance;
-    private pageRepository = PageRepository.instance;
-
-    get categories(): Category[] {
-        return this.categoryRepository.findChildren(this);
-    }
-
-    get posts(): Page[] {
-        return this.pageRepository
-            .findAll()
-            .filter(post => {
-                return this.names.join('/') === post.categories.join('/');
-            });
-    }
-
-    constructor(names: readonly string[]) {
+    private constructor(names: readonly string[]) {
+        super(new SortedArray());
         this.names = names.slice();
     }
 
-    getDisplayName(): string {
-        if (this.names.length === 0) {
-            return '';
-        }
-        return this.names[this.names.length-1];
+    get label() {
+        return (this.names.length === 0)
+            ? Category.ROOT_NAME
+            : this.names[this.names.length - 1];
     }
 
-    count(): number {
-        return this.pageRepository
-            .findAll()
-            .filter(post => {
-                if (post.categories.length < this.names.length) {
-                    return false;
-                }
-                return this.names.join('/') === post.categories.slice(0, this.names.length).join('/');
-            })
-            .length;
+    get description() {
+        return `(${this.countPosts(true)})`;
     }
 
-    createSubcategory(name: string): Category {
-        return new Category([...this.names, name]);
+    getItemId = () => {
+        return Category.predictId(this.names);
     }
 
-    getId(): string {
-        return this.names.join('/');
-    }
-
-    copy(): Category {
-        return new Category(this.names);
+    getRoot = () => {
+        return Category.root;
     }
 
     compareTo(x: Category): number {
-        return this.getId().localeCompare(x.getId());
-    }
-}
-
-class CategoryRepository extends SortedArrayCrudRepository<Category> implements CrudRepository<Category>, CompositeRepository<Category> {
-    public static readonly instance = new CategoryRepository();
-
-    private pageRepository = PageRepository.instance;
-
-    private constructor() {
-        console.log(`initializing category repository.`);
-        super();
-        console.log(`creating root category.`);
-        this.save(new Category([]));
-
-        console.log(`overriding page repository behavior.`);
-        this.pageRepository.postSave = (post) => {
-            this.save(new Category(post.categories ?? []));
-        }
+        return this.getItemId().localeCompare(x.getItemId());
     }
 
-    findRoot = () => {
-        return this.findOrThrowByNames([]);
+    createSubcategory = (name: string) => {
+        this.logger.info(`creating subcategory "${name}" from ${this}.`);
+        const createdCategory = new Category([...this.names, name]);
+        this.children.save(createdCategory);
+        this.logger.info(`successfully created ${createdCategory}.`);
+        return createdCategory;
     }
 
-    findParent = (entity: Category) => {
-        return this.cachedEntities.find(x => {
-            return this.isChild(entity, x);
-        })?.copy();
+    findSubcategory(name: string): Optional<Category> {
+        const subcategoryId = Category.predictId([...this.names, name]);
+        return this.children.findById(subcategoryId);
     }
 
-    findChildren = (entity: Category) => {
-        return this.cachedEntities
-            .filter(x => this.isChild(x, entity))
-            .map(x => x.copy());
-    }
-
-    private isChild = (child: Category, parent: Category) => {
-        if (child.names.length === 0) {
-            return false;
-        }
-        return child.names.slice(0, -1).join('/') === parent.names.join('/');
-    }
-
-    preSave = (entity: Category) => {
-        if (this.shouldHaveParent(entity) && this.findParent(entity) === undefined) {
-            this.createParent(entity);
-        }
-    }
-
-    private createParent = (entity: Category) => {
-        const parent = new Category(this.getParentNames(entity));
-        this.save(parent);
-    }
-
-    postSave = (entity: Category) => {
-        if (this.shouldHaveParent(entity)) {
-            this.updateParent(entity);
-        }
-    }
-
-    private updateParent = (entity: Category) => {
-        const parent = this.findParent(entity);
-        if (parent === undefined) {
+    removeSubcategory(name: string) {
+        this.logger.info(`remove subcategory ${name} from ${this}.`);
+        const subcategory = this.findSubcategory(name);
+        if (subcategory.isEmpty()) {
+            this.logger.warn(`there is no such category with ${name}.`);
             return;
         }
-        parent.categories.push(entity);
-        this.save(parent);
+        this.children.delete(subcategory.get());
+        this.logger.info(`successfully removed ${subcategory}.`);
     }
 
-    private findOrThrowByNames = (names: readonly string[]) => {
-        const foundCategory = this.findByNames(names);
-        if (foundCategory === undefined) {
-            throw new RepositoryError.ItemNotFound();
-        }
-        return foundCategory;
+    findAllPosts(recursive: boolean = false): Page[] {
+        this.logger.info(`finding all posts of ${this}.`);
+        return this._findAllPosts(recursive);
     }
 
-    private findByNames = (names: readonly string[]) => {
-        return this.findById(new Category(names).getId());
+    countPosts(recursive: boolean = false): number {
+        return this._findAllPosts(recursive).length;
     }
 
-    private getParentNames = (entity: Category) => {
-        if (!this.shouldHaveParent(entity)) {
-            throw new RepositoryError.ItemNotFound();
-        }
-        return entity.names.slice(0, entity.names.length - 1);
+    toString = () => {
+        return `<Category "${this.names.join('/') || Category.ROOT_NAME}"> (${this.children.count()} categories & ${this.countPosts()} posts)`;
     }
 
-    private shouldHaveParent = (entity: Category) => {
-        return entity.names.length > 0;
+    private _findAllPosts(recursive: boolean): Page[] {
+        return recursive
+            ? this.postRepository.filter(this.isChildPost)
+            : this.postRepository.filter(this.isDirectChildPost);
+    }
+
+    private isDirectChildPost = (page: Page) => {
+        return (this.names.length == page.categories.length) && this.isChildPost(page);
+    }
+
+    private isChildPost = (page: Page) => {
+        return this.names.every((name, index) => page.categories[index] === name);
     }
 }
-
-export {
-    Category,
-    CategoryRepository,
-};

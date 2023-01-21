@@ -1,4 +1,4 @@
-import type { Comparable } from "./util";
+import type { Comparable } from "./object";
 
 class SortedArray<E extends Comparable<E>> extends Array<E> {
     override push(...items: E[]): number {
