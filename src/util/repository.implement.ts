@@ -109,8 +109,8 @@ export class ObservableArrayRepository<E extends RepositoryItem<E> & Copyable<E>
     protected savedItems: E[] = [];
     protected deletedItems: E[] = [];
 
-    constructor() {
-        super();
+    constructor(itemContainer: E[] = []) {
+        super(itemContainer);
         this.onDidSave(e => this.savedItems.push(e));
         this.onDidDelete(e => this.deletedItems.push(e));
     }
