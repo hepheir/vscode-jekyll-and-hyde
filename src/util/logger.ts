@@ -3,6 +3,7 @@ import * as vscode from "vscode";
 export class Logger {
     private static readonly SCOPE_SIZE: number | undefined = undefined;
     private static readonly CHANNEL_NAME = 'Jekyll N Hyde';
+    private static readonly PREFIX_DEBUG = '[DEBUG]';
     private static readonly PREFIX_INFO = '[INFO]';
     private static readonly PREFIX_WARN = '[WARN]';
     private static readonly PREFIX_ERROR = '[ERROR]';
@@ -18,6 +19,10 @@ export class Logger {
     disable = () => {
         this.info(`disabled [${this.loggerName}]`);
         this.enabled = false;
+    }
+
+    debug = (...args: readonly any[]) => {
+        this.printFn(Logger.PREFIX_DEBUG, this.renderLoggerName(), ...args);
     }
 
     info = (...args: readonly any[]) => {
