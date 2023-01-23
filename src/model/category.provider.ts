@@ -10,7 +10,6 @@ export class CategoryProvider implements Logable, vscode.TreeDataProvider<Catego
     protected readonly pageRepository = PageRepository.instance;
     protected readonly onDidChangeTreeDataEventEmiiter: vscode.EventEmitter<undefined | Category | Page | (Category | Page)[]> = new vscode.EventEmitter();
     public logger = new Logger('model.category.provider');
-    private initialized = false;
 
     constructor() {
         this.logger.info(`initializing ${CategoryProvider.name}.`);
@@ -67,10 +66,21 @@ export class CategoryProvider implements Logable, vscode.TreeDataProvider<Catego
         } else if (args instanceof Category || args instanceof Page) {
             this.logger.info(`updating ${args}.`);
         } else {
+            args = this.removeDuplicatedItems(args);
             this.logger.info(`updating ${args.length} items.`);
             args.forEach(arg => this.logger.info(`... updating ${arg}`));
         }
         this.onDidChangeTreeDataEventEmiiter.fire(args);
+    }
+
+    private removeDuplicatedItems = (items: (Category | Page)[]) => {
+        const map: { [id: string]: Category | Page} = {};
+        items.forEach(item => {
+            map[item.getItemId()] = item;
+        })
+        const reducedItems = Object.values(map);
+        this.logger.info(`removed ${items.length - reducedItems.length} duplicated items.`);
+        return reducedItems;
     }
 
     private subscribePageRepository = () => {
@@ -81,17 +91,8 @@ export class CategoryProvider implements Logable, vscode.TreeDataProvider<Catego
     private onPageRepositoryDiff = (diff: RepositoryItemDiff<Page>) => {
         this.logger.info(`notified by ${PageRepository.name}. (${diff.savedItems.length} saved, ${diff.deletedItems.length} deleted)`);
         diff.savedItems.forEach(this.coverMissingCategoriesOfPage);
-        if (!this.initialized) {
-            this.logger.info(`updating entire tree view.`);
-            this.onDidChangeTreeDataEventEmiiter.fire(undefined);
-            this.initialized = true;
-            return;
-        }
-        const updatedCategories: Category[] = [];
-        diff.savedItems.forEach(page => updatedCategories.push(this.getParent(page)!));
-        diff.deletedItems.forEach(page => updatedCategories.push(this.getParent(page)!));
-        this.logger.info(`updating ${updatedCategories.length} categories.`);
-        this.onDidChangeTreeDataEventEmiiter.fire(updatedCategories);
+        this.logger.info(`updating entire tree view.`);
+        this.update(undefined);
     }
 
     protected getCategoryOfPage(page: Page) {
