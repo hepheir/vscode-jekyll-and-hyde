@@ -23,7 +23,7 @@ export class CategoryProvider implements Logable, vscode.TreeDataProvider<Catego
     }
 
     getTreeItem = async (element: Category | Page) => {
-        this.logger.info(`get tree item of element : ${element}.`);
+        this.logger.debug(`get tree item of element : ${element}.`);
         return element;
     }
 
@@ -87,12 +87,17 @@ export class CategoryProvider implements Logable, vscode.TreeDataProvider<Catego
         this.onDidChangeTreeDataEventEmiiter.fire(updatedCategories);
     }
 
-    private coverMissingCategoriesOfPage = (page: Page) => {
-        this.logger.info(`covering missing categories of ${page}.`);
-        this.getCategoryOfPage(page);
+    protected getCategoryOfPage(page: Page) {
+        this.logger.debug(`getting category of ${page}.`);
+        return this._getCategoryOfPage(page);
     }
 
-    private getCategoryOfPage(page: Page) {
+    private coverMissingCategoriesOfPage = (page: Page) => {
+        this.logger.debug(`covering missing categories of ${page}.`);
+        this._getCategoryOfPage(page);
+    }
+
+    private _getCategoryOfPage(page: Page) {
         return this.getCategoryByNames(Category.getRoot(), page.categories.slice());
     }
 

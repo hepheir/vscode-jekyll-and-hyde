@@ -56,7 +56,7 @@ class FileSystem {
     }
 
     read = (uri: vscode.Uri) => {
-        this.logger.info(`reading ${uri.path}`);
+        this.logger.debug(`reading ${uri.path}`);
         return fs.readFileSync(uri.fsPath).toString();
     }
 

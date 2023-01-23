@@ -19,7 +19,7 @@ export class PageRepository extends ObservableArrayRepository<Page> implements L
     }
 
     reload = () => {
-        this.logger.info('reload.');
+        this.logger.info('reloading.');
         this.clear();
         this.loadFromFileSystem();
     }
@@ -44,7 +44,8 @@ export class PageRepository extends ObservableArrayRepository<Page> implements L
         this.logger.info(`notified by ${FileSystem.name} : ${uris.length} uris saved.`);
         uris.forEach(uri => {
             try {
-                this.save(new Page(uri, this.readFrontmatterFrom(uri)));
+                const frontmatter = this.readFrontmatterFrom(uri);
+                this.save(new Page(uri, frontmatter));
             } catch (error) {
                 this.logger.error(error);
             }

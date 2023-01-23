@@ -1,5 +1,5 @@
 import * as vscode from "vscode";
-import type { Comparable } from "../util/object";
+import type { Comparable, Copyable } from "../util/object";
 import type { Page } from "./page";
 import { PageRepository } from "./page.repository";
 import { Logable, Logger } from "../util/logger";
@@ -7,7 +7,7 @@ import { AbstractComposite } from "../util/composite.implement";
 import { Optional } from "../util/optional";
 import { SortedArray } from "../util/array";
 
-export class Category extends AbstractComposite<Category> implements Comparable<Category>, Logable, vscode.TreeItem {
+export class Category extends AbstractComposite<Category> implements Comparable<Category>, Copyable<Category>, Logable, vscode.TreeItem {
     public static readonly ROOT_NAME = '#ROOT';
     private static changes: Category[] = [];
     private static readonly root = new Category([]);
@@ -51,12 +51,19 @@ export class Category extends AbstractComposite<Category> implements Comparable<
         return `(${this.countPosts(true)})`;
     }
 
+    getRoot = () => {
+        return Category.root;
+    }
+
     getItemId = () => {
         return Category.predictId(this.names);
     }
 
-    getRoot = () => {
-        return Category.root;
+    copy = () => {
+        this.logger.debug(`creating replica of ${this}.`);
+        const replica = new Category(this.names);
+        replica.setChildren(this.children);
+        return replica;
     }
 
     compareTo(x: Category): number {

@@ -1,10 +1,13 @@
 import * as vscode from "vscode";
 import { CategoryProvider } from "../model/category.provider";
-import type { Category } from "../model/category";
+import { Category } from "../model/category";
 import { Page } from "../model/page";
 import { Logable, Logger } from "../util/logger";
+import { FileSystem } from "../model/fs";
 
-export class CategoriesView extends CategoryProvider implements Logable {
+type TreeItem = Category | Page;
+
+export class CategoriesView extends CategoryProvider implements Logable, vscode.TreeDragAndDropController<TreeItem> {
     private static instance?: CategoriesView;
 
     public static use() {
@@ -19,11 +22,13 @@ export class CategoriesView extends CategoryProvider implements Logable {
     }
 
     public readonly viewId = 'jekyll-n-hyde.view.categories';
-    public readonly viewOptions: vscode.TreeViewOptions<Category | Page> = {
+    public readonly viewOptions: vscode.TreeViewOptions<TreeItem> = {
+        canSelectMany: true,
+        dragAndDropController: this,
         showCollapseAll: true,
         treeDataProvider: this,
     }
-    public readonly view: vscode.TreeView<Category | Page>;
+    public readonly view: vscode.TreeView<TreeItem>;
     public logger = new Logger('view.categories');
 
     private constructor() {
@@ -31,6 +36,42 @@ export class CategoriesView extends CategoryProvider implements Logable {
         this.logger.info(`initializing ${CategoriesView.name}.`);
         this.view = vscode.window.createTreeView(this.viewId, this.viewOptions);
         this.subscribeActiveTextEditor();
+        this.update();
+    }
+
+    public readonly dropMimeTypes = [Page.dropMimeType];
+
+    public readonly dragMimeTypes = [Page.dragMimeType];
+
+    handleDrag = (source: readonly TreeItem[], dataTransfer: vscode.DataTransfer, token: vscode.CancellationToken) => {
+        this.logger.info(`handling drag event of ${source.length} items.`);
+        source.forEach(src => {
+            if (src instanceof Page) {
+                const dataTransferItem = dataTransfer.get(Page.dragMimeType) ?? new vscode.DataTransferItem([]);
+                dataTransferItem.value.push(src);
+                dataTransfer.set(Page.dragMimeType, dataTransferItem);
+            }
+        })
+        return;
+    }
+
+    handleDrop = (target: TreeItem | undefined, dataTransfer: vscode.DataTransfer, token: vscode.CancellationToken) => {
+        this.logger.info(`handling drop event to target ${target}.`);
+        if (target instanceof Page) {
+            target = this.getParent(target);
+        }
+        if (target === undefined) {
+            target = Category.getRoot();
+        }
+        this.logger.info(`change dropping target to ${target}.`);
+        const items: Page[] = dataTransfer.get(Page.dropMimeType)?.value ?? [];
+        this.logger.info(`found ${items.length} items supported.`);
+        items.forEach(item => {
+            if (item instanceof Page && target instanceof Category) {
+                item.categories = target.names;
+                FileSystem.instance.write(item.resourceUri, item.render());
+            }
+        })
         this.update();
     }
 

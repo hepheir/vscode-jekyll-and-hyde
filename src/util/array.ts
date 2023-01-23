@@ -1,6 +1,11 @@
 import type { Comparable } from "./object";
 
 class SortedArray<E extends Comparable<E>> extends Array<E> {
+    constructor(...items: E[]) {
+        super(...items);
+        this.sort();
+    }
+
     override push(...items: E[]): number {
         super.push(...items);
         this.sort();
@@ -15,6 +20,10 @@ class SortedArray<E extends Comparable<E>> extends Array<E> {
         }
         super.sort(compareFn);
         return this;
+    }
+
+    override slice = (start?: number | undefined, end?: number | undefined) => {
+        return new SortedArray(...super.slice(start, end));
     }
 }
 

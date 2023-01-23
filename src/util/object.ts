@@ -16,3 +16,11 @@ export interface Observable<T> {
 export interface Copyable<T> {
     copy(): T;
 }
+
+export interface Dragable {
+    dragMimeType: string;
+}
+
+export interface Dropable {
+    dropMimeType: string;
+}

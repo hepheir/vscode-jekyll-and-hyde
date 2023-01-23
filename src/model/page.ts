@@ -1,11 +1,15 @@
 import * as path from "path";
 import * as vscode from "vscode";
 import * as matter from "gray-matter";
-import type { Comparable } from "../util/object";
+import type { Comparable, Copyable, Dragable, Dropable } from "../util/object";
 import type { RepositoryItem } from "../util/repository";
 import { FileSystem } from "./fs";
+import { Logger } from "../util/logger";
 
-class Page implements RepositoryItem<Page>, Comparable<Page>, vscode.TreeItem {
+export class Page implements RepositoryItem<Page>, Comparable<Page>, Copyable<Page>, Dragable, Dropable, vscode.TreeItem {
+    public static readonly dragMimeType = 'application/jekyll-n-hyde.model.post';
+    public static readonly dropMimeType = 'application/jekyll-n-hyde.model.post';
+
     public static predictId(uri: vscode.Uri): string {
         return uri.fsPath;
     }
@@ -22,7 +26,10 @@ class Page implements RepositoryItem<Page>, Comparable<Page>, vscode.TreeItem {
     public readonly collapsibleState = vscode.TreeItemCollapsibleState.None;
     public readonly contextValue = 'jekyll-n-hyde.model.post';
     public readonly command: vscode.Command;
+    public readonly dragMimeType = Page.dragMimeType;
+    public readonly dropMimeType = Page.dropMimeType;
     public readonly resourceUri: vscode.Uri;
+    public logger = new Logger('model.page');
     private readonly basenameParser = /((?<date>[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])-)?(?<title>.+)\.(md)|(markdown)|(html)/;
     private readonly frontmatter: { [key: string]: any };
     private readonly fileSystem = FileSystem.instance;
@@ -166,11 +173,17 @@ class Page implements RepositoryItem<Page>, Comparable<Page>, vscode.TreeItem {
         return Page.predictId(this.resourceUri);
     }
 
+    copy = () => {
+        this.logger.debug(`creating replica of ${this}.`);
+        return new Page(this.resourceUri, Object.assign({}, this.frontmatter));
+    }
+
     compareTo = (x: Page) => {
         return this.title.localeCompare(x.title);
     }
 
     render = (withoutContent: boolean = false) => {
+        this.logger.info(`rendering ${this}.`);
         const content = withoutContent
             ? ''
             : matter(this.fileSystem.read(this.resourceUri)).content;
@@ -181,7 +194,3 @@ class Page implements RepositoryItem<Page>, Comparable<Page>, vscode.TreeItem {
         return `<Page "${this.title}"> (at category "${this.categories.join('/')}")`;
     }
 }
-
-export {
-    Page,
-};
