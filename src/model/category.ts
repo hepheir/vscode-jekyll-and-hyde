@@ -51,6 +51,10 @@ export class Category extends AbstractComposite<Category> implements Comparable<
         return `(${this.countPosts(true)})`;
     }
 
+    get id() {
+        return Category.predictId(this.names);
+    }
+
     getRoot = () => {
         return Category.root;
     }
