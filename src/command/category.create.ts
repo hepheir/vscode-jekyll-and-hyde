@@ -14,6 +14,7 @@ export async function create(category: Category | undefined = undefined) {
         prompt: 'Enter the name of the category',
     });
     const subcategory = parentCategory.createSubcategory(name);
-    categoriesView.update(categoriesView.getParent(subcategory));
+    categoriesView.update([category ?? subcategory, subcategory]);
+    categoriesView.view.reveal(subcategory);
     logger.info(`successfully created category ${subcategory}.`);
 }
