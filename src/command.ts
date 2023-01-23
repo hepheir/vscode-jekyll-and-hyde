@@ -14,6 +14,7 @@ export function use() {
     registerCommand('jekyll-n-hyde.command.post.date-up-to-date', post.dateUpToDate);
     registerCommand('jekyll-n-hyde.command.post.delete', post.delete_);
     registerCommand('jekyll-n-hyde.command.category.create', category.create);
+    registerCommand('jekyll-n-hyde.command.category.refresh', category.refresh);
     registerCommand('jekyll-n-hyde.command.refresh', refresh);
     registerCommand('jekyll-n-hyde.command.reload', reload);
 }

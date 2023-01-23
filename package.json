@@ -87,6 +87,11 @@
 				"command": "jekyll-n-hyde.command.category.create",
 				"title": "Create a new category",
 				"icon": "$(file-directory-create)"
+			},
+			{
+				"command": "jekyll-n-hyde.command.category.refresh",
+				"title": "Refresh",
+				"icon": "$(refresh)"
 			}
 		],
 		"menus": {
@@ -115,6 +120,10 @@
 				{
 					"command": "jekyll-n-hyde.command.category.create",
 					"group": "inline",
+					"when": "viewItem == jekyll-n-hyde.model.category"
+				},
+				{
+					"command": "jekyll-n-hyde.command.category.refresh",
 					"when": "viewItem == jekyll-n-hyde.model.category"
 				},
 				{
