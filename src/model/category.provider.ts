@@ -35,7 +35,7 @@ export class CategoryProvider implements Logable, vscode.TreeDataProvider<Catego
         } else if (element instanceof Page) {
             providerResult = [];
         } else {
-            this.logger.info(`...getting children of root instead.`);
+            this.logger.info(`=> getting children of root instead.`);
             providerResult = this.getChildren(Category.getRoot());
         }
         return providerResult;
@@ -46,10 +46,16 @@ export class CategoryProvider implements Logable, vscode.TreeDataProvider<Catego
         const foundParent = (element instanceof Page)
             ? Optional.of(this.getCategoryOfPage(element))
             : element.findParent();
-        foundParent.ifPresent(parent => this.logger.info(`found parent of ${element}: ${parent}.`));
-        foundParent.ifEmpty(() => this.logger.info(`could not find parent of ${element}.`));
+        foundParent.ifPresent(parent => {
+            this.logger.info(`found parent of ${element}.`);
+            this.logger.info(`=> parent: ${parent}.`);
+        });
+        foundParent.ifEmpty(() => {
+            this.logger.info(`could not find parent of ${element}.`);
+        });
         const parent = foundParent.orElse(undefined);
         if (parent === Category.getRoot()) {
+            this.logger.info(`=> found parent is root, replacing it with undefined.`);
             return undefined;
         }
         return parent;
@@ -62,6 +68,7 @@ export class CategoryProvider implements Logable, vscode.TreeDataProvider<Catego
             this.logger.info(`updating ${args}.`);
         } else {
             this.logger.info(`updating ${args.length} items.`);
+            args.forEach(arg => this.logger.info(`... updating ${arg}`));
         }
         this.onDidChangeTreeDataEventEmiiter.fire(args);
     }
@@ -88,12 +95,12 @@ export class CategoryProvider implements Logable, vscode.TreeDataProvider<Catego
     }
 
     protected getCategoryOfPage(page: Page) {
-        this.logger.debug(`getting category of ${page}.`);
+        this.logger.info(`getting category of ${page}.`);
         return this._getCategoryOfPage(page);
     }
 
     private coverMissingCategoriesOfPage = (page: Page) => {
-        this.logger.debug(`covering missing categories of ${page}.`);
+        this.logger.info(`covering missing categories of ${page}.`);
         this._getCategoryOfPage(page);
     }
 
