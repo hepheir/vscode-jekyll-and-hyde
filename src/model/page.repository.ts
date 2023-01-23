@@ -4,6 +4,7 @@ import { Logable, Logger } from "../util/logger";
 import { FileSystem } from "./fs";
 import { Page } from "./page";
 import { ObservableArrayRepository } from "../util/repository.implement";
+import { SortedArray } from "../util/array";
 
 export class PageRepository extends ObservableArrayRepository<Page> implements Logable {
     public static readonly instance = new PageRepository();
@@ -12,7 +13,7 @@ export class PageRepository extends ObservableArrayRepository<Page> implements L
     public logger = new Logger('model.page.repository');
 
     private constructor() {
-        super();
+        super(new SortedArray());
         this.logger.info(`initialize.`);
         this.subscribeFileSystem();
         this.loadFromFileSystem();
