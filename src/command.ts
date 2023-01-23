@@ -3,6 +3,7 @@ import * as post from "./command/post";
 import * as category from "./command/category";
 import { Logger } from "./util/logger";
 import { refresh } from "./command/refresh";
+import { reload } from "./command/reload";
 
 const logger = new Logger('command');
 
@@ -14,6 +15,7 @@ export function use() {
     registerCommand('jekyll-n-hyde.command.post.delete', post.delete_);
     registerCommand('jekyll-n-hyde.command.category.create', category.create);
     registerCommand('jekyll-n-hyde.command.refresh', refresh);
+    registerCommand('jekyll-n-hyde.command.reload', reload);
 }
 
 function registerCommand(id: string, callback: any) {

@@ -54,6 +54,11 @@
 				"icon": "$(refresh)"
 			},
 			{
+				"command": "jekyll-n-hyde.command.reload",
+				"title": "Reload",
+				"icon": "$(refresh)"
+			},
+			{
 				"command": "jekyll-n-hyde.command.post.create",
 				"title": "Create a new post",
 				"icon": "$(file-add)"
@@ -99,6 +104,10 @@
 				{
 					"command": "jekyll-n-hyde.command.refresh",
 					"group": "navigation",
+					"when": "view == jekyll-n-hyde.view.categories"
+				},
+				{
+					"command": "jekyll-n-hyde.command.reload",
 					"when": "view == jekyll-n-hyde.view.categories"
 				}
 			],
