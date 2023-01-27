@@ -163,10 +163,18 @@ export class Page implements RepositoryItem<Page>, Comparable<Page>, Copyable<Pa
         this.frontmatter.published = x;
     }
 
-    setTimezoneDate = (date: Date) => {
-        const timezoneOffset = new Date().getTimezoneOffset();
-        const timezoneDate = new Date(date.getTime() - timezoneOffset * 60000);
-        this.date = timezoneDate.toISOString();
+    setDate = (date: Date) => {
+        const timezone = -date.getTimezoneOffset();
+        const timezoneSign = (timezone >= 0) ? '+' : '-';
+        const timezoneISOString = date.getFullYear() +
+            '-' + (date.getMonth() + 1).toString().padStart(2, '0') +
+            '-' + (date.getDate()).toString().padStart(2, '0') +
+            'T' + (date.getHours()).toString().padStart(2, '0') +
+            ':' + (date.getMinutes()).toString().padStart(2, '0') +
+            ':' + (date.getSeconds()).toString().padStart(2, '0') +
+            timezoneSign + (Math.floor(Math.abs(timezone) / 60)).toString().padStart(2, '0') +
+            ':' + (Math.abs(timezone) % 60).toString().padStart(2, '0');
+        this.date = timezoneISOString;
     }
 
     getItemId = () => {

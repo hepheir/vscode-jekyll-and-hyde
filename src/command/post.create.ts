@@ -7,6 +7,7 @@ import { Page } from "../model/page";
 import { promptViaInputBox } from "../util/io";
 import { addNumberToBasenameIfExists } from "../util/path";
 import { Logger } from "../util/logger";
+import { CategoriesView } from "../view/categories";
 
 const logger = new Logger('command.post.create');
 
@@ -20,7 +21,7 @@ export async function create(category: Category | undefined) {
     const today = new Date();
     const uri = createPostUri(title, today);
     const post = new Page(uri, { title: title, categories: category?.names });
-    post.setTimezoneDate(today);
+    post.setDate(today);
     FileSystem.instance.write(uri, post.render(true));
 }
 
