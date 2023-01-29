@@ -12,6 +12,7 @@ export function use() {
     registerCommand('jekyll-n-hyde.command.post.publish', post.publish);
     registerCommand('jekyll-n-hyde.command.post.unpublish', post.unpublish);
     registerCommand('jekyll-n-hyde.command.post.date-up-to-date', post.dateUpToDate);
+    registerCommand('jekyll-n-hyde.command.post.fix-filename', post.fixFilename);
     registerCommand('jekyll-n-hyde.command.post.delete', post.delete_);
     registerCommand('jekyll-n-hyde.command.category.create', category.create);
     registerCommand('jekyll-n-hyde.command.category.refresh', category.refresh);

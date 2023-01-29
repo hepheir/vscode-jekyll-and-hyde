@@ -84,6 +84,11 @@
 				"icon": "$(refresh)"
 			},
 			{
+				"command": "jekyll-n-hyde.command.post.fix-filename",
+				"title": "Fix filename",
+				"icon": "$(refresh)"
+			},
+			{
 				"command": "jekyll-n-hyde.command.category.create",
 				"title": "Create a new category",
 				"icon": "$(file-directory-create)"
@@ -145,6 +150,10 @@
 				},
 				{
 					"command": "jekyll-n-hyde.command.post.unpublish",
+					"when": "viewItem == jekyll-n-hyde.model.post"
+				},
+				{
+					"command": "jekyll-n-hyde.command.post.fix-filename",
 					"when": "viewItem == jekyll-n-hyde.model.post"
 				}
 			]
