@@ -7,5 +7,5 @@ const logger = new Logger('command.post.publish');
 export async function publish(page: Page) {
     logger.info(`publish post : ${page}`);
     page.published = true;
-    FileSystem.instance.write(page.resourceUri, page.render());
+    FileSystem.instance.write(page.resourceUri, await page.render());
 }

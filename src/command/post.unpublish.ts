@@ -7,5 +7,5 @@ const logger = new Logger('command.post.unpublish');
 export async function unpublish(page: Page) {
     logger.info(`unpublish post : ${page}`);
     page.published = false;
-    FileSystem.instance.write(page.resourceUri, page.render());
+    FileSystem.instance.write(page.resourceUri, await page.render());
 }

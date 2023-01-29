@@ -41,16 +41,16 @@ export class PageRepository extends ObservableArrayRepository<Page> implements L
         this.fileSystem.list().then(this.saveFiles);
     }
 
-    private saveFiles = (uris: vscode.Uri[]) => {
+    private saveFiles = async (uris: vscode.Uri[]) => {
         this.logger.info(`notified by ${FileSystem.name} : ${uris.length} uris saved.`);
-        uris.forEach(uri => {
+        for (const uri of uris) {
             try {
-                const frontmatter = this.readFrontmatterFrom(uri);
+                const frontmatter = await this.readFrontmatterFrom(uri);
                 this.save(new Page(uri, frontmatter));
             } catch (error) {
                 this.logger.error(error);
             }
-        })
+        }
         this.notify();
         this.logger.info('successfully saved.');
     }
@@ -64,7 +64,7 @@ export class PageRepository extends ObservableArrayRepository<Page> implements L
         this.logger.info('successfully deleted.');
     }
 
-    private readFrontmatterFrom(uri: vscode.Uri) {
-        return matter(this.fileSystem.read(uri)).data;
+    private async readFrontmatterFrom(uri: vscode.Uri) {
+        return matter(await this.fileSystem.read(uri)).data;
     }
 }

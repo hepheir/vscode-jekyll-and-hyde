@@ -190,11 +190,11 @@ export class Page implements RepositoryItem<Page>, Comparable<Page>, Copyable<Pa
         return this.title.localeCompare(x.title);
     }
 
-    render = (withoutContent: boolean = false) => {
+    render = async (withoutContent: boolean = false) => {
         this.logger.info(`rendering ${this}.`);
         const content = withoutContent
             ? ''
-            : matter(this.fileSystem.read(this.resourceUri)).content;
+            : matter(await this.fileSystem.read(this.resourceUri)).content;
         return matter.stringify(content, this.frontmatter);
     }
 

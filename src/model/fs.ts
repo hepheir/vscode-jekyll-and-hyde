@@ -44,25 +44,25 @@ class FileSystem {
 
     list = async () => {
         this.logger.info('list all');
-        const jobs = this.globPatterns.map(globPattern => vscode.workspace.findFiles(globPattern));
-        const uris = await Promise.all(jobs).then(uri2dArr => uri2dArr.flat());
+        const uris = await Promise.all(this.globPatterns.map(globPattern => vscode.workspace.findFiles(globPattern)))
+            .then(uri2dArr => uri2dArr.flat());
         this.logger.info(`found ${uris.length} uris.`);
         return uris;
     }
 
-    write = (uri: vscode.Uri, content: string) => {
+    write = async (uri: vscode.Uri, content: string) => {
         this.logger.info(`writing ${uri.path}`);
-        fs.writeFileSync(uri.fsPath, new util.TextEncoder().encode(content));
+        await vscode.workspace.fs.writeFile(uri, new util.TextEncoder().encode(content));
     }
 
-    read = (uri: vscode.Uri) => {
+    read = async (uri: vscode.Uri) => {
         this.logger.debug(`reading ${uri.path}`);
-        return fs.readFileSync(uri.fsPath).toString();
+        return await vscode.workspace.fs.readFile(uri).then(x => x.toString());
     }
 
-    delete = (uri: vscode.Uri) => {
+    delete = async (uri: vscode.Uri) => {
         this.logger.info(`deleting ${uri.path}`);
-        fs.rmSync(uri.fsPath);
+        await vscode.workspace.fs.delete(uri, { useTrash: true });
     }
 
     private createFileSystemWatcher = () => {

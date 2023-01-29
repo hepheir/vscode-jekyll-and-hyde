@@ -55,7 +55,7 @@ export class CategoriesView extends CategoryProvider implements Logable, vscode.
         return;
     }
 
-    handleDrop = (target: TreeItem | undefined, dataTransfer: vscode.DataTransfer, token: vscode.CancellationToken) => {
+    handleDrop = async (target: TreeItem | undefined, dataTransfer: vscode.DataTransfer, token: vscode.CancellationToken) => {
         this.logger.info(`handling drop event to target ${target}.`);
         if (target instanceof Page) {
             target = this.getParent(target);
@@ -66,12 +66,12 @@ export class CategoriesView extends CategoryProvider implements Logable, vscode.
         this.logger.info(`change dropping target to ${target}.`);
         const items: Page[] = dataTransfer.get(Page.dropMimeType)?.value ?? [];
         this.logger.info(`found ${items.length} items supported.`);
-        items.forEach(item => {
+        for (const item of items) {
             if (item instanceof Page && target instanceof Category) {
                 item.categories = target.names;
-                FileSystem.instance.write(item.resourceUri, item.render());
+                FileSystem.instance.write(item.resourceUri, await item.render());
             }
-        })
+        }
         this.update();
     }
 
