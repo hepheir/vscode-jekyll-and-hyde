@@ -187,9 +187,12 @@ export class Page implements RepositoryItem<Page>, Comparable<Page>, Copyable<Pa
     }
 
     compareTo = (x: Page) => {
-        return (this.date === x.date)
-            ? this.title.localeCompare(x.title)
-            : this.date.localeCompare(x.date);
+        try {
+            return this.date.localeCompare(x.date);
+        } catch (error) {
+            this.logger.warn(`failed to compare pages by date ${this} ${x}`);
+        }
+        return this.title.localeCompare(x.title);
     }
 
     render = async (withoutContent: boolean = false) => {
