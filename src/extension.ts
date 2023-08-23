@@ -1,11 +1,7 @@
 import * as vscode from 'vscode';
-import { RepositoryView } from './view/repositoryView';
+import { viewOptions } from './view';
+
 
 export function activate(context: vscode.ExtensionContext) {
-	if (!vscode.workspace.workspaceFolders) {
-		vscode.window.showInformationMessage("Could not find workspace folder.");
-		return;
-	}
-
-	new RepositoryView();
+	vscode.window.createTreeView('jekyll-n-hyde.view', viewOptions);
 }

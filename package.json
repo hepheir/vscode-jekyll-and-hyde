@@ -1,6 +1,6 @@
 {
 	"name": "jekyll-n-hyde",
-	"version": "0.3.0",
+	"version": "0.5.0",
 	"publisher": "Hepheir",
 	"engines": {
 		"vscode": "^1.65.0"
@@ -28,12 +28,6 @@
 	],
 	"main": "./out/extension.js",
 	"contributes": {
-		"viewsWelcome": [
-			{
-				"view": "jekyll-n-hyde.view.repository",
-				"contents": "No Jekyll repository found.\n[Open Folder](command:workbench.action.files.openFolder)"
-			}
-		],
 		"viewsContainers": {
 			"activitybar": [
 				{
@@ -46,8 +40,8 @@
 		"views": {
 			"jekyll-n-hyde": [
 				{
-					"id": "jekyll-n-hyde.view.repository",
-					"name": "Repository",
+					"id": "jekyll-n-hyde.view",
+					"name": "Categories",
 					"icon": "images/jekyll.svg",
 					"contextualTitle": "Jekyll n Hyde :: Site View"
 				}
@@ -55,49 +49,112 @@
 		},
 		"commands": [
 			{
-				"command": "explorer.refresh",
+				"command": "jekyll-n-hyde.command.refresh",
 				"title": "Refresh",
 				"icon": "$(refresh)"
 			},
 			{
-				"command": "explorer.createCategory",
-				"title": "Create category",
+				"command": "jekyll-n-hyde.command.reload",
+				"title": "Reload",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "jekyll-n-hyde.command.post.create",
+				"title": "Create a new post",
+				"icon": "$(file-add)"
+			},
+			{
+				"command": "jekyll-n-hyde.command.post.delete",
+				"title": "Delete",
+				"icon": "$(trash)"
+			},
+			{
+				"command": "jekyll-n-hyde.command.post.publish",
+				"title": "Publish post",
+				"icon": "$(add)"
+			},
+			{
+				"command": "jekyll-n-hyde.command.post.unpublish",
+				"title": "Unpublish post",
+				"icon": "$(remove)"
+			},
+			{
+				"command": "jekyll-n-hyde.command.post.date-up-to-date",
+				"title": "Set date to now",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "jekyll-n-hyde.command.post.fix-filename",
+				"title": "Fix filename",
+				"icon": "$(refresh)"
+			},
+			{
+				"command": "jekyll-n-hyde.command.category.create",
+				"title": "Create a new category",
 				"icon": "$(file-directory-create)"
 			},
 			{
-				"command": "explorer.createDraft",
-				"title": "Create a new draft",
-				"icon": "$(edit)"
-			},
-			{
-				"command": "explorer.deletePage",
-				"title": "Delete",
-				"icon": "$(trash)"
+				"command": "jekyll-n-hyde.command.category.refresh",
+				"title": "Refresh",
+				"icon": "$(refresh)"
 			}
 		],
 		"menus": {
 			"view/title": [
 				{
-					"command": "explorer.refresh",
+					"command": "jekyll-n-hyde.command.post.create",
 					"group": "navigation",
-					"when": "view == explorer"
+					"when": "view == jekyll-n-hyde.view.categories"
+				},
+				{
+					"command": "jekyll-n-hyde.command.category.create",
+					"group": "navigation",
+					"when": "view == jekyll-n-hyde.view.categories"
+				},
+				{
+					"command": "jekyll-n-hyde.command.refresh",
+					"group": "navigation",
+					"when": "view == jekyll-n-hyde.view.categories"
+				},
+				{
+					"command": "jekyll-n-hyde.command.reload",
+					"when": "view == jekyll-n-hyde.view.categories"
 				}
 			],
 			"view/item/context": [
 				{
-					"command": "explorer.createCategory",
+					"command": "jekyll-n-hyde.command.category.create",
 					"group": "inline",
-					"when": "viewItem == category"
+					"when": "viewItem == jekyll-n-hyde.model.category"
 				},
 				{
-					"command": "explorer.createDraft",
-					"group": "inline",
-					"when": "viewItem == category"
+					"command": "jekyll-n-hyde.command.category.refresh",
+					"when": "viewItem == jekyll-n-hyde.model.category"
 				},
 				{
-					"command": "explorer.deletePage",
+					"command": "jekyll-n-hyde.command.post.create",
 					"group": "inline",
-					"when": "viewItem == post || viewItem == draft"
+					"when": "viewItem == jekyll-n-hyde.model.category"
+				},
+				{
+					"command": "jekyll-n-hyde.command.post.delete",
+					"when": "viewItem == jekyll-n-hyde.model.post"
+				},
+				{
+					"command": "jekyll-n-hyde.command.post.date-up-to-date",
+					"when": "viewItem == jekyll-n-hyde.model.post"
+				},
+				{
+					"command": "jekyll-n-hyde.command.post.publish",
+					"when": "viewItem == jekyll-n-hyde.model.post"
+				},
+				{
+					"command": "jekyll-n-hyde.command.post.unpublish",
+					"when": "viewItem == jekyll-n-hyde.model.post"
+				},
+				{
+					"command": "jekyll-n-hyde.command.post.fix-filename",
+					"when": "viewItem == jekyll-n-hyde.model.post"
 				}
 			]
 		}
