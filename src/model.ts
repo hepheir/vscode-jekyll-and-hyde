@@ -23,25 +23,32 @@ export class Post {
         this.date = frontmatter?.date ?? filename?.date ?? new Date(Date.now()).toISOString();
         this.categories = [];
 
-        if (frontmatter.category !== undefined) {
+        if (typeof (frontmatter.category) == 'string') {
             this.categories = [frontmatter.category];
         }
-        if (frontmatter.categories instanceof Array) {
+        if (Array.isArray(frontmatter.categories)) {
             this.categories = frontmatter.categories;
         }
+
+        // @ts-ignore
+        matter.clearCache();
     }
 }
 
 
 export class Category {
     public parent: Category;
-    public category: { [name: string]: Category } = {};
-    public post: { [title: string]: Post } = {};
+    public category: { [name: string]: Category };
+    public post: { [title: string]: Post };
     public name: string;
+    public path: string;
 
     constructor(parent: Category, name: string) {
         this.parent = parent;
         this.name = name;
+        this.category = {};
+        this.post = {};
+        this.path = (parent?.path ?? '') + '/' + name;
     }
 
     public getOrCreateCategory(category: string[]): Category {
@@ -57,6 +64,26 @@ export class Category {
 
     public addPost(post: Post) {
         this.post[post.title] = post;
+    }
+
+    public countCategories = (recursive?: boolean) => {
+        var count = Object.keys(this.category).length;
+        if (recursive) {
+            for (const category of Object.values(this.category)) {
+                count += category.countCategories(recursive);
+            }
+        }
+        return count;
+    }
+
+    public countPosts = (recursive?: boolean) => {
+        var count = Object.keys(this.post).length;
+        if (recursive) {
+            for (const category of Object.values(this.category)) {
+                count += category.countPosts(recursive);
+            }
+        }
+        return count;
     }
 }
 
@@ -83,6 +110,7 @@ export class Site extends Category {
             exclude: new vscode.RelativePattern(workspace, Site.globPattern.exclude),
         };
         this.watcher = vscode.workspace.createFileSystemWatcher(this.relPattern.include);
+        // TODO: add file system watchers
         this.watcher.onDidCreate(uri => console.log('create', uri));
         this.watcher.onDidChange(uri => console.log('change', uri));
         this.watcher.onDidDelete(uri => console.log('delete', uri));
@@ -99,7 +127,7 @@ export class Site extends Category {
         uris.forEach((value, index, array) => {
             this.updatePartial(value);
             callback?.(value, index, array);
-        });
+        }, this);
     }
 
     updatePartial = (uri: vscode.Uri) => {

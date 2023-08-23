@@ -2,7 +2,7 @@ import * as vscode from "vscode";
 import { Site, Category, Post } from "./model";
 
 
-type _TreeItem = Post | Category;
+type _TreeItem = Site | Post | Category;
 
 
 class _TreeDataProvider implements vscode.TreeDataProvider<_TreeItem> {
@@ -15,10 +15,10 @@ class _TreeDataProvider implements vscode.TreeDataProvider<_TreeItem> {
         this.onDidChangeTreeDataEventEmiiter = new vscode.EventEmitter();
         this.onDidChangeTreeData = this.onDidChangeTreeDataEventEmiiter.event;
         vscode.workspace.onDidChangeWorkspaceFolders(evt => {
-            evt.removed.forEach(this.onDidRemoveWorkspaceFolder);
-            evt.added.forEach(this.onDidAddWorkspaceFolder);
+            evt.removed.forEach(this.onDidRemoveWorkspaceFolder, this);
+            evt.added.forEach(this.onDidAddWorkspaceFolder, this);
         });
-        vscode.workspace.workspaceFolders?.forEach(this.onDidAddWorkspaceFolder);
+        vscode.workspace.workspaceFolders?.forEach(this.onDidAddWorkspaceFolder, this);
     }
 
     private onDidAddWorkspaceFolder = async (workspaceFolder: vscode.WorkspaceFolder) => {
@@ -74,6 +74,7 @@ class _PostTreeItem extends vscode.TreeItem {
     constructor(post: Post) {
         super(post.uri);
         this.post = post;
+        this.id = post.uri.fsPath;
         this.label = post.title;
         this.resourceUri = post.uri;
         this.iconPath = vscode.ThemeIcon.File;
@@ -93,13 +94,14 @@ class _CategoryTreeItem extends vscode.TreeItem {
     constructor(category: Category) {
         super(category.name);
         this.category = category;
+        this.id = category.path;
         this.label = category.name;
         this.iconPath = vscode.ThemeIcon.Folder;
+        this.description = `${category.countPosts(true)} posts`;
         this.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
 
         if (category.parent === null) {
             this.iconPath = new vscode.ThemeIcon('folder-library');
-            this.collapsibleState = vscode.TreeItemCollapsibleState.Expanded;
         }
     }
 }
