@@ -1,6 +1,6 @@
 {
 	"name": "jekyll-n-hyde",
-	"version": "0.4.0",
+	"version": "0.5.0",
 	"publisher": "Hepheir",
 	"engines": {
 		"vscode": "^1.65.0"
@@ -17,11 +17,11 @@
 	"icon": "images/icon.png",
 	"bugs": {
 		"email": "hepheir@gmail.com",
-		"url": "https://github.com/jekyll-n-hyde/vscode-jekyll-n-hyde-prototype/issues"
+		"url": "https://github.com/Hepheir/vscode-jekyll-n-hyde/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/jekyll-n-hyde/vscode-jekyll-n-hyde-prototype"
+		"url": "https://github.com/Hepheir/vscode-jekyll-n-hyde"
 	},
 	"activationEvents": [
 		"onView:explorer"
@@ -40,7 +40,7 @@
 		"views": {
 			"jekyll-n-hyde": [
 				{
-					"id": "jekyll-n-hyde.view.categories",
+					"id": "jekyll-n-hyde.view",
 					"name": "Categories",
 					"icon": "images/jekyll.svg",
 					"contextualTitle": "Jekyll n Hyde :: Site View"
