@@ -1,11 +1,11 @@
 {
-	"name": "jekyll-n-hyde",
+	"name": "jekyll-and-hyde",
 	"version": "0.5.2",
 	"publisher": "hepxheir",
 	"engines": {
 		"vscode": "^1.65.0"
 	},
-	"displayName": "Jekyll n Hyde",
+	"displayName": "Jekyll and Hyde",
 	"description": "Categorized Post View for Jekyll",
 	"categories": [
 		"SCM Providers",
@@ -17,11 +17,11 @@
 	"icon": "images/icon.png",
 	"bugs": {
 		"email": "hepxheir@gmail.com",
-		"url": "https://github.com/hepxheir/vscode-jekyll-n-hyde/issues"
+		"url": "https://github.com/hepxheir/vscode-jekyll-and-hyde/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/hepxheir/vscode-jekyll-n-hyde"
+		"url": "https://github.com/hepxheir/vscode-jekyll-and-hyde"
 	},
 	"activationEvents": [
 		"onView:explorer"
@@ -31,16 +31,16 @@
 		"viewsContainers": {
 			"activitybar": [
 				{
-					"id": "jekyll-n-hyde",
-					"title": "Jekyll N Hyde",
+					"id": "jekyll-and-hyde",
+					"title": "Jekyll and Hyde",
 					"icon": "images/jekyll.svg"
 				}
 			]
 		},
 		"views": {
-			"jekyll-n-hyde": [
+			"jekyll-and-hyde": [
 				{
-					"id": "jekyll-n-hyde.view",
+					"id": "jekyll-and-hyde.view",
 					"name": "Categories",
 					"icon": "images/jekyll.svg",
 					"contextualTitle": "Jekyll n Hyde :: Site View"
@@ -49,52 +49,52 @@
 		},
 		"commands": [
 			{
-				"command": "jekyll-n-hyde.command.refresh",
+				"command": "jekyll-and-hyde.command.refresh",
 				"title": "Refresh",
 				"icon": "$(refresh)"
 			},
 			{
-				"command": "jekyll-n-hyde.command.reload",
+				"command": "jekyll-and-hyde.command.reload",
 				"title": "Reload",
 				"icon": "$(refresh)"
 			},
 			{
-				"command": "jekyll-n-hyde.command.post.create",
+				"command": "jekyll-and-hyde.command.post.create",
 				"title": "Create a new post",
 				"icon": "$(file-add)"
 			},
 			{
-				"command": "jekyll-n-hyde.command.post.delete",
+				"command": "jekyll-and-hyde.command.post.delete",
 				"title": "Delete",
 				"icon": "$(trash)"
 			},
 			{
-				"command": "jekyll-n-hyde.command.post.publish",
+				"command": "jekyll-and-hyde.command.post.publish",
 				"title": "Publish post",
 				"icon": "$(add)"
 			},
 			{
-				"command": "jekyll-n-hyde.command.post.unpublish",
+				"command": "jekyll-and-hyde.command.post.unpublish",
 				"title": "Unpublish post",
 				"icon": "$(remove)"
 			},
 			{
-				"command": "jekyll-n-hyde.command.post.date-up-to-date",
+				"command": "jekyll-and-hyde.command.post.date-up-to-date",
 				"title": "Set date to now",
 				"icon": "$(refresh)"
 			},
 			{
-				"command": "jekyll-n-hyde.command.post.fix-filename",
+				"command": "jekyll-and-hyde.command.post.fix-filename",
 				"title": "Fix filename",
 				"icon": "$(refresh)"
 			},
 			{
-				"command": "jekyll-n-hyde.command.category.create",
+				"command": "jekyll-and-hyde.command.category.create",
 				"title": "Create a new category",
 				"icon": "$(file-directory-create)"
 			},
 			{
-				"command": "jekyll-n-hyde.command.category.refresh",
+				"command": "jekyll-and-hyde.command.category.refresh",
 				"title": "Refresh",
 				"icon": "$(refresh)"
 			}
@@ -102,59 +102,59 @@
 		"menus": {
 			"view/title": [
 				{
-					"command": "jekyll-n-hyde.command.post.create",
+					"command": "jekyll-and-hyde.command.post.create",
 					"group": "navigation",
-					"when": "view == jekyll-n-hyde.view.categories"
+					"when": "view == jekyll-and-hyde.view.categories"
 				},
 				{
-					"command": "jekyll-n-hyde.command.category.create",
+					"command": "jekyll-and-hyde.command.category.create",
 					"group": "navigation",
-					"when": "view == jekyll-n-hyde.view.categories"
+					"when": "view == jekyll-and-hyde.view.categories"
 				},
 				{
-					"command": "jekyll-n-hyde.command.refresh",
+					"command": "jekyll-and-hyde.command.refresh",
 					"group": "navigation",
-					"when": "view == jekyll-n-hyde.view.categories"
+					"when": "view == jekyll-and-hyde.view.categories"
 				},
 				{
-					"command": "jekyll-n-hyde.command.reload",
-					"when": "view == jekyll-n-hyde.view.categories"
+					"command": "jekyll-and-hyde.command.reload",
+					"when": "view == jekyll-and-hyde.view.categories"
 				}
 			],
 			"view/item/context": [
 				{
-					"command": "jekyll-n-hyde.command.category.create",
+					"command": "jekyll-and-hyde.command.category.create",
 					"group": "inline",
-					"when": "viewItem == jekyll-n-hyde.model.category"
+					"when": "viewItem == jekyll-and-hyde.model.category"
 				},
 				{
-					"command": "jekyll-n-hyde.command.category.refresh",
-					"when": "viewItem == jekyll-n-hyde.model.category"
+					"command": "jekyll-and-hyde.command.category.refresh",
+					"when": "viewItem == jekyll-and-hyde.model.category"
 				},
 				{
-					"command": "jekyll-n-hyde.command.post.create",
+					"command": "jekyll-and-hyde.command.post.create",
 					"group": "inline",
-					"when": "viewItem == jekyll-n-hyde.model.category"
+					"when": "viewItem == jekyll-and-hyde.model.category"
 				},
 				{
-					"command": "jekyll-n-hyde.command.post.delete",
-					"when": "viewItem == jekyll-n-hyde.model.post"
+					"command": "jekyll-and-hyde.command.post.delete",
+					"when": "viewItem == jekyll-and-hyde.model.post"
 				},
 				{
-					"command": "jekyll-n-hyde.command.post.date-up-to-date",
-					"when": "viewItem == jekyll-n-hyde.model.post"
+					"command": "jekyll-and-hyde.command.post.date-up-to-date",
+					"when": "viewItem == jekyll-and-hyde.model.post"
 				},
 				{
-					"command": "jekyll-n-hyde.command.post.publish",
-					"when": "viewItem == jekyll-n-hyde.model.post"
+					"command": "jekyll-and-hyde.command.post.publish",
+					"when": "viewItem == jekyll-and-hyde.model.post"
 				},
 				{
-					"command": "jekyll-n-hyde.command.post.unpublish",
-					"when": "viewItem == jekyll-n-hyde.model.post"
+					"command": "jekyll-and-hyde.command.post.unpublish",
+					"when": "viewItem == jekyll-and-hyde.model.post"
 				},
 				{
-					"command": "jekyll-n-hyde.command.post.fix-filename",
-					"when": "viewItem == jekyll-n-hyde.model.post"
+					"command": "jekyll-and-hyde.command.post.fix-filename",
+					"when": "viewItem == jekyll-and-hyde.model.post"
 				}
 			]
 		}
