@@ -1,6 +1,6 @@
 {
 	"name": "jekyll-and-hyde",
-	"version": "0.5.2",
+	"version": "0.5.3",
 	"publisher": "hepxheir",
 	"engines": {
 		"vscode": "^1.65.0"
