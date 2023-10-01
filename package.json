@@ -1,6 +1,6 @@
 {
 	"name": "jekyll-and-hyde",
-	"version": "0.5.2",
+	"version": "0.5.3",
 	"publisher": "hepxheir",
 	"engines": {
 		"vscode": "^1.65.0"
@@ -43,7 +43,7 @@
 					"id": "jekyll-and-hyde.view",
 					"name": "Categories",
 					"icon": "images/jekyll.svg",
-					"contextualTitle": "Jekyll n Hyde :: Site View"
+					"contextualTitle": "Jekyll and Hyde Document View"
 				}
 			]
 		},
