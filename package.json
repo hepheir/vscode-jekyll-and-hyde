@@ -1,7 +1,7 @@
 {
 	"name": "jekyll-n-hyde",
 	"version": "0.5.0",
-	"publisher": "Hepheir",
+	"publisher": "hepxheir",
 	"engines": {
 		"vscode": "^1.65.0"
 	},
@@ -16,12 +16,12 @@
 	],
 	"icon": "images/icon.png",
 	"bugs": {
-		"email": "hepheir@gmail.com",
-		"url": "https://github.com/Hepheir/vscode-jekyll-n-hyde/issues"
+		"email": "hepxheir@gmail.com",
+		"url": "https://github.com/hepxheir/vscode-jekyll-n-hyde/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Hepheir/vscode-jekyll-n-hyde"
+		"url": "https://github.com/hepxheir/vscode-jekyll-n-hyde"
 	},
 	"activationEvents": [
 		"onView:explorer"
